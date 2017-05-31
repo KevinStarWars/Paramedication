@@ -8,6 +8,7 @@ import android.provider.BaseColumns;
 // HemoglobinMax|HematocritMin|HematocritMax|MCVMin|MCVMax|MCHMin|MCHMax|
 // MCHCMin|MCHCMax|PlateletMin|PlateletMax|ReticulocytesMin|ReticulocytesMax|
 // MPVMin|MPVMax|RDWMin|RDWMax
+
 public class DiseaseTableContract {
 
     public static final class DiseaseTableEntry implements BaseColumns{
