@@ -12,8 +12,8 @@ import android.provider.BaseColumns;
 public class DiseaseTableContract {
 
     public static final class DiseaseTableEntry implements BaseColumns{
-        public static final String TABLE_NAME = "diseases";
-        public static final String COLUMN_NAME = "Name";
+        public static final String TABLE_NAME = "Diseases";
+        public static final String DISEASE_NAME = "Name";
         public static final String LEUKOCYTE_MIN = "Leukocyte Min";
         public static final String LEUKOCYTE_MAX = "Leukocyte Max";
         public static final String ERYTHROCYTE_MIN = "Erythrocyte Min";

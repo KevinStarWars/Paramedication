@@ -10,7 +10,8 @@ import android.provider.BaseColumns;
 
 public class DiseaseMedicationTableContract{
     public static final class DiseaseMedicationEntry implements BaseColumns{
+        public static final String TABLE_NAME = "Disease Medication";
         public static final String DiseaseID = "Disease ID";
-        public static final String MedicationID = "Medication ID";
+        public static final String DrugID = "Drug ID";
     }
 }
