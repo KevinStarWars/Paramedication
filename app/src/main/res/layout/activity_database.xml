@@ -1,0 +1,627 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Database">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/backgroundRed">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/backgroundRed"
+            android:onClick="changeToDiagnosis"
+            android:text="@string/diagnosis"
+            android:textAlignment="center"
+            android:textSize="15dp" />
+
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/textColor" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/foregroundRed"
+            android:text="@string/database"
+            android:textAlignment="center"
+            android:textSize="15dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/textColor" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="changeToMedication"
+            android:text="@string/medication"
+            android:textAlignment="center"
+            android:textSize="15dp" />
+
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/textColor" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="changeToInfo"
+            android:text="@string/info"
+            android:textAlignment="center"
+            android:textSize="15dp" />
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/textColor" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/backgroundRed" />
+
+            <TextView
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/textColor" />
+        </LinearLayout>
+
+        <TabHost
+            android:id="@+id/tabHost"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="10">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TabWidget
+                    android:id="@android:id/tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/foregroundRed"></TabWidget>
+
+                <FrameLayout
+                    android:id="@android:id/tabcontent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:id="@+id/tab1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <android.support.v4.widget.NestedScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <LinearLayout
+                                android:background="@android:color/white"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:padding="16dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/disease"
+                                        android:textColor="@color/textColor"
+                                        android:textSize="15sp"/>
+
+                                    <EditText
+                                        android:id="@+id/diseaseName"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:textColor="@color/textColor"
+                                        android:hint="@string/disease" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
+
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:textSize="15sp" />
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:hint="@string/minimum"
+                                        android:textColor="@color/textColor"
+                                        android:textSize="15sp" />
+
+                                    <TextView
+                                        android:id="@+id/textView5"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:textColor="@color/textColor"
+                                        android:hint="@string/maximum"
+                                        android:textSize="15sp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:textColor="@color/textColor"
+                                        android:text="@string/leukocyte"
+                                        android:textSize="15sp" />
+
+                                    <EditText
+                                        android:id="@+id/leukocyteMin"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:inputType="phone"
+                                        android:textColor="@color/textColor"
+                                        android:hint="@string/min" />
+
+                                    <EditText
+                                        android:id="@+id/leukocyteMax"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:inputType="phone"
+                                        android:textColor="@color/textColor"
+                                        android:hint="@string/max" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="@string/erythrocyte"
+                                        android:textColor="@color/textColor"
+                                        android:textSize="15sp" />
+
+                                    <EditText
+                                        android:id="@+id/erythrocyteMin"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:inputType="phone"
+                                        android:textColor="@color/textColor"
+                                        android:hint="@string/min" />
+
+                                    <EditText
+                                        android:id="@+id/erythrocyteMax"
+                                        android:layout_width="0dp"
+                                        android:textColor="@color/textColor"
+                                        android:inputType="phone"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:hint="@string/max" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="@string/hemoglobin"
+                                        android:textColor="@color/textColor"
+                                        android:textSize="15sp" />
+
+                                    <EditText
+                                        android:id="@+id/hemoglobinMin"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:inputType="phone"
+                                        android:layout_weight="1"
+                                        android:textColor="@color/textColor"
+                                        android:hint="@string/min" />
+
+                                    <EditText
+                                        android:id="@+id/hemoglobinMax"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:inputType="phone"
+                                        android:textColor="@color/textColor"
+                                        android:hint="@string/max" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="@string/hematocrit"
+                                        android:textColor="@color/textColor"
+                                        android:textSize="15sp" />
+
+                                    <EditText
+                                        android:id="@+id/hematocritMin"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:inputType="phone"
+                                        android:textColor="@color/textColor"
+                                        android:hint="@string/min" />
+
+                                    <EditText
+                                        android:id="@+id/hematocritMax"
+                                        android:layout_width="0dp"
+                                        android:textColor="@color/textColor"
+                                        android:inputType="phone"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:hint="@string/max" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:textColor="@color/textColor"
+                                        android:text="@string/mcv"
+                                        android:textSize="15sp" />
+
+                                    <EditText
+                                        android:id="@+id/mcvMin"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:inputType="phone"
+                                        android:textColor="@color/textColor"
+                                        android:hint="@string/min" />
+
+                                    <EditText
+                                        android:id="@+id/mcvMax"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:inputType="phone"
+                                        android:textColor="@color/textColor"
+                                        android:hint="@string/max" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:textColor="@color/textColor"
+                                        android:text="@string/MCH"
+                                        android:textSize="15sp" />
+
+                                    <EditText
+                                        android:id="@+id/mchMin"
+                                        android:layout_width="0dp"
+                                        android:textColor="@color/textColor"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:inputType="phone"
+                                        android:hint="@string/min" />
+
+                                    <EditText
+                                        android:id="@+id/mchMax"
+                                        android:layout_width="0dp"
+                                        android:inputType="phone"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:textColor="@color/textColor"
+                                        android:hint="@string/max" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:textColor="@color/textColor"
+                                        android:text="@string/mchc"
+                                        android:textSize="15sp" />
+
+                                    <EditText
+                                        android:id="@+id/mchcMin"
+                                        android:layout_width="0dp"
+                                        android:textColor="@color/textColor"
+                                        android:inputType="phone"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:hint="@string/min" />
+
+                                    <EditText
+                                        android:id="@+id/mchcMax"
+                                        android:layout_width="0dp"
+                                        android:textColor="@color/textColor"
+                                        android:inputType="phone"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:hint="@string/max" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:textColor="@color/textColor"
+                                        android:text="@string/platelet"
+                                        android:textSize="15sp" />
+
+                                    <EditText
+                                        android:id="@+id/plateletMin"
+                                        android:layout_width="0dp"
+                                        android:textColor="@color/textColor"
+                                        android:layout_height="wrap_content"
+                                        android:inputType="phone"
+                                        android:layout_weight="1"
+                                        android:hint="@string/min" />
+
+                                    <EditText
+                                        android:id="@+id/plateletMax"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:inputType="phone"
+                                        android:layout_weight="1"
+                                        android:textColor="@color/textColor"
+                                        android:hint="@string/max" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:textColor="@color/textColor"
+                                        android:text="@string/reticulocytes"
+                                        android:textSize="15sp" />
+
+                                    <EditText
+                                        android:id="@+id/reticulocytesMin"
+                                        android:layout_width="0dp"
+                                        android:textColor="@color/textColor"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:inputType="phone"
+                                        android:hint="@string/min" />
+
+                                    <EditText
+                                        android:id="@+id/reticulocytesMax"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:inputType="phone"
+                                        android:textColor="@color/textColor"
+                                        android:layout_weight="1"
+                                        android:hint="@string/max" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:textColor="@color/textColor"
+                                        android:text="@string/mpv"
+                                        android:textSize="15sp" />
+
+                                    <EditText
+                                        android:id="@+id/mpvMin"
+                                        android:layout_width="0dp"
+                                        android:textColor="@color/textColor"
+                                        android:layout_height="wrap_content"
+                                        android:inputType="phone"
+                                        android:layout_weight="1"
+                                        android:hint="@string/min" />
+
+                                    <EditText
+                                        android:id="@+id/mpvMax"
+                                        android:layout_width="0dp"
+                                        android:textColor="@color/textColor"
+                                        android:layout_height="wrap_content"
+                                        android:inputType="phone"
+                                        android:layout_weight="1"
+                                        android:hint="@string/max" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:textColor="@color/textColor"
+                                        android:text="@string/rdw"
+                                        android:textSize="15sp" />
+
+                                    <EditText
+                                        android:id="@+id/rdwMin"
+                                        android:layout_width="0dp"
+                                        android:textColor="@color/textColor"
+                                        android:layout_height="wrap_content"
+                                        android:inputType="phone"
+                                        android:layout_weight="1"
+                                        android:hint="@string/min" />
+
+                                    <EditText
+                                        android:id="@+id/rdwMax"
+                                        android:layout_width="0dp"
+                                        android:textColor="@color/textColor"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:inputType="phone"
+                                        android:hint="@string/max" />
+                                </LinearLayout>
+                            </LinearLayout>
+                        </android.support.v4.widget.NestedScrollView>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/tab2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <android.support.v4.widget.NestedScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <LinearLayout
+                                android:id="@+id/drugs"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="16dp">
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="@string/drug"
+                                        android:textColor="@color/textColor"
+                                        android:textSize="15sp" />
+
+                                    <EditText
+                                        android:id="@+id/drug1"
+                                        android:layout_width="0dp"
+                                        android:textColor="@color/textColor"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:hint="@string/drug" />
+                                </LinearLayout>
+
+                                <Button
+                                    android:id="@+id/addButton"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_margin="16dp"
+                                    android:background="@color/backgroundRed"
+                                    android:text="@string/addmore"
+                                    android:textColor="@color/textColor" />
+                            </LinearLayout>
+                        </android.support.v4.widget.NestedScrollView>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/tab3"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <android.support.v4.widget.NestedScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <LinearLayout
+                                android:id="@+id/resultTab"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical">
+
+                                <Button
+                                    android:id="@+id/getResult"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:textColor="@color/textColor"
+                                    android:layout_gravity="center_horizontal"
+                                    android:layout_margin="16dp"
+                                    android:background="@color/backgroundRed"
+                                    android:text="@string/checkInput" />
+                            </LinearLayout>
+                        </android.support.v4.widget.NestedScrollView>
+                    </LinearLayout>
+                </FrameLayout>
+            </LinearLayout>
+        </TabHost>
+    </LinearLayout>
+
+</LinearLayout>

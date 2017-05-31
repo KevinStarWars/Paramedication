@@ -1,0 +1,55 @@
+<resources>
+    <string name="app_name">Paramedication</string>
+    <string name="diagnosis">\nDiagnosis</string>
+    <string name="bloodCount">Blood Count</string>
+    <string name="currentMedication">Current Medication</string>
+    <string name="result">Result</string>
+    <string name="database">\nDatabase</string>
+    <string name="medication">\nMedication</string>
+    <string name="info">\nInfo</string>
+    <!--strings used in Diagnosis - Blood Count-->
+    <string name="leukocyte">Leukocyte</string>
+    <string name="erythrocyte">Erythrocyte</string>
+    <string name="hemoglobin">Hemoglobin</string>
+    <string name="hematocrit">Hematocrit</string>
+    <string name="mcv">MCV</string>
+    <string name="MCH">MCH</string>
+    <string name="mchc">MCHC</string>
+    <string name="platelet">Platelet</string>
+    <string name="reticulocytes">Reticulocytes</string>
+    <string name="mpv">MPV</string>
+    <string name="rdw">RDW</string>
+    <string name="leukocyteval">Leukocyte val</string>
+    <string name="erythrocyteval">Erythrocyte val</string>
+    <string name="hemoglobinval">Hemoglobin val</string>
+    <string name="hematocritval">Hematocrit val</string>
+    <string name="mcvval">MCV val</string>
+    <string name="MCHval">MCH val</string>
+    <string name="mchcval">MCHC val</string>
+    <string name="plateletval">Platelet val</string>
+    <string name="reticulocytesval">Reticulocytes val</string>
+    <string name="mpvval">MPV val</string>
+    <string name="rdwval">RDW val</string>
+    <!--strings used in Diagnosis - Blood Count-->
+    <string name="drug">Drug</string>
+    <string name="addmore">Add more</string>
+    <string name="getResult">Get result</string>
+    <!--strings used in Database - Blood Count-->
+    <string name="min">Min</string>
+    <string name="max">Max</string>
+    <string name="minimum">Minimum</string>
+    <string name="maximum">Maximum</string>
+    <string name="checkInput">Check input</string>
+    <string name="disease">Disease</string>
+    <!--strings used in medication-->
+    <string name="Drug1">Drug I</string>
+    <string name="Drug2">Drug II</string>
+    <string name="type">Interaction</string>
+    <!--strings used in info-->
+    <string name="universityInfo">The RheinMain University of Applied Sciences was founded in 1971.\nWith more than 12,000 students it is one of the bigger universities in Germany.</string>
+    <string name="appInfo">This app was created as part of a bachelor thesis. Every diagnosis is only a suggestion and does not have to right.</string>
+    <string name="bugInfo">If you find any bugs, mistakes or have suggestions to make the app more efficient, feel free to send an email.\nWe are really looking forward to get your feedback.</string>
+    <string name="buttonMail">Send E-Mail</string>
+    <string name="supportMail">kevin.stowers92@gmail.com</string>
+    <string name="subject">Paramedication</string>
+</resources>
