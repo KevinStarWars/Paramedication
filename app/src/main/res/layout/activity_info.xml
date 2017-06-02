@@ -17,12 +17,9 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:onClick="changeToDiagnosis"
-            android:background="@color/backgroundRed"
             android:text="@string/diagnosis"
             android:textAlignment="center"
-            android:textSize="15dp"
-            />
+            android:textSize="15sp" />
 
         <TextView
             android:layout_width="1dp"
@@ -33,10 +30,24 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/database"
-            android:onClick="changeToDatabase"
+            android:onClick="changeToPatients"
+            android:text="@string/patients"
             android:textAlignment="center"
-            android:textSize="15dp" />
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/textColor" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="changeToDatabase"
+            android:text="@string/database"
+            android:textAlignment="center"
+            android:textSize="15sp" />
 
         <TextView
             android:layout_width="1dp"
@@ -50,7 +61,7 @@
             android:onClick="changeToMedication"
             android:text="@string/medication"
             android:textAlignment="center"
-            android:textSize="15dp" />
+            android:textSize="15sp" />
 
         <TextView
             android:layout_width="1dp"
@@ -61,11 +72,12 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/info"
+            android:onClick="changeToInfo"
             android:textStyle="bold"
             android:background="@color/foregroundRed"
+            android:text="@string/info"
             android:textAlignment="center"
-            android:textSize="15dp" />
+            android:textSize="15sp" />
     </LinearLayout>
 
     <TextView

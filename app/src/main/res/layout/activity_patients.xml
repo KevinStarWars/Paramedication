@@ -4,13 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".Info">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:background="@color/backgroundRed">
+
         <TextView
             android:id="@+id/textView"
             android:layout_width="0dp"
@@ -29,8 +30,9 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:onClick="changeToPatients"
             android:text="@string/patients"
+            android:textStyle="bold"
+            android:background="@color/foregroundRed"
             android:textAlignment="center"
             android:textSize="15sp" />
 
@@ -59,8 +61,6 @@
             android:layout_weight="1"
             android:onClick="changeToMedication"
             android:text="@string/medication"
-            android:textStyle="bold"
-            android:background="@color/foregroundRed"
             android:textAlignment="center"
             android:textSize="15sp" />
 
@@ -106,85 +106,13 @@
                 android:background="@color/textColor" />
         </LinearLayout>
 
-        <LinearLayout
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:layout_weight="10"
-            android:padding="8dp"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="16dp"
-                    android:text="@string/Drug1"
-                    android:textColor="@color/textColor"
-                    android:textSize="15sp" />
-
-                <AutoCompleteTextView
-                    android:id="@+id/autocompleteDrugI"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:textColor="@color/textColor" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="16dp"
-                    android:text="@string/Drug2"
-                    android:textColor="@color/textColor"
-                    android:textSize="15sp" />
-
-                <AutoCompleteTextView
-                    android:id="@+id/autocompleteDrugII"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:textColor="@color/textColor" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="16dp"
-                    android:text="@string/type"
-                    android:textColor="@color/textColor"
-                    android:textSize="15sp" />
-
-                <AutoCompleteTextView
-                    android:id="@+id/interaction"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:textColor="@color/textColor" />
-            </LinearLayout>
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="8dp"
-                android:background="@color/backgroundRed"
-                android:text="Add"
-                android:textColor="@color/textColor" />
-        </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
     </LinearLayout>
 
 </LinearLayout>

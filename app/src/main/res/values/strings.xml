@@ -4,10 +4,13 @@
     <string name="bloodCount">Blood Count</string>
     <string name="currentMedication">Current Medication</string>
     <string name="result">Result</string>
+    <string name="patients">\nPatients</string>
     <string name="database">\nDatabase</string>
     <string name="medication">\nMedication</string>
     <string name="info">\nInfo</string>
     <string name="titleImageDescription">Paramedcation</string>
+    <!--strings used in Diagnosis - Patient-->
+    <string name="patientNumber">Patient ID</string>
     <!--strings used in Diagnosis - Blood Count-->
     <string name="leukocyte">Leukocyte</string>
     <string name="erythrocyte">Erythrocyte</string>

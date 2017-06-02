@@ -19,7 +19,8 @@
         <activity android:name=".Database" />
         <activity android:name=".Diagnosis" />
         <activity android:name=".Info" />
-        <activity android:name=".Medication"></activity>
+        <activity android:name=".Medication" />
+        <activity android:name=".Patients"></activity>
     </application>
 
 </manifest>

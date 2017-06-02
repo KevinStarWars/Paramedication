@@ -25,6 +25,13 @@ public class Info extends AppCompatActivity {
         Intent myIntent = new Intent(this, Diagnosis.class);
         this.startActivity(myIntent);
     }
+
+    public void changeToPatients(View view){
+        Intent myIntent = new Intent(this, Patients.class);
+        this.startActivity(myIntent);
+    }
+
+
     public void sendMail(View view){
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
                 "mailto",getString(R.string.supportMail), null));

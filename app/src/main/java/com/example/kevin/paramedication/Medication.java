@@ -17,12 +17,19 @@ public class Medication extends AppCompatActivity {
         Intent myIntent = new Intent(this, Database.class);
         this.startActivity(myIntent);
     }
+
     public void changeToDiagnosis(View view){
         Intent myIntent = new Intent(this, Diagnosis.class);
         this.startActivity(myIntent);
     }
+
     public void changeToInfo(View view){
         Intent myIntent = new Intent(this, Info.class);
+        this.startActivity(myIntent);
+    }
+
+    public void changeToPatients(View view){
+        Intent myIntent = new Intent(this, Patients.class);
         this.startActivity(myIntent);
     }
 }

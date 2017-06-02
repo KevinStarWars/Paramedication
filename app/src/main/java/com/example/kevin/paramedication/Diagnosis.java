@@ -24,26 +24,6 @@ public class Diagnosis extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diagnosis);
-        TabHost host = (TabHost)findViewById(R.id.tabHost);
-        host.setup();
-
-        //Tab 1
-        TabHost.TabSpec spec = host.newTabSpec("Tab One");
-        spec.setContent(R.id.tab1);
-        spec.setIndicator("Blood Count");
-        host.addTab(spec);
-
-        //Tab 2
-        spec = host.newTabSpec("Tab Two");
-        spec.setContent(R.id.tab2);
-        spec.setIndicator("Current Medication");
-        host.addTab(spec);
-
-        //Tab 3
-        spec = host.newTabSpec("Tab Three");
-        spec.setContent(R.id.tab3);
-        spec.setIndicator("Result");
-        host.addTab(spec);
 
         Button button = (Button) findViewById(R.id.addButton);
         button.setOnClickListener(new View.OnClickListener() {
@@ -58,6 +38,36 @@ public class Diagnosis extends AppCompatActivity {
     }
 
     /*_____________________________________General______________________________________________*/
+
+    // initializes Tabs
+    public void initializeTabs(){
+        TabHost host = (TabHost)findViewById(R.id.tabHost);
+        host.setup();
+
+        //Tab 1
+        TabHost.TabSpec spec = host.newTabSpec("Tab One");
+        spec.setContent(R.id.tab1);
+        spec.setIndicator("Patients");
+        host.addTab(spec);
+
+        //Tab 2
+        spec = host.newTabSpec("Tab Two");
+        spec.setContent(R.id.tab2);
+        spec.setIndicator("Blood Count");
+        host.addTab(spec);
+
+        //Tab 3
+        spec = host.newTabSpec("Tab Three");
+        spec.setContent(R.id.tab3);
+        spec.setIndicator("Medication");
+        host.addTab(spec);
+
+        //Tab 4
+        spec = host.newTabSpec("Tab Four");
+        spec.setContent(R.id.tab3);
+        spec.setIndicator("Result");
+        host.addTab(spec);
+    }
 
     // Send intent in order to open Database
     public void changeToDatabase(View view){
@@ -77,9 +87,14 @@ public class Diagnosis extends AppCompatActivity {
         this.startActivity(myIntent);
     }
 
-    /*_____________________________________Blood count______________________________________________*/
+    public void changeToPatients(View view){
+        Intent myIntent = new Intent(this, Patients.class);
+        this.startActivity(myIntent);
+    }
 
-    /*_____________________________________Current Medication______________________________________________*/
+    /*_____________________________________Blood count__________________________________________*/
+
+    /*_____________________________________Current Medication___________________________________*/
 
     // creates linear layout with TextView next to EditText
     public LinearLayout createNewLinearLayout(TextView view, EditText entry){
@@ -123,7 +138,7 @@ public class Diagnosis extends AppCompatActivity {
             public void onClick(View v) {
                 ((ViewGroup)v.getParent()).removeView(v);
                 LinearLayout linearLayout = (LinearLayout)findViewById(R.id.drugs);
-                linearLayout.addView(createNewLinearLayout(createNewTextView("Drug"), createNewEntry("drug")));
+                linearLayout.addView(createNewLinearLayout(createNewTextView("Drug"), createNewEntry("Drug")));
                 linearLayout.addView(createNewButton("Add more"));
             }
         });

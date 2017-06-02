@@ -32,6 +32,20 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:onClick="changeToPatients"
+            android:text="@string/patients"
+            android:textAlignment="center"
+            android:textSize="15sp" />
+
+        <TextView
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@color/textColor" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:onClick="changeToDatabase"
             android:text="@string/database"
             android:textAlignment="center"
@@ -64,6 +78,7 @@
             android:text="@string/info"
             android:textAlignment="center"
             android:textSize="15sp" />
+
     </LinearLayout>
     <TextView
         android:layout_width="match_parent"
@@ -111,6 +126,40 @@
 
                     <LinearLayout
                         android:id="@+id/tab1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <android.support.v4.widget.NestedScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical">
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="16dp">
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/patientNumber"
+                                        />
+                                    <EditText
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="wrap_content" />
+                                </LinearLayout>
+                            </LinearLayout>
+                        </android.support.v4.widget.NestedScrollView>
+
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/tab2"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical">
@@ -373,7 +422,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/tab2"
+                        android:id="@+id/tab3"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical">
@@ -424,7 +473,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/tab3"
+                        android:id="@+id/tab4"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical">

@@ -94,6 +94,12 @@ public class Database extends AppCompatActivity {
         this.startActivity(myIntent);
     }
 
+    // Send intent in order to open PatientsActivity
+    public void changeToPatients(View view){
+        Intent myIntent = new Intent(this, Patients.class);
+        this.startActivity(myIntent);
+    }
+
     // Creates a new default TextView
     private TextView  createNewTextView(String text){
         final TextView textView = new TextView(this);
