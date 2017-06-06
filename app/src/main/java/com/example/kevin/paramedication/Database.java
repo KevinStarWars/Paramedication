@@ -3,6 +3,7 @@ package com.example.kevin.paramedication;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
@@ -115,94 +116,117 @@ public class Database extends AppCompatActivity {
     /*_____________________________________Disease Info_________________________________________*/
 
     // get all entries from user
+    @NonNull
     private String getDisease(){
         EditText entryField = (EditText) findViewById(R.id.diseaseName);
         return entryField.getText().toString();
     }
+    @NonNull
     private String getLeukoMin(){
         EditText entryField = (EditText) findViewById(R.id.leukocyteMin);
         return entryField.getText().toString();
     }
+    @NonNull
     private String getLeukoMax(){
         EditText entryField = (EditText) findViewById(R.id.leukocyteMax);
         return entryField.getText().toString();
     }
+    @NonNull
     private String getEryMin(){
         EditText entryField = (EditText) findViewById(R.id.erythrocyteMin);
         return entryField.getText().toString();
     }
+    @NonNull
     private String getEryMax(){
         EditText entryField = (EditText) findViewById(R.id.erythrocyteMax);
         return entryField.getText().toString();
     }
+    @NonNull
     private String getHemoglobinMin(){
         EditText entryField = (EditText) findViewById(R.id.hemoglobinMin);
         return entryField.getText().toString();
     }
+    @NonNull
     private String getHemoglobinMax(){
         EditText entryField = (EditText) findViewById(R.id.hemoglobinMax);
         return entryField.getText().toString();
     }
+    @NonNull
     private String getHematocritMin(){
         EditText entryField = (EditText) findViewById(R.id.hematocritMin);
         return entryField.getText().toString();
     }
+    @NonNull
     private String getHematocritMax(){
         EditText entryField = (EditText) findViewById(R.id.hematocritMax);
         return entryField.getText().toString();
     }
+    @NonNull
     private String getMCVMin(){
         EditText entryField = (EditText) findViewById(R.id.mcvMin);
         return entryField.getText().toString();
     }
+    @NonNull
     private String getMCVMax(){
         EditText entryField = (EditText) findViewById(R.id.mcvMax);
         return entryField.getText().toString();
     }
+    @NonNull
     private String getMCHMin(){
         EditText entryField = (EditText) findViewById(R.id.mchMin);
         return entryField.getText().toString();
     }
+    @NonNull
     private String getMCHMax(){
         EditText entryField = (EditText) findViewById(R.id.mchMax);
         return entryField.getText().toString();
     }
+    @NonNull
     private String getMCHCMin(){
         EditText entryField = (EditText) findViewById(R.id.mchcMin);
         return entryField.getText().toString();
     }
+    @NonNull
     private String getMCHCMax(){
         EditText entryField = (EditText) findViewById(R.id.mchcMax);
         return entryField.getText().toString();
     }
+    @NonNull
     private String getPlateletMin(){
         EditText entryField = (EditText) findViewById(R.id.plateletMin);
         return entryField.getText().toString();
     }
+    @NonNull
     private String getPlateletMax(){
         EditText entryField = (EditText) findViewById(R.id.plateletMax);
         return entryField.getText().toString();
     }
+    @NonNull
     private String getReticulocytesMin(){
         EditText entryField = (EditText) findViewById(R.id.reticulocytesMin);
         return entryField.getText().toString();
     }
+    @NonNull
     private String getReticulocytesMax(){
         EditText entryField = (EditText) findViewById(R.id.reticulocytesMax);
         return entryField.getText().toString();
     }
+    @NonNull
     private String getMPVMin(){
         EditText entryField = (EditText) findViewById(R.id.mpvMin);
         return entryField.getText().toString();
     }
+    @NonNull
     private String getMPVMax(){
         EditText entryField = (EditText) findViewById(R.id.mpvMax);
         return entryField.getText().toString();
     }
+    @NonNull
     private String getRDWMin(){
         EditText entryField = (EditText) findViewById(R.id.rdwMin);
         return entryField.getText().toString();
     }
+    @NonNull
     private String getRDWMax(){
         EditText entryField = (EditText) findViewById(R.id.rdwMax);
         return entryField.getText().toString();
@@ -235,7 +259,7 @@ public class Database extends AppCompatActivity {
         entry.setLayoutParams(entryViewParams);
         entry.setHint("Drug");
         entry.setId(View.generateViewId());
-        Integer idInteger = new Integer(entry.getId());
+        Integer idInteger = Integer.valueOf(entry.getId());
         entryList.add(idInteger);
         return entry;
     }

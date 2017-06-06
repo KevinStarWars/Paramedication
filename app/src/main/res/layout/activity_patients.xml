@@ -107,12 +107,31 @@
         </LinearLayout>
 
         <android.support.v4.widget.NestedScrollView
+            android:id="@+id/editableSpace"
             android:layout_width="0dp"
             android:layout_weight="10"
             android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+            <EditText
+                android:id="@+id/PatientID"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_margin="16dp"
+                android:hint="@string/entryHint"/>
+            <Button
+                android:id="@+id/getPatientData"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/buttonString"/>
+            </LinearLayout>
 
-
-        </android.support.v4.widget.NestedScrollView>
+</android.support.v4.widget.NestedScrollView>
     </LinearLayout>
 
 </LinearLayout>

@@ -56,4 +56,7 @@
     <string name="buttonMail">Send E-Mail</string>
     <string name="supportMail">kevin.stowers92@gmail.com</string>
     <string name="subject">Paramedication</string>
+    <!--strings used in Patients-->
+    <string name="entryHint">Patient ID</string>
+    <string name="buttonString">See Data</string>
 </resources>
