@@ -35,6 +35,8 @@ public class Diagnosis extends AppCompatActivity {
                 linearLayout.addView(createNewButton("Add more"));
             }
         });
+
+        initializeTabs();
     }
 
     /*_____________________________________General______________________________________________*/
@@ -64,7 +66,7 @@ public class Diagnosis extends AppCompatActivity {
 
         //Tab 4
         spec = host.newTabSpec("Tab Four");
-        spec.setContent(R.id.tab3);
+        spec.setContent(R.id.tab4);
         spec.setIndicator("Result");
         host.addTab(spec);
     }
@@ -117,7 +119,7 @@ public class Diagnosis extends AppCompatActivity {
         entry.setHint(hint);
         entry.setId(View.generateViewId());
         System.out.println(entry.getId());
-        Integer idInteger = new Integer(entry.getId());
+        Integer idInteger = entry.getId();
         entryList.add(idInteger);
         for (int i = 0; i < entryList.size(); i++){
             System.out.println(entryList.get(i));

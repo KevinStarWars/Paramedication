@@ -1,4 +1,4 @@
-package com.example.kevin.paramedication.DatabaseRessources;
+package com.example.kevin.paramedication.DatabaseContracts;
 
 import android.provider.BaseColumns;
 

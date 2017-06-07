@@ -12,14 +12,14 @@
     <!--strings used in Diagnosis - Patient-->
     <string name="patientNumber">Patient ID</string>
     <!--strings used in Diagnosis - Blood Count-->
-    <string name="leukocyte">Leukocyte</string>
-    <string name="erythrocyte">Erythrocyte</string>
-    <string name="hemoglobin">Hemoglobin</string>
-    <string name="hematocrit">Hematocrit</string>
-    <string name="mcv">MCV</string>
-    <string name="MCH">MCH</string>
-    <string name="mchc">MCHC</string>
-    <string name="platelet">Platelet</string>
+    <string name="leukocyte">Leukocyte [1/µl]</string>
+    <string name="erythrocyte">Erythrocyte [Mio./µl]</string>
+    <string name="hemoglobin">Hemoglobin [g/dl]</string>
+    <string name="hematocrit">Hematocrit [%]</string>
+    <string name="mcv">MCV [fl]</string>
+    <string name="MCH">MCH [pg/Zelle]</string>
+    <string name="mchc">MCHC [g/dl] </string>
+    <string name="platelet">Platelet [1/µl]</string>
     <string name="reticulocytes">Reticulocytes</string>
     <string name="mpv">MPV</string>
     <string name="rdw">RDW</string>

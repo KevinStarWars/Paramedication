@@ -45,7 +45,6 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:onClick="changeToDatabase"
             android:text="@string/database"
             android:textStyle="bold"
             android:background="@color/foregroundRed"
@@ -87,7 +86,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="10">
+        android:layout_weight="10"
+        android:baselineAligned="false">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -110,8 +110,6 @@
             android:id="@+id/tabHost"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
             android:layout_weight="10">
 
             <LinearLayout

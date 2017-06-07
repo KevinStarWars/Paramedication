@@ -1,27 +1,32 @@
 package com.example.kevin.paramedication;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.example.kevin.paramedication.DatabaseRessources.DBHelper;
+import com.example.kevin.paramedication.DatabaseOperations.DbDataSource;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private SQLiteDatabase mDB;
+    public static final String LOG_TAG = MainActivity.class.getSimpleName();
+    private DbDataSource dataSource;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        this.deleteDatabase("paramedication.db");
 
         // SQLite operations
+        //dataSource = new DbDataSource(this);
 
-        DBHelper dbHelper = new DBHelper(this);
-        mDB = dbHelper.getWritableDatabase();
+        //Log.d(LOG_TAG, "Opening database.");
+        //dataSource.open();
+        //dataSource.createMedicationRecord("xyz");
+        //Log.d(LOG_TAG, "Closing database.");
+        //dataSource.close();
 
         ImageView image1 = (ImageView) this.findViewById(R.id.logo);
         image1.setImageResource(R.drawable.logo);

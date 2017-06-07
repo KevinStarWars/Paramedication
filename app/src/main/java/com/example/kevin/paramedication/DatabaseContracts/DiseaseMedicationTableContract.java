@@ -1,4 +1,4 @@
-package com.example.kevin.paramedication.DatabaseRessources;
+package com.example.kevin.paramedication.DatabaseContracts;
 
 import android.provider.BaseColumns;
 
@@ -10,8 +10,8 @@ import android.provider.BaseColumns;
 
 public class DiseaseMedicationTableContract{
     public static final class DiseaseMedicationEntry implements BaseColumns{
-        public static final String TABLE_NAME = "Disease Medication";
-        public static final String DiseaseID = "Disease ID";
-        public static final String DrugID = "Drug ID";
+        public static final String TABLE_NAME = "Disease_Medication";
+        public static final String DiseaseID = "Disease_ID";
+        public static final String DrugID = "Drug_ID";
     }
 }
