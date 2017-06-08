@@ -3,19 +3,19 @@ package com.example.kevin.paramedication.DatabaseObjects;
 
 public class MedicationRecord {
 
-    private long id;
+    private int id;
     private String drugName;
 
-    public MedicationRecord(long id, String drugName){
+    public MedicationRecord(int id, String drugName) {
         this.id = id;
         this.drugName = drugName;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

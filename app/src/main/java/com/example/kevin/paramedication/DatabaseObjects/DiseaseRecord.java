@@ -2,19 +2,19 @@ package com.example.kevin.paramedication.DatabaseObjects;
 
 public class DiseaseRecord {
 
-    private long id;
+    private int id;
     private String name;
 
-    public DiseaseRecord(long id, String name){
+    public DiseaseRecord(int id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public long getId(){
+    public int getId() {
         return this.id;
     }
 
-    public void setId(long id){
+    public void setId(int id) {
         this.id = id;
     }
 

@@ -3,19 +3,19 @@ package com.example.kevin.paramedication.DatabaseObjects;
 
 public class PatientRecord {
 
-    private long id;
+    private int id;
     private long hospitalId;
 
-    public PatientRecord(long id, long hospitalId){
+    public PatientRecord(int id, long hospitalId) {
         this.id = id;
         this.hospitalId = hospitalId;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

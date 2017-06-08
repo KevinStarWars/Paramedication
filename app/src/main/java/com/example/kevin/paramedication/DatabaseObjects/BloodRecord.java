@@ -1,6 +1,8 @@
 package com.example.kevin.paramedication.DatabaseObjects;
 
 public class BloodRecord {
+
+    private int id;
     private double leukocyteMin;
     private double leukocyteMax;
     private double erythrocyteMin;
@@ -23,6 +25,43 @@ public class BloodRecord {
     private double mpvMax;
     private double rdwMin;
     private double rdwMax;
+
+    public BloodRecord(int id, double leukocyteMin, double leukocyteMax, double erythrocyteMin, double erythrocyteMax, double hemoglobinMin, double hemoglobinMax,
+                       double hematocritMin, double hematocritMax, double mcvMin, double mcvMax, double mchMin, double mchMax, double mchcMin, double mchcMax,
+                       double plateletMin, double plateletMax, double reticulocytesMin, double reticulocytesMax, double mpvMin, double mpvMax, double rdwMin,
+                       double rdwMax) {
+        this.id = id;
+        this.leukocyteMin = leukocyteMin;
+        this.leukocyteMax = leukocyteMax;
+        this.erythrocyteMin = erythrocyteMin;
+        this.erythrocyteMax = erythrocyteMax;
+        this.hemoglobinMin = hemoglobinMin;
+        this.hemoglobinMax = hemoglobinMax;
+        this.hematocritMin = hematocritMin;
+        this.hematocritMax = hematocritMax;
+        this.mcvMin = mcvMin;
+        this.mcvMax = mcvMax;
+        this.mchMin = mchMin;
+        this.mchMax = mchMax;
+        this.mchcMin = mchcMin;
+        this.mchcMax = mchcMax;
+        this.plateletMin = plateletMin;
+        this.plateletMax = plateletMax;
+        this.reticulocytesMin = reticulocytesMin;
+        this.reticulocytesMax = reticulocytesMax;
+        this.mpvMin = mpvMin;
+        this.mpvMax = mpvMax;
+        this.rdwMin = rdwMin;
+        this.rdwMax = rdwMax;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public double getLeukocyteMin() {
         return leukocyteMin;
@@ -201,5 +240,9 @@ public class BloodRecord {
     }
 
     //TODO print function
+
+    public String print() {
+        return "yet to be implemented";
+    }
 
 }

@@ -19,15 +19,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         this.deleteDatabase("paramedication.db");
 
-        // SQLite operations
-        //dataSource = new DbDataSource(this);
-
-        //Log.d(LOG_TAG, "Opening database.");
-        //dataSource.open();
-        //dataSource.createMedicationRecord("xyz");
-        //Log.d(LOG_TAG, "Closing database.");
-        //dataSource.close();
-
         ImageView image1 = (ImageView) this.findViewById(R.id.logo);
         image1.setImageResource(R.drawable.logo);
         image1.setOnClickListener(this);

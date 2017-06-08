@@ -9,6 +9,6 @@ import android.provider.BaseColumns;
 public class PatientTableContract {
     public static class PatientTableEntry  implements BaseColumns {
         public static final String TABLE_NAME = "Patients";
-        public static final String HOSPITAL_ID = "Hospital_ID";
+        public static final String COLUMN_HOSPITAL_ID = "Hospital_ID";
     }
 }

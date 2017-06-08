@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,29 +14,65 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.kevin.paramedication.DatabaseObjects.BloodRecord;
+import com.example.kevin.paramedication.DatabaseObjects.DiseaseRecord;
+import com.example.kevin.paramedication.DatabaseObjects.MedicationRecord;
+import com.example.kevin.paramedication.DatabaseOperations.BloodCountOperations;
+import com.example.kevin.paramedication.DatabaseOperations.BloodOperations;
+import com.example.kevin.paramedication.DatabaseOperations.DbDataSource;
+import com.example.kevin.paramedication.DatabaseOperations.DiseaseBloodRelationOperations;
+import com.example.kevin.paramedication.DatabaseOperations.DiseaseMedicationRelationOperations;
+import com.example.kevin.paramedication.DatabaseOperations.DiseaseOperations;
+import com.example.kevin.paramedication.DatabaseOperations.MedicationInteractionOperations;
+import com.example.kevin.paramedication.DatabaseOperations.MedicationOperations;
+import com.example.kevin.paramedication.DatabaseOperations.PatientBloodcountOperations;
+import com.example.kevin.paramedication.DatabaseOperations.PatientDiseaseOperations;
+import com.example.kevin.paramedication.DatabaseOperations.PatientMedicationOperations;
+import com.example.kevin.paramedication.DatabaseOperations.PatientOperations;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Database extends AppCompatActivity {
 
+    private static final String LOG_TAG = Database.class.getSimpleName();
     // global vars
     List<Integer> entryList = new ArrayList<>();
     boolean firstRun = false;
+    private DbDataSource dataSource;
+    private BloodCountOperations BloodCountOps = new BloodCountOperations();
+    private BloodOperations BloodOps = new BloodOperations();
+    private DiseaseBloodRelationOperations DiseaseBloodOps = new DiseaseBloodRelationOperations();
+    private DiseaseMedicationRelationOperations DiseaseMedicationOps = new DiseaseMedicationRelationOperations();
+    private DiseaseOperations DiseaseOps = new DiseaseOperations();
+    private MedicationInteractionOperations MedicationInteractionOps = new MedicationInteractionOperations();
+    private MedicationOperations MedicationOps = new MedicationOperations();
+    private PatientBloodcountOperations PatientBloodcountOps = new PatientBloodcountOperations();
+    private PatientDiseaseOperations PatientDiseaseOps = new PatientDiseaseOperations();
+    private PatientMedicationOperations PatientMedicationOps= new PatientMedicationOperations();
+    private PatientOperations PatientOps = new PatientOperations();
 
     // onCreate method determines which Activity is in use
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_database);
+
+        dataSource = new DbDataSource(this);
+        Log.d(LOG_TAG, "Opening database.");
+        dataSource.open();
+
         addToEntryList();
         configTabs();
         // Config add more Button in Medication tab
         Button button = (Button) findViewById(R.id.addButton);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ((ViewGroup)v.getParent()).removeView(v);
-                LinearLayout linearLayout = (LinearLayout)findViewById(R.id.drugs);
+                ((ViewGroup) v.getParent()).removeView(v);
+                LinearLayout linearLayout = (LinearLayout) findViewById(R.id.drugs);
                 linearLayout.addView(createNewLinearLayoutMedication(createNewTextView("Drug"), createNewEntry()));
                 linearLayout.addView(createNewButton("Add more"));
             }
@@ -45,9 +82,9 @@ public class Database extends AppCompatActivity {
         Button getResultButton = (Button) findViewById(R.id.getResult);
         getResultButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ((ViewGroup)v.getParent()).removeView(v);
+                ((ViewGroup) v.getParent()).removeView(v);
                 printResult();
-                LinearLayout linearLayout = (LinearLayout)findViewById(R.id.resultTab);
+                LinearLayout linearLayout = (LinearLayout) findViewById(R.id.resultTab);
                 linearLayout.addView(createNewResultButton("Check Input"));
                 linearLayout.addView(createAddButton("Add to database"));
             }
@@ -57,8 +94,8 @@ public class Database extends AppCompatActivity {
     /*_____________________________________General______________________________________________*/
 
     // Config Tabs
-    public void configTabs(){
-        TabHost host = (TabHost)findViewById(R.id.tabHost);
+    public void configTabs() {
+        TabHost host = (TabHost) findViewById(R.id.tabHost);
         host.setup();
         //Tab 1
         TabHost.TabSpec spec = host.newTabSpec("Tab One");
@@ -78,182 +115,313 @@ public class Database extends AppCompatActivity {
     }
 
     // Send intent in order to open DiagnosisActivity
-    public void changeToDiagnosis(View view){
+    public void changeToDiagnosis(View view) {
+        dataSource.close();
         Intent myIntent = new Intent(this, Diagnosis.class);
         this.startActivity(myIntent);
     }
 
     // Send intent in order to open MedicationActivity
-    public void changeToMedication(View view){
+    public void changeToMedication(View view) {
+        dataSource.close();
         Intent myIntent = new Intent(this, Medication.class);
         this.startActivity(myIntent);
     }
 
     // Send intent in order to open InfoActivity
-    public void changeToInfo(View view){
+    public void changeToInfo(View view) {
+        dataSource.close();
         Intent myIntent = new Intent(this, Info.class);
         this.startActivity(myIntent);
     }
 
     // Send intent in order to open PatientsActivity
-    public void changeToPatients(View view){
+    public void changeToPatients(View view) {
+        dataSource.close();
         Intent myIntent = new Intent(this, Patients.class);
         this.startActivity(myIntent);
     }
 
     // Creates a new default TextView
-    private TextView  createNewTextView(String text){
+    private TextView createNewTextView(String text) {
         final TextView textView = new TextView(this);
         final LinearLayout.LayoutParams textViewParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
         textView.setLayoutParams(textViewParams);
-        textView.setPadding(16,16,16,16);
+        textView.setPadding(16, 16, 16, 16);
         textView.setTextSize(15);
         textView.setTextColor(Color.parseColor("#47525E"));
         textView.setText(text);
         return textView;
     }
 
+    // empties all editviews
+    private void resetAllFields() {
+
+        Integer[] fieldArray = new Integer[]{R.id.diseaseName, R.id.leukocyteMin, R.id.leukocyteMax, R.id.erythrocyteMin, R.id.erythrocyteMax, R.id.hemoglobinMin, R.id.hemoglobinMax,
+                R.id.hematocritMin, R.id.hematocritMax, R.id.mcvMin, R.id.mcvMax, R.id.mchMin, R.id.mchMax, R.id.mchcMin, R.id.mchcMax, R.id.plateletMin, R.id.plateletMax, R.id.reticulocytesMin,
+                R.id.reticulocytesMax, R.id.mpvMin, R.id.mpvMax, R.id.rdwMin, R.id.rdwMax};
+        List<Integer> fields = new ArrayList<>();
+        fields.addAll(Arrays.asList(fieldArray));
+        for (int i = 0; i < entryList.size(); i++) {
+            fields.add(entryList.get(i));
+        }
+        for (int i = 0; i < fields.size(); i++) {
+            EditText tmpEdit = (EditText) findViewById(fields.get(i));
+            tmpEdit.setText("");
+        }
+    }
+
     /*_____________________________________Disease Info_________________________________________*/
 
     // get all entries from user
     @NonNull
-    private String getDisease(){
+    private String getDisease() {
         EditText entryField = (EditText) findViewById(R.id.diseaseName);
         return entryField.getText().toString();
     }
+
     @NonNull
-    private String getLeukoMin(){
+    private String getLeukoMin() {
         EditText entryField = (EditText) findViewById(R.id.leukocyteMin);
-        return entryField.getText().toString();
+        if (entryField.getText().toString().isEmpty()) {
+            return "0";
+        } else {
+            return entryField.getText().toString();
+        }
     }
+
     @NonNull
-    private String getLeukoMax(){
+    private String getLeukoMax() {
         EditText entryField = (EditText) findViewById(R.id.leukocyteMax);
-        return entryField.getText().toString();
+        if (entryField.getText().toString().isEmpty()) {
+            return "0";
+        } else {
+            return entryField.getText().toString();
+        }
     }
+
     @NonNull
-    private String getEryMin(){
+    private String getEryMin() {
         EditText entryField = (EditText) findViewById(R.id.erythrocyteMin);
-        return entryField.getText().toString();
+        if (entryField.getText().toString().isEmpty()) {
+            return "0";
+        } else {
+            return entryField.getText().toString();
+        }
     }
+
     @NonNull
-    private String getEryMax(){
+    private String getEryMax() {
         EditText entryField = (EditText) findViewById(R.id.erythrocyteMax);
-        return entryField.getText().toString();
+        if (entryField.getText().toString().isEmpty()) {
+            return "0";
+        } else {
+            return entryField.getText().toString();
+        }
     }
+
     @NonNull
-    private String getHemoglobinMin(){
+    private String getHemoglobinMin() {
         EditText entryField = (EditText) findViewById(R.id.hemoglobinMin);
-        return entryField.getText().toString();
+        if (entryField.getText().toString().isEmpty()) {
+            return "0";
+        } else {
+            return entryField.getText().toString();
+        }
     }
+
     @NonNull
-    private String getHemoglobinMax(){
+    private String getHemoglobinMax() {
         EditText entryField = (EditText) findViewById(R.id.hemoglobinMax);
-        return entryField.getText().toString();
+        if (entryField.getText().toString().isEmpty()) {
+            return "0";
+        } else {
+            return entryField.getText().toString();
+        }
     }
+
     @NonNull
-    private String getHematocritMin(){
+    private String getHematocritMin() {
         EditText entryField = (EditText) findViewById(R.id.hematocritMin);
-        return entryField.getText().toString();
+        if (entryField.getText().toString().isEmpty()) {
+            return "0";
+        } else {
+            return entryField.getText().toString();
+        }
     }
+
     @NonNull
-    private String getHematocritMax(){
+    private String getHematocritMax() {
         EditText entryField = (EditText) findViewById(R.id.hematocritMax);
-        return entryField.getText().toString();
+        if (entryField.getText().toString().isEmpty()) {
+            return "0";
+        } else {
+            return entryField.getText().toString();
+        }
     }
+
     @NonNull
-    private String getMCVMin(){
+    private String getMCVMin() {
         EditText entryField = (EditText) findViewById(R.id.mcvMin);
-        return entryField.getText().toString();
+        if (entryField.getText().toString().isEmpty()) {
+            return "0";
+        } else {
+            return entryField.getText().toString();
+        }
     }
+
     @NonNull
-    private String getMCVMax(){
+    private String getMCVMax() {
         EditText entryField = (EditText) findViewById(R.id.mcvMax);
-        return entryField.getText().toString();
+        if (entryField.getText().toString().isEmpty()) {
+            return "0";
+        } else {
+            return entryField.getText().toString();
+        }
     }
+
     @NonNull
-    private String getMCHMin(){
+    private String getMCHMin() {
         EditText entryField = (EditText) findViewById(R.id.mchMin);
-        return entryField.getText().toString();
+        if (entryField.getText().toString().isEmpty()) {
+            return "0";
+        } else {
+            return entryField.getText().toString();
+        }
     }
+
     @NonNull
-    private String getMCHMax(){
+    private String getMCHMax() {
         EditText entryField = (EditText) findViewById(R.id.mchMax);
-        return entryField.getText().toString();
+        if (entryField.getText().toString().isEmpty()) {
+            return "0";
+        } else {
+            return entryField.getText().toString();
+        }
     }
+
     @NonNull
-    private String getMCHCMin(){
+    private String getMCHCMin() {
         EditText entryField = (EditText) findViewById(R.id.mchcMin);
-        return entryField.getText().toString();
+        if (entryField.getText().toString().isEmpty()) {
+            return "0";
+        } else {
+            return entryField.getText().toString();
+        }
     }
+
     @NonNull
-    private String getMCHCMax(){
+    private String getMCHCMax() {
         EditText entryField = (EditText) findViewById(R.id.mchcMax);
-        return entryField.getText().toString();
+        if (entryField.getText().toString().isEmpty()) {
+            return "0";
+        } else {
+            return entryField.getText().toString();
+        }
     }
+
     @NonNull
-    private String getPlateletMin(){
+    private String getPlateletMin() {
         EditText entryField = (EditText) findViewById(R.id.plateletMin);
-        return entryField.getText().toString();
+        if (entryField.getText().toString().isEmpty()) {
+            return "0";
+        } else {
+            return entryField.getText().toString();
+        }
     }
+
     @NonNull
-    private String getPlateletMax(){
+    private String getPlateletMax() {
         EditText entryField = (EditText) findViewById(R.id.plateletMax);
-        return entryField.getText().toString();
+        if (entryField.getText().toString().isEmpty()) {
+            return "0";
+        } else {
+            return entryField.getText().toString();
+        }
     }
+
     @NonNull
-    private String getReticulocytesMin(){
+    private String getReticulocytesMin() {
         EditText entryField = (EditText) findViewById(R.id.reticulocytesMin);
-        return entryField.getText().toString();
+        if (entryField.getText().toString().isEmpty()) {
+            return "0";
+        } else {
+            return entryField.getText().toString();
+        }
     }
+
     @NonNull
-    private String getReticulocytesMax(){
+    private String getReticulocytesMax() {
         EditText entryField = (EditText) findViewById(R.id.reticulocytesMax);
-        return entryField.getText().toString();
+        if (entryField.getText().toString().isEmpty()) {
+            return "0";
+        } else {
+            return entryField.getText().toString();
+        }
     }
+
     @NonNull
-    private String getMPVMin(){
+    private String getMPVMin() {
         EditText entryField = (EditText) findViewById(R.id.mpvMin);
-        return entryField.getText().toString();
+        if (entryField.getText().toString().isEmpty()) {
+            return "0";
+        } else {
+            return entryField.getText().toString();
+        }
     }
+
     @NonNull
-    private String getMPVMax(){
+    private String getMPVMax() {
         EditText entryField = (EditText) findViewById(R.id.mpvMax);
-        return entryField.getText().toString();
+        if (entryField.getText().toString().isEmpty()) {
+            return "0";
+        } else {
+            return entryField.getText().toString();
+        }
     }
+
     @NonNull
-    private String getRDWMin(){
+    private String getRDWMin() {
         EditText entryField = (EditText) findViewById(R.id.rdwMin);
-        return entryField.getText().toString();
+        if (entryField.getText().toString().isEmpty()) {
+            return "0";
+        } else {
+            return entryField.getText().toString();
+        }
     }
+
     @NonNull
-    private String getRDWMax(){
+    private String getRDWMax() {
         EditText entryField = (EditText) findViewById(R.id.rdwMax);
-        return entryField.getText().toString();
+        if (entryField.getText().toString().isEmpty()) {
+            return "0";
+        } else {
+            return entryField.getText().toString();
+        }
     }
 
     /*_____________________________________Disease Medication___________________________________*/
 
     // add default field to entryList
-    private void addToEntryList(){
+    private void addToEntryList() {
         EditText drugEntry = (EditText) findViewById(R.id.drug1);
         entryList.add(drugEntry.getId());
     }
 
     // Creates Layout which surrounds TextView and EditText of Medication
-    private LinearLayout createNewLinearLayoutMedication(TextView TView, EditText entry){
+    private LinearLayout createNewLinearLayoutMedication(TextView TView, EditText entry) {
         final LinearLayout linear = new LinearLayout(this);
         final LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         linear.setLayoutParams(layoutParams);
         linear.setOrientation(LinearLayout.HORIZONTAL);
-        linear.setPadding(16,16,16,16);
+        linear.setPadding(16, 16, 16, 16);
         linear.addView(TView);
         linear.addView(entry);
         return linear;
     }
 
     // Creates a new default EditText
-    private EditText createNewEntry(){
+    private EditText createNewEntry() {
         final EditText entry = new EditText(this);
         final LinearLayout.LayoutParams entryViewParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
         entry.setLayoutParams(entryViewParams);
@@ -265,18 +433,18 @@ public class Database extends AppCompatActivity {
     }
 
     // Creates a new button for new drugs in medication
-    private Button createNewButton(String text){
+    private Button createNewButton(String text) {
         final Button button = new Button(this);
         final LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        buttonParams.setMargins(8,8,8,8);
+        buttonParams.setMargins(8, 8, 8, 8);
         button.setLayoutParams(buttonParams);
         button.setText(text);
         button.setBackgroundColor(getResources().getColor(R.color.backgroundRed));
         button.setGravity(Gravity.CENTER_HORIZONTAL);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ((ViewGroup)v.getParent()).removeView(v);
-                LinearLayout linearLayout = (LinearLayout)findViewById(R.id.drugs);
+                ((ViewGroup) v.getParent()).removeView(v);
+                LinearLayout linearLayout = (LinearLayout) findViewById(R.id.drugs);
                 linearLayout.addView(createNewLinearLayoutMedication(createNewTextView("Drug"), createNewEntry()));
                 linearLayout.addView(createNewButton("Add more"));
             }
@@ -285,9 +453,9 @@ public class Database extends AppCompatActivity {
     }
 
     // searches all EditTexts for Entries and returns List of Strings with drug names
-    private List<String> getDrugs(){
+    private List<String> getDrugs() {
         List<String> drugList = new ArrayList<>();
-        for(int i = 0; i < entryList.size(); ++i) {
+        for (int i = 0; i < entryList.size(); ++i) {
             EditText drug = (EditText) findViewById(entryList.get(i));
             drugList.add(drug.getText().toString());
         }
@@ -298,19 +466,19 @@ public class Database extends AppCompatActivity {
 
 
     // creates a new button for controls in control screen
-    private Button createNewResultButton(String text){
+    private Button createNewResultButton(String text) {
         final Button button = new Button(this);
         final LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        buttonParams.setMargins(8,8,8,8);
+        buttonParams.setMargins(8, 8, 8, 8);
         button.setLayoutParams(buttonParams);
         button.setText(text);
         button.setBackgroundColor(getResources().getColor(R.color.backgroundRed));
         button.setGravity(Gravity.CENTER_HORIZONTAL);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ((ViewGroup)v.getParent()).removeView(v);
+                ((ViewGroup) v.getParent()).removeView(v);
                 printResult();
-                LinearLayout linearLayout = (LinearLayout)findViewById(R.id.resultTab);
+                LinearLayout linearLayout = (LinearLayout) findViewById(R.id.resultTab);
                 linearLayout.addView(createNewResultButton("Check Input"));
                 linearLayout.addView(createAddButton("Add to database"));
             }
@@ -344,28 +512,69 @@ public class Database extends AppCompatActivity {
     }
 
     // creates Button, which enables user to send disease to database
-    private Button createAddButton(String text){
+    private Button createAddButton(String text) {
         final Button button = new Button(this);
         final LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        buttonParams.setMargins(8,8,8,8);
+        buttonParams.setMargins(8, 8, 8, 8);
         button.setLayoutParams(buttonParams);
         button.setText(text);
         button.setBackgroundColor(getResources().getColor(R.color.backgroundRed));
         button.setGravity(Gravity.CENTER_HORIZONTAL);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                ((ViewGroup)v.getParent()).removeView(v);
-                printResult();
-                LinearLayout linearLayout = (LinearLayout)findViewById(R.id.resultTab);
-                linearLayout.addView(createNewResultButton("Check Input"));
+                LinearLayout printArea = (LinearLayout) findViewById(R.id.resultTab);
+                printArea.removeAllViews();
+                printArea.addView(createNewResultButton("Check Input"));
+                try {
+                    addDiseaseToDatabase();
+                    resetAllFields();
+                } catch (Exception e) {
+                    Log.d(LOG_TAG, e.getMessage());
+                }
+                Toast.makeText(getApplicationContext(), "added successfully", Toast.LENGTH_LONG).show();
             }
         });
         return button;
     }
 
+    // adds disease to database with all relations to medication and blood
+    private void addDiseaseToDatabase() {
+
+        List<String> drugList = getDrugs();
+        List<MedicationRecord> medicationList = new ArrayList<>();
+
+        // if drug exists in database it is saved in list
+        // if drug does not exist in database it is created
+        for (int i = 0; i < drugList.size(); i++) {
+            MedicationRecord drug = MedicationOps.getDrug(drugList.get(i), dataSource.database);
+            if (drug.getId() == -1) {
+                medicationList.add(MedicationOps.createMedicationRecord(drugList.get(i), dataSource.database));
+            }
+            else{
+                medicationList.add(drug);
+            }
+        }
+
+        // inserts Blood record into database
+        BloodRecord insertedBloodRecord = BloodOps.createBloodRecord(getLeukoMin(), getLeukoMax(), getEryMin(), getEryMax(), getHemoglobinMin(), getHemoglobinMax(), getHematocritMin(), getHematocritMax(),
+                getMCVMin(), getMCVMax(), getMCHMin(), getMCHMax(), getMCHCMin(), getMCHCMax(), getPlateletMin(), getPlateletMax(), getReticulocytesMin(), getReticulocytesMax(),
+                getMPVMin(), getMPVMax(), getRDWMin(), getRDWMax(), dataSource.database);
+
+        // inserts disease into database
+        DiseaseRecord insertedDiseaseRecord = DiseaseOps.createDiseaseRecord(getDisease(), dataSource.database);
+
+        // inserts relation between disease and blood record
+        DiseaseBloodOps.createDiseaseBloodRelationRecord(insertedBloodRecord.getId(), insertedDiseaseRecord.getId(), dataSource.database);
+
+        // inserts relation between disease and medication
+        for (int i = 0; i < medicationList.size(); i++) {
+            DiseaseMedicationOps.createDiseaseMedicationRelationRecord(insertedDiseaseRecord.getId(), medicationList.get(i).getId(), dataSource.database);
+        }
+    }
+
     // prints result to result screen
-    public void printResult(){
-        LinearLayout linearLayout = (LinearLayout)findViewById(R.id.resultTab);
+    public void printResult() {
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.resultTab);
         linearLayout.removeAllViews();
         linearLayout.addView(createNewLinearLayoutDisease(createNewTextView(getString(R.string.disease)), createNewTextView(getDisease())));
         linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.leukocyte)), createNewTextView(getLeukoMin()), createNewTextView(getLeukoMax())));
@@ -380,13 +589,12 @@ public class Database extends AppCompatActivity {
         linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.mpv)), createNewTextView(getMPVMin()), createNewTextView(getMPVMax())));
         linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.rdw)), createNewTextView(getRDWMin()), createNewTextView(getRDWMax())));
         List<String> drugList = getDrugs();
-        for (int i = 0; i < drugList.size(); i++){
+        for (int i = 0; i < drugList.size(); i++) {
 
-            if (!drugList.get(i).equals("") && !firstRun){
+            if (!drugList.get(i).equals("") && !firstRun) {
                 linearLayout.addView(createNewLinearLayoutDisease(createNewTextView("Medication"), createNewTextView(drugList.get(i))));
                 firstRun = true;
-            }
-            else if (!drugList.get(i).equals("") && firstRun){
+            } else if (!drugList.get(i).equals("") && firstRun) {
                 linearLayout.addView(createNewLinearLayoutDisease(createNewTextView(""), createNewTextView(drugList.get(i))));
             }
         }
