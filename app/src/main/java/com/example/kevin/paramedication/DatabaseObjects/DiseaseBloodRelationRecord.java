@@ -21,7 +21,7 @@ public class DiseaseBloodRelationRecord {
         this.id = id;
     }
 
-    private int getBloodId() {
+    public int getBloodId() {
         return bloodId;
     }
 
@@ -29,7 +29,7 @@ public class DiseaseBloodRelationRecord {
         this.bloodId = bloodId;
     }
 
-    private int getDiseaseId() {
+    public int getDiseaseId() {
         return diseaseId;
     }
 

@@ -11,10 +11,10 @@ import com.example.kevin.paramedication.DatabaseObjects.MedicationRecord;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.kevin.paramedication.MainActivity.LOG_TAG;
-
 
 public class MedicationOperations {
+
+    private static final String LOG_TAG = MedicationOperations.class.getSimpleName();
 
     private String[] medColumns = {
             MedicationTableContract.MedicationTableEntry._ID,
@@ -22,6 +22,11 @@ public class MedicationOperations {
     };
 
     public MedicationRecord createMedicationRecord(String name, SQLiteDatabase database) {
+
+        if (name.equals("")){
+            Log.d(LOG_TAG, "Cannot insert empty Drug.");
+            return new MedicationRecord(-1, "-1");
+        }
 
         List<MedicationRecord> currentDatabase = getAllMedicationRecords(database);
         for (int i = 0; i < currentDatabase.size(); i++) {
@@ -63,7 +68,7 @@ public class MedicationOperations {
     }
 
 
-    private List<MedicationRecord> getAllMedicationRecords(SQLiteDatabase database) {
+    public List<MedicationRecord> getAllMedicationRecords(SQLiteDatabase database) {
         List<MedicationRecord> List = new ArrayList<>();
 
         Cursor cursor = database.query(MedicationTableContract.MedicationTableEntry.TABLE_NAME,

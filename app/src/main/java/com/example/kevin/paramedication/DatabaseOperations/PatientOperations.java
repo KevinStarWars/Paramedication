@@ -13,43 +13,59 @@ import java.util.List;
 
 import static com.example.kevin.paramedication.MainActivity.LOG_TAG;
 
-/**
- * Created by kevin on 08.06.17.
- */
 
 public class PatientOperations {
 
     private String[] patientColumns = {
             PatientTableContract.PatientTableEntry._ID,
-            PatientTableContract.PatientTableEntry.COLUMN_HOSPITAL_ID
+            PatientTableContract.PatientTableEntry.COLUMN_HOSPITAL_ID,
+            PatientTableContract.PatientTableEntry.COLUMN_GENDER
     };
 
-    public PatientRecord createPatientRecord(String name, SQLiteDatabase database) {
+    public PatientRecord createPatientRecord(String name, String gender, SQLiteDatabase database) {
 
-        ContentValues values = new ContentValues();
-        values.put(PatientTableContract.PatientTableEntry.COLUMN_HOSPITAL_ID, name);
+        try {
+            List<PatientRecord> currentDatabase = getAllPatientRecords(database);
 
-        long insertId = database.insert(PatientTableContract.PatientTableEntry.TABLE_NAME, null, values);
+            if (name.isEmpty()){name = "0";}
 
-        Cursor cursor = database.query(PatientTableContract.PatientTableEntry.TABLE_NAME, patientColumns,
-                PatientTableContract.PatientTableEntry._ID + "=" + insertId, null, null, null, null);
+            for (int i = 0; i < currentDatabase.size(); i++){
+                if (Long.parseLong(name) == currentDatabase.get(i).getHospitalId()){
+                    return currentDatabase.get(i);
+                }
+            }
 
-        cursor.moveToFirst();
-        PatientRecord record = cursorToPatientRecord(cursor);
-        cursor.close();
+            ContentValues values = new ContentValues();
+            values.put(PatientTableContract.PatientTableEntry.COLUMN_HOSPITAL_ID, name);
+            values.put(PatientTableContract.PatientTableEntry.COLUMN_GENDER, gender);
 
-        return record;
+            long insertId = database.insert(PatientTableContract.PatientTableEntry.TABLE_NAME, null, values);
+
+            Cursor cursor = database.query(PatientTableContract.PatientTableEntry.TABLE_NAME, patientColumns,
+                    PatientTableContract.PatientTableEntry._ID + "=" + insertId, null, null, null, null);
+
+            cursor.moveToFirst();
+            PatientRecord record = cursorToPatientRecord(cursor);
+            cursor.close();
+
+            return record;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new PatientRecord(-1,-1,"male");
+        }
     }
 
     private PatientRecord cursorToPatientRecord(Cursor cursor) {
 
         int idIndex = cursor.getColumnIndex(PatientTableContract.PatientTableEntry._ID);
         int idHospital = cursor.getColumnIndex(PatientTableContract.PatientTableEntry.COLUMN_HOSPITAL_ID);
+        int idGender = cursor.getColumnIndex(PatientTableContract.PatientTableEntry.COLUMN_GENDER);
 
         int id = cursor.getInt(idIndex);
         long hospitalId = cursor.getLong(idHospital);
+        String gender = cursor.getString(idGender);
 
-        return new PatientRecord(id, hospitalId);
+        return new PatientRecord(id, hospitalId, gender);
     }
 
     public List<PatientRecord> getAllPatientRecords(SQLiteDatabase database) {
@@ -64,7 +80,7 @@ public class PatientOperations {
         while (!cursor.isAfterLast()) {
             record = cursorToPatientRecord(cursor);
             List.add(record);
-            Log.d(LOG_TAG, "ID: " + record.getId() + ", Content: " + record.print());
+            Log.d(LOG_TAG, "ID: " + record.getId() + ", Content: " + record.toString());
             cursor.moveToNext();
         }
         cursor.close();

@@ -108,19 +108,26 @@
         </LinearLayout>
 
         <android.support.v4.widget.NestedScrollView
-            android:id="@+id/editableSpace"
             android:layout_width="0dp"
             android:layout_weight="10"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
             <LinearLayout
+                android:id="@+id/editableSpace"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-            <EditText
+            <LinearLayout
+                android:id="@+id/printArea"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            <AutoCompleteTextView
                 android:id="@+id/PatientID"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
+                android:inputType="phone"
                 android:layout_margin="16dp"
                 android:hint="@string/entryHint"/>
             <Button
@@ -130,6 +137,7 @@
                 android:layout_margin="16dp"
                 android:layout_gravity="center_horizontal"
                 android:text="@string/buttonString"/>
+            </LinearLayout>
             </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

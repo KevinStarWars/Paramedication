@@ -20,9 +20,9 @@
     <string name="MCH">MCH [pg/Zelle]</string>
     <string name="mchc">MCHC [g/dl] </string>
     <string name="platelet">Platelet [1/µl]</string>
-    <string name="reticulocytes">Reticulocytes</string>
-    <string name="mpv">MPV</string>
-    <string name="rdw">RDW</string>
+    <string name="reticulocytes">Reticulocytes [1/1000 erythrocytes]</string>
+    <string name="mpv">MPV [fL]</string>
+    <string name="rdw">RDW [Mio./µl]</string>
     <string name="leukocyteval">Leukocyte val</string>
     <string name="erythrocyteval">Erythrocyte val</string>
     <string name="hemoglobinval">Hemoglobin val</string>
@@ -59,4 +59,8 @@
     <!--strings used in Patients-->
     <string name="entryHint">Patient ID</string>
     <string name="buttonString">See Data</string>
+    <string name="female">Female</string>
+    <string name="male">Male</string>
+
+    <array name="xyz">hallo</array>
 </resources>

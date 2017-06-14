@@ -16,6 +16,9 @@ public class BloodCountRecord {
     private double mpv;
     private double rdw;
 
+    public BloodCountRecord() {
+    }
+
     public BloodCountRecord(int id, double leukocyte, double erythrocyte, double hemoglobin, double hematocrit,
                             double mcv, double mch, double mchc, double platelet, double reticulocytes, double mpv,
                             double rdw) {

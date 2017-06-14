@@ -57,7 +57,7 @@ public class DiseaseOperations {
         return new DiseaseRecord(id, name);
     }
 
-    private List<DiseaseRecord> getAllDiseaseRecords(SQLiteDatabase database) {
+    public List<DiseaseRecord> getAllDiseaseRecords(SQLiteDatabase database) {
         List<DiseaseRecord> List = new ArrayList<>();
 
         Cursor cursor = database.query(DiseaseTableContract.DiseaseTableEntry.TABLE_NAME,

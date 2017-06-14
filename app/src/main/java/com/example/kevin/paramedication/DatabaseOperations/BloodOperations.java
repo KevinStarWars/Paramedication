@@ -13,10 +13,6 @@ import java.util.List;
 
 import static com.example.kevin.paramedication.MainActivity.LOG_TAG;
 
-/**
- * Created by kevin on 08.06.17.
- */
-
 public class BloodOperations {
 
     private String[] bloodColumns = {
@@ -153,12 +149,23 @@ public class BloodOperations {
         while (!cursor.isAfterLast()) {
             record = cursorToBloodRecord(cursor);
             List.add(record);
-            Log.d(LOG_TAG, "ID: " + record.getId() + ", Content: " + record.print());
+            Log.d(LOG_TAG, "ID: " + record.getId() + ", Content: " + record.toString());
             cursor.moveToNext();
         }
         cursor.close();
 
         return List;
+    }
+
+    public BloodRecord getBloodRecordById(int id, SQLiteDatabase database){
+        Cursor cursor = database.query(BloodTableContract.BloodTableEntry.TABLE_NAME, bloodColumns,
+                BloodTableContract.BloodTableEntry._ID + "=" + id, null, null, null, null);
+
+        cursor.moveToFirst();
+        BloodRecord record = cursorToBloodRecord(cursor);
+        cursor.close();
+
+        return record;
     }
 
 }

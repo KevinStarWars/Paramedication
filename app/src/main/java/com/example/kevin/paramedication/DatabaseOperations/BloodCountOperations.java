@@ -31,9 +31,37 @@ public class BloodCountOperations {
             BloodCountTableContract.BloodCountTableEntry.COLUMN_RDW
     };
 
+    // creates new entry or returns old entry if entry is already in database
     public BloodCountRecord createBloodCountRecord(String leukocyte, String erythrocyte, String hemoglobin, String hematocrit,
                                                    String mcv, String mch, String mchc, String platelet, String reticulocytes,
                                                    String mpv, String rdw, SQLiteDatabase database) {
+
+        List<BloodCountRecord> currentDatabase = getAllBloodCountRecords(database);
+        for (int i = 0; i < currentDatabase.size(); i++){
+            if (currentDatabase.get(i).getLeukocyte() == Double.parseDouble(leukocyte)){
+                if (currentDatabase.get(i).getErythrocyte() == Double.parseDouble(erythrocyte)){
+                    if (currentDatabase.get(i).getHemoglobin() == Double.parseDouble(hemoglobin)){
+                        if (currentDatabase.get(i).getHematocrit()== Double.parseDouble(hematocrit)){
+                            if (currentDatabase.get(i).getMcv() == Double.parseDouble(mcv)){
+                                if (currentDatabase.get(i).getMch() == Double.parseDouble(mch)){
+                                    if (currentDatabase.get(i).getMchc() == Double.parseDouble(mchc)){
+                                        if (currentDatabase.get(i).getPlatelet() == Double.parseDouble(platelet)){
+                                            if (currentDatabase.get(i).getReticulocytes() == Double.parseDouble(reticulocytes)){
+                                                if (currentDatabase.get(i).getMpv() == Double.parseDouble(mpv)){
+                                                    if (currentDatabase.get(i).getRdw() == Double.parseDouble(rdw)){
+                                                        return currentDatabase.get(i);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         ContentValues values = new ContentValues();
         values.put(BloodCountTableContract.BloodCountTableEntry.COLUMN_LEUKOCYTE, leukocyte);
@@ -113,5 +141,7 @@ public class BloodCountOperations {
 
         return List;
     }
+
+
 
 }

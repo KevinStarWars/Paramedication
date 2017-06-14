@@ -55,6 +55,9 @@ public class BloodRecord {
         this.rdwMax = rdwMax;
     }
 
+    public BloodRecord() {
+    }
+
     public int getId() {
         return id;
     }
@@ -239,10 +242,58 @@ public class BloodRecord {
         this.rdwMax = rdwMax;
     }
 
-    //TODO print function
-
-    public String print() {
-        return "yet to be implemented";
+    @Override
+    public String toString() {
+        return "BloodRecord{" +
+                "id=" + id +
+                ", leukocyteMin=" + leukocyteMin +
+                ", leukocyteMax=" + leukocyteMax +
+                ", erythrocyteMin=" + erythrocyteMin +
+                ", erythrocyteMax=" + erythrocyteMax +
+                ", hemoglobinMin=" + hemoglobinMin +
+                ", hemoglobinMax=" + hemoglobinMax +
+                ", hematocritMin=" + hematocritMin +
+                ", hematocritMax=" + hematocritMax +
+                ", mcvMin=" + mcvMin +
+                ", mcvMax=" + mcvMax +
+                ", mchMin=" + mchMin +
+                ", mchMax=" + mchMax +
+                ", mchcMin=" + mchcMin +
+                ", mchcMax=" + mchcMax +
+                ", plateletMin=" + plateletMin +
+                ", plateletMax=" + plateletMax +
+                ", reticulocytesMin=" + reticulocytesMin +
+                ", reticulocytesMax=" + reticulocytesMax +
+                ", mpvMin=" + mpvMin +
+                ", mpvMax=" + mpvMax +
+                ", rdwMin=" + rdwMin +
+                ", rdwMax=" + rdwMax +
+                '}';
     }
 
+    public void initializeWithObject(BloodRecord record) {
+        this.id = record.getId();
+        this.leukocyteMin = record.getLeukocyteMin();
+        this.leukocyteMax = record.getLeukocyteMax();
+        this.erythrocyteMin = record.getErythrocyteMin();
+        this.erythrocyteMax = record.getErythrocyteMax();
+        this.hemoglobinMin = record.getHemoglobinMin();
+        this.hemoglobinMax = record.getHemoglobinMax();
+        this.hematocritMin = record.getHematocritMin();
+        this.hematocritMax = record.getHematocritMax();
+        this.mcvMin = record.getMcvMin();
+        this.mcvMax = record.getMcvMax();
+        this.mchMin = record.getMchMin();
+        this.mchMax = record.getMchMax();
+        this.mchcMin = record.getMchcMin();
+        this.mchcMax = record.getMchcMax();
+        this.plateletMin = record.getPlateletMin();
+        this.plateletMax = record.getPlateletMax();
+        this.reticulocytesMin = record.getReticulocytesMin();
+        this.reticulocytesMax = record.getReticulocytesMax();
+        this.mpvMin = record.getMpvMin();
+        this.mpvMax = record.getMpvMax();
+        this.rdwMin = record.getRdwMin();
+        this.rdwMax = record.getRdwMax();
+    }
 }

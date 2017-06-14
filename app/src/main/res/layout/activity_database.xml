@@ -574,19 +574,18 @@
                                     android:padding="16dp">
 
                                     <TextView
-                                        android:layout_width="0dp"
+                                        android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:layout_weight="1"
                                         android:text="@string/drug"
                                         android:textColor="@color/textColor"
                                         android:textSize="15sp" />
 
-                                    <EditText
+                                    <AutoCompleteTextView
                                         android:id="@+id/drug1"
-                                        android:layout_width="0dp"
+                                        android:layout_marginStart="16dp"
+                                        android:layout_width="match_parent"
                                         android:textColor="@color/textColor"
                                         android:layout_height="wrap_content"
-                                        android:layout_weight="1"
                                         android:hint="@string/drug" />
                                 </LinearLayout>
 

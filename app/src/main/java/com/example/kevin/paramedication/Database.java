@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -65,15 +67,17 @@ public class Database extends AppCompatActivity {
         Log.d(LOG_TAG, "Opening database.");
         dataSource.open();
 
+        enableAutocomplete();
         addToEntryList();
         configTabs();
+
         // Config add more Button in Medication tab
         Button button = (Button) findViewById(R.id.addButton);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 ((ViewGroup) v.getParent()).removeView(v);
                 LinearLayout linearLayout = (LinearLayout) findViewById(R.id.drugs);
-                linearLayout.addView(createNewLinearLayoutMedication(createNewTextView("Drug"), createNewEntry()));
+                linearLayout.addView(createNewLinearLayoutMedication(createNewDrugTextView("Drug"), createNewEntry()));
                 linearLayout.addView(createNewButton("Add more"));
             }
         });
@@ -162,6 +166,7 @@ public class Database extends AppCompatActivity {
                 R.id.reticulocytesMax, R.id.mpvMin, R.id.mpvMax, R.id.rdwMin, R.id.rdwMax};
         List<Integer> fields = new ArrayList<>();
         fields.addAll(Arrays.asList(fieldArray));
+
         for (int i = 0; i < entryList.size(); i++) {
             fields.add(entryList.get(i));
         }
@@ -402,6 +407,31 @@ public class Database extends AppCompatActivity {
 
     /*_____________________________________Disease Medication___________________________________*/
 
+    private void enableAutocomplete(){
+        AutoCompleteTextView entry = (AutoCompleteTextView) findViewById(R.id.drug1);
+        List<MedicationRecord> records = MedicationOps.getAllMedicationRecords(dataSource.database);
+        List<String> tmpList = new ArrayList<>();
+
+        for (int i = 0; i < records.size(); i++){
+            tmpList.add(records.get(i).getDrugName());
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.dropdownlist, tmpList);
+        entry.setAdapter(adapter);
+    }
+
+    // Creates a new default TextView
+    private TextView createNewDrugTextView(String text) {
+        final TextView textView = new TextView(this);
+        final LinearLayout.LayoutParams textViewParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        textView.setLayoutParams(textViewParams);
+        textView.setPadding(16, 16, 16, 16);
+        textView.setTextSize(15);
+        textView.setTextColor(Color.parseColor("#47525E"));
+        textView.setText(text);
+        return textView;
+    }
+
     // add default field to entryList
     private void addToEntryList() {
         EditText drugEntry = (EditText) findViewById(R.id.drug1);
@@ -409,7 +439,7 @@ public class Database extends AppCompatActivity {
     }
 
     // Creates Layout which surrounds TextView and EditText of Medication
-    private LinearLayout createNewLinearLayoutMedication(TextView TView, EditText entry) {
+    private LinearLayout createNewLinearLayoutMedication(TextView TView, AutoCompleteTextView entry) {
         final LinearLayout linear = new LinearLayout(this);
         final LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         linear.setLayoutParams(layoutParams);
@@ -421,14 +451,24 @@ public class Database extends AppCompatActivity {
     }
 
     // Creates a new default EditText
-    private EditText createNewEntry() {
-        final EditText entry = new EditText(this);
-        final LinearLayout.LayoutParams entryViewParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
-        entry.setLayoutParams(entryViewParams);
+    private AutoCompleteTextView createNewEntry() {
+
+        AutoCompleteTextView entry = new AutoCompleteTextView(this);
         entry.setHint("Drug");
+        entry.setDropDownWidth(500);
         entry.setId(View.generateViewId());
-        Integer idInteger = Integer.valueOf(entry.getId());
-        entryList.add(idInteger);
+
+        entryList.add(entry.getId());
+
+        List<MedicationRecord> records = MedicationOps.getAllMedicationRecords(dataSource.database);
+        List<String> tmpList = new ArrayList<>();
+
+        for (int i = 0; i < records.size(); i++){
+            tmpList.add(records.get(i).getDrugName());
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.dropdownlist, tmpList);
+        entry.setAdapter(adapter);
         return entry;
     }
 
@@ -445,7 +485,7 @@ public class Database extends AppCompatActivity {
             public void onClick(View v) {
                 ((ViewGroup) v.getParent()).removeView(v);
                 LinearLayout linearLayout = (LinearLayout) findViewById(R.id.drugs);
-                linearLayout.addView(createNewLinearLayoutMedication(createNewTextView("Drug"), createNewEntry()));
+                linearLayout.addView(createNewLinearLayoutMedication(createNewDrugTextView("Drug"), createNewEntry()));
                 linearLayout.addView(createNewButton("Add more"));
             }
         });
@@ -575,6 +615,7 @@ public class Database extends AppCompatActivity {
     // prints result to result screen
     public void printResult() {
         LinearLayout linearLayout = (LinearLayout) findViewById(R.id.resultTab);
+        List<String> drugList = getDrugs();
         linearLayout.removeAllViews();
         linearLayout.addView(createNewLinearLayoutDisease(createNewTextView(getString(R.string.disease)), createNewTextView(getDisease())));
         linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.leukocyte)), createNewTextView(getLeukoMin()), createNewTextView(getLeukoMax())));
@@ -588,7 +629,6 @@ public class Database extends AppCompatActivity {
         linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.reticulocytes)), createNewTextView(getReticulocytesMin()), createNewTextView(getReticulocytesMax())));
         linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.mpv)), createNewTextView(getMPVMin()), createNewTextView(getMPVMax())));
         linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.rdw)), createNewTextView(getRDWMin()), createNewTextView(getRDWMax())));
-        List<String> drugList = getDrugs();
         for (int i = 0; i < drugList.size(); i++) {
 
             if (!drugList.get(i).equals("") && !firstRun) {

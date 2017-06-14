@@ -5,10 +5,15 @@ public class PatientRecord {
 
     private int id;
     private long hospitalId;
+    private String gender;
 
-    public PatientRecord(int id, long hospitalId) {
+    public PatientRecord() {
+    }
+
+    public PatientRecord(int id, long hospitalId, String gender) {
         this.id = id;
         this.hospitalId = hospitalId;
+        this.gender = gender;
     }
 
     public int getId() {
@@ -19,16 +24,28 @@ public class PatientRecord {
         this.id = id;
     }
 
-    public void setHospitalId(long hospitalId) {
-        this.hospitalId = hospitalId;
-    }
-
     public long getHospitalId() {
         return hospitalId;
     }
 
-    public String print(){
-        return "ID: " + this.id + " Hospital ID: " + this.hospitalId;
+    public void setHospitalId(long hospitalId) {
+        this.hospitalId = hospitalId;
     }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    @Override
+    public String toString() {
+        return "PatientRecord{" +
+                "id=" + id +
+                ", hospitalId=" + hospitalId +
+                ", gender='" + gender + '\'' +
+                '}';
+    }
 }

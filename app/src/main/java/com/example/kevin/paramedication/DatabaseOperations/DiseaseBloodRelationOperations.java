@@ -24,6 +24,15 @@ public class DiseaseBloodRelationOperations {
 
     public DiseaseBloodRelationRecord createDiseaseBloodRelationRecord(int bloodId, int diseaseId, SQLiteDatabase database) {
 
+        List<DiseaseBloodRelationRecord> currentDatabase = getAllDiseaseBloodRelationRecord(database);
+        for (int i = 0; i < currentDatabase.size(); i++){
+            if (currentDatabase.get(i).getBloodId() == bloodId){
+                if (currentDatabase.get(i).getDiseaseId() == diseaseId){
+                    return currentDatabase.get(i);
+                }
+            }
+        }
+
         ContentValues values = new ContentValues();
         values.put(DiseaseBloodTableContract.DiseaseBloodEntry.COLUMN_BLOOD_ID, bloodId);
         values.put(DiseaseBloodTableContract.DiseaseBloodEntry.COLUMN_DISEASE_ID, diseaseId);

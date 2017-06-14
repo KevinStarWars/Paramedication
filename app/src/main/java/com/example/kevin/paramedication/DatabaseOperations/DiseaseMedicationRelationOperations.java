@@ -22,11 +22,6 @@ public class DiseaseMedicationRelationOperations {
             DiseaseMedicationTableContract.DiseaseMedicationEntry.COLUMN_DRUG_ID
     };
 
-
-
-
-
-
     public DiseaseMedicationRelationRecord createDiseaseMedicationRelationRecord(int diseaseId, int drugId, SQLiteDatabase database) {
 
         ContentValues values = new ContentValues();
