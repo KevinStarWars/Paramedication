@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Gravity;
@@ -14,6 +15,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,21 +23,16 @@ import android.widget.Toast;
 import com.example.kevin.paramedication.DatabaseObjects.BloodRecord;
 import com.example.kevin.paramedication.DatabaseObjects.DiseaseRecord;
 import com.example.kevin.paramedication.DatabaseObjects.MedicationRecord;
-import com.example.kevin.paramedication.DatabaseOperations.BloodCountOperations;
 import com.example.kevin.paramedication.DatabaseOperations.BloodOperations;
 import com.example.kevin.paramedication.DatabaseOperations.DbDataSource;
 import com.example.kevin.paramedication.DatabaseOperations.DiseaseBloodRelationOperations;
 import com.example.kevin.paramedication.DatabaseOperations.DiseaseMedicationRelationOperations;
 import com.example.kevin.paramedication.DatabaseOperations.DiseaseOperations;
-import com.example.kevin.paramedication.DatabaseOperations.MedicationInteractionOperations;
 import com.example.kevin.paramedication.DatabaseOperations.MedicationOperations;
-import com.example.kevin.paramedication.DatabaseOperations.PatientBloodcountOperations;
-import com.example.kevin.paramedication.DatabaseOperations.PatientDiseaseOperations;
-import com.example.kevin.paramedication.DatabaseOperations.PatientMedicationOperations;
-import com.example.kevin.paramedication.DatabaseOperations.PatientOperations;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class Database extends AppCompatActivity {
@@ -45,17 +42,11 @@ public class Database extends AppCompatActivity {
     List<Integer> entryList = new ArrayList<>();
     boolean firstRun = false;
     private DbDataSource dataSource;
-    private BloodCountOperations BloodCountOps = new BloodCountOperations();
     private BloodOperations BloodOps = new BloodOperations();
     private DiseaseBloodRelationOperations DiseaseBloodOps = new DiseaseBloodRelationOperations();
     private DiseaseMedicationRelationOperations DiseaseMedicationOps = new DiseaseMedicationRelationOperations();
     private DiseaseOperations DiseaseOps = new DiseaseOperations();
-    private MedicationInteractionOperations MedicationInteractionOps = new MedicationInteractionOperations();
     private MedicationOperations MedicationOps = new MedicationOperations();
-    private PatientBloodcountOperations PatientBloodcountOps = new PatientBloodcountOperations();
-    private PatientDiseaseOperations PatientDiseaseOps = new PatientDiseaseOperations();
-    private PatientMedicationOperations PatientMedicationOps= new PatientMedicationOperations();
-    private PatientOperations PatientOps = new PatientOperations();
 
     // onCreate method determines which Activity is in use
     @Override
@@ -67,37 +58,19 @@ public class Database extends AppCompatActivity {
         Log.d(LOG_TAG, "Opening database.");
         dataSource.open();
 
-        enableAutocomplete();
+        enableAutocomplete(R.id.drug1);
+        setOnClickListenerForAutoCompleteTextView(R.id.drug1);
         addToEntryList();
         configTabs();
-
-        // Config add more Button in Medication tab
-        Button button = (Button) findViewById(R.id.addButton);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                ((ViewGroup) v.getParent()).removeView(v);
-                LinearLayout linearLayout = (LinearLayout) findViewById(R.id.drugs);
-                linearLayout.addView(createNewLinearLayoutMedication(createNewDrugTextView("Drug"), createNewEntry()));
-                linearLayout.addView(createNewButton("Add more"));
-            }
-        });
-
-        // Configs check Input Button in Control Screen tab
-        Button getResultButton = (Button) findViewById(R.id.getResult);
-        getResultButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                ((ViewGroup) v.getParent()).removeView(v);
-                printResult();
-                LinearLayout linearLayout = (LinearLayout) findViewById(R.id.resultTab);
-                linearLayout.addView(createNewResultButton("Check Input"));
-                linearLayout.addView(createAddButton("Add to database"));
-            }
-        });
+        setOnClickListenerForRadioButtonFemale();
+        setOnClickListenerForRadioButtonMale();
+        setOnClickListenerForButtonInMedication();
+        setOnClickListenerForGetResultButton();
     }
 
     /*_____________________________________General______________________________________________*/
 
-    // Config Tabs
+    // Configs Tabs in Layout
     public void configTabs() {
         TabHost host = (TabHost) findViewById(R.id.tabHost);
         host.setup();
@@ -146,6 +119,32 @@ public class Database extends AppCompatActivity {
         this.startActivity(myIntent);
     }
 
+    // enables AutoCompleteTextViews to use Autocomplete on database entries
+    private void enableAutocomplete(int id) {
+        AutoCompleteTextView entry = (AutoCompleteTextView) findViewById(id);
+        List<MedicationRecord> records = MedicationOps.getAllMedicationRecords(dataSource.database);
+        List<String> tmpList = new ArrayList<>();
+
+        for (int i = 0; i < records.size(); i++) {
+            tmpList.add(records.get(i).getDrugName());
+        }
+
+        Collections.sort(tmpList);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.dropdownlist, tmpList);
+        entry.setAdapter(adapter);
+    }
+
+    private void setOnClickListenerForAutoCompleteTextView(int id){
+        final AutoCompleteTextView entry = (AutoCompleteTextView) findViewById(id);
+        entry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                entry.showDropDown();
+            }
+        });
+    }
+
     // Creates a new default TextView
     private TextView createNewTextView(String text) {
         final TextView textView = new TextView(this);
@@ -158,35 +157,365 @@ public class Database extends AppCompatActivity {
         return textView;
     }
 
-    // empties all editviews
-    private void resetAllFields() {
 
-        Integer[] fieldArray = new Integer[]{R.id.diseaseName, R.id.leukocyteMin, R.id.leukocyteMax, R.id.erythrocyteMin, R.id.erythrocyteMax, R.id.hemoglobinMin, R.id.hemoglobinMax,
-                R.id.hematocritMin, R.id.hematocritMax, R.id.mcvMin, R.id.mcvMax, R.id.mchMin, R.id.mchMax, R.id.mchcMin, R.id.mchcMax, R.id.plateletMin, R.id.plateletMax, R.id.reticulocytesMin,
-                R.id.reticulocytesMax, R.id.mpvMin, R.id.mpvMax, R.id.rdwMin, R.id.rdwMax};
-        List<Integer> fields = new ArrayList<>();
-        fields.addAll(Arrays.asList(fieldArray));
-
-        for (int i = 0; i < entryList.size(); i++) {
-            fields.add(entryList.get(i));
-        }
-        for (int i = 0; i < fields.size(); i++) {
-            EditText tmpEdit = (EditText) findViewById(fields.get(i));
-            tmpEdit.setText("");
-        }
+    // sets on click listener for female radio button
+    // enables:
+    // only one radio button is checkable
+    private void setOnClickListenerForRadioButtonFemale() {
+        final RadioButton femaleButton = (RadioButton) findViewById(R.id.femaleButtonDatabase);
+        femaleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RadioButton maleButton = (RadioButton) findViewById(R.id.maleButtonDatabase);
+                if (maleButton.isChecked()) {
+                    maleButton.setChecked(false);
+                }
+                femaleButton.setChecked(true);
+            }
+        });
     }
 
-    /*_____________________________________Disease Info_________________________________________*/
 
-    // get all entries from user
+    // sets on click listener for male radio button
+    // enables:
+    // only one radio button is checkable
+    private void setOnClickListenerForRadioButtonMale() {
+        final RadioButton maleButton = (RadioButton) findViewById(R.id.maleButtonDatabase);
+        maleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RadioButton femaleButton = (RadioButton) findViewById(R.id.femaleButtonDatabase);
+                if (femaleButton.isChecked()) {
+                    femaleButton.setChecked(false);
+                }
+                maleButton.setChecked(true);
+            }
+        });
+    }
+
+
+    // sets on click listener for button in medication interface
+    // enables:
+    // removes itself
+    // creation of another AutoCompleteTextView
+    private void setOnClickListenerForButtonInMedication() {
+        Button button = (Button) findViewById(R.id.addButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ((ViewGroup) v.getParent()).removeView(v);
+                LinearLayout linearLayout = (LinearLayout) findViewById(R.id.drugs);
+                linearLayout.addView(createNewLinearLayoutMedication(createNewDrugTextView("Drug"), createNewEntry()));
+                linearLayout.addView(createNewButton("Add more"));
+            }
+        });
+    }
+
+
+    // Creates Layout which surrounds TextView and EditText of Medication
+    private LinearLayout createNewLinearLayoutMedication(TextView TView, AutoCompleteTextView entry) {
+        final LinearLayout linear = new LinearLayout(this);
+        final LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        linear.setLayoutParams(layoutParams);
+        linear.setOrientation(LinearLayout.HORIZONTAL);
+        linear.setPadding(16, 16, 16, 16);
+        linear.addView(TView);
+        linear.addView(entry);
+        return linear;
+    }
+
+    // Creates a new default TextView
+    private TextView createNewDrugTextView(String text) {
+        final TextView textView = new TextView(this);
+        final LinearLayout.LayoutParams textViewParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        textView.setLayoutParams(textViewParams);
+        textView.setPadding(16, 16, 16, 16);
+        textView.setTextSize(15);
+        textView.setTextColor(Color.parseColor("#47525E"));
+        textView.setText(text);
+        return textView;
+    }
+
+    // Creates a new default EditText
+    private AutoCompleteTextView createNewEntry() {
+
+        final AutoCompleteTextView entry = new AutoCompleteTextView(this);
+        final LinearLayout.LayoutParams entryViewParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+        entryViewParams.setMargins(8, 8, 8, 8);
+        entry.setLayoutParams(entryViewParams);
+        entry.setId(View.generateViewId());
+
+        List<MedicationRecord> records = MedicationOps.getAllMedicationRecords(dataSource.database);
+        List<String> tmpList = new ArrayList<>();
+
+        for (int i = 0; i < records.size(); i++) {
+            tmpList.add(records.get(i).getDrugName());
+        }
+
+        Collections.sort(tmpList);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.dropdownlist, tmpList);
+        entry.setAdapter(adapter);
+
+        entry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                entry.showDropDown();
+            }
+        });
+
+        entryList.add(entry.getId());
+
+        //enableAutocomplete(entry.getId());
+        //setOnClickListenerForAutoCompleteTextView(entry.getId());
+        return entry;
+    }
+
+    // Creates a new button for new drugs in medication
+    private Button createNewButton(String text) {
+        final Button button = new Button(this);
+        final LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        buttonParams.setMargins(8, 8, 8, 8);
+        button.setLayoutParams(buttonParams);
+        button.setText(text);
+        button.setBackgroundColor(ContextCompat.getColor(this, R.color.backgroundRed));
+        button.setGravity(Gravity.CENTER_HORIZONTAL);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                ((ViewGroup) v.getParent()).removeView(v);
+                LinearLayout linearLayout = (LinearLayout) findViewById(R.id.drugs);
+                linearLayout.addView(createNewLinearLayoutMedication(createNewDrugTextView("Drug"), createNewEntry()));
+                linearLayout.addView(createNewButton("Add more"));
+            }
+        });
+        return button;
+    }
+
+
+    // sets on click listener for result button
+    // enables:
+    // if any radio button is checked and a disease name is entered:
+    // removes itself
+    // prints disease name, blood count, and medication to linear layout
+    // adds a button for checking the input and one for pushing data to database
+    private void setOnClickListenerForGetResultButton() {
+        Button getResultButton = (Button) findViewById(R.id.getResult);
+        getResultButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (radioButtonIsChecked()) {
+                    if (!getDisease().equals("")) {
+                        if (valuesAreValid()) {
+                            ((ViewGroup) v.getParent()).removeView(v);
+                            printResult();
+                            LinearLayout linearLayout = (LinearLayout) findViewById(R.id.resultTab);
+                            linearLayout.addView(createNewResultButton("Check Input"));
+                            linearLayout.addView(createAddButton("Add to database"));
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(), "Values are not valid.", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Please enter a valid drug name.", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please select Gender.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    // checks if any RadioButton is checked.
+    // returns true, if so. false if not
+    private boolean radioButtonIsChecked() {
+        RadioButton femaleButton = (RadioButton) findViewById(R.id.femaleButtonDatabase);
+        RadioButton maleButton = (RadioButton) findViewById(R.id.maleButtonDatabase);
+        return femaleButton.isChecked() || maleButton.isChecked();
+    }
+
+    // gets disease name from EditText
     @NonNull
     private String getDisease() {
         EditText entryField = (EditText) findViewById(R.id.diseaseName);
         return entryField.getText().toString();
     }
 
+    // prints result to result screen
+    public void printResult() {
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.resultTab);
+        linearLayout.removeAllViews();
+        printBloodRecord(linearLayout);
+        printDrugList(linearLayout);
+    }
+
+    // prints blood record which was entered
+    private void printBloodRecord(LinearLayout linearLayout) {
+        linearLayout.addView(createNewLinearLayoutDisease(createNewTextView(getString(R.string.disease)), createNewTextView(getDisease())));
+        linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.leukocyte)), createNewTextView(getLeukocyteMin()), createNewTextView(getLeukocyteMax())));
+        linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.erythrocyte)), createNewTextView(getErythrocyteMin()), createNewTextView(getErythrocyteMax())));
+        linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.hemoglobin)), createNewTextView(getHemoglobinMin()), createNewTextView(getHemoglobinMax())));
+        linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.hematocrit)), createNewTextView(getHematocritMin()), createNewTextView(getHematocritMax())));
+        linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.mcv)), createNewTextView(getMCVMin()), createNewTextView(getMCVMax())));
+        linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.MCH)), createNewTextView(getMCHMin()), createNewTextView(getMCHMax())));
+        linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.mchc)), createNewTextView(getMCHCMin()), createNewTextView(getMCHCMax())));
+        linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.platelet)), createNewTextView(getPlateletMin()), createNewTextView(getPlateletMax())));
+        linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.reticulocytes)), createNewTextView(getReticulocytesMin()), createNewTextView(getReticulocytesMax())));
+        linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.mpv)), createNewTextView(getMPVMin()), createNewTextView(getMPVMax())));
+        linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.rdw)), createNewTextView(getRDWMin()), createNewTextView(getRDWMax())));
+    }
+
+    // prints drugs which were entered
+    private void printDrugList(LinearLayout linearLayout) {
+        List<String> drugList = getDrugs();
+
+        for (int i = 0; i < drugList.size(); i++) {
+
+            if (!drugList.get(i).equals("") && !firstRun) {
+                linearLayout.addView(createNewLinearLayoutDisease(createNewTextView("Medication"), createNewTextView(drugList.get(i))));
+                firstRun = true;
+            } else if (!drugList.get(i).equals("") && firstRun) {
+                linearLayout.addView(createNewLinearLayoutDisease(createNewTextView(""), createNewTextView(drugList.get(i))));
+            }
+        }
+    }
+
+    // searches all EditTexts for Entries and returns List of Strings with drug names
+    private List<String> getDrugs() {
+        List<String> drugList = new ArrayList<>();
+        for (int i = 0; i < entryList.size(); ++i) {
+            EditText drug = (EditText) findViewById(entryList.get(i));
+            drugList.add(drug.getText().toString());
+        }
+        return drugList;
+    }
+
+    // creates new linear layout which surrounds three text views in Database control screen
+    private LinearLayout createNewLinearLayoutResult(TextView TViewI, TextView TViewII, TextView TViewIII) {
+        final LinearLayout linear = new LinearLayout(this);
+        final LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        linear.setLayoutParams(layoutParams);
+        linear.setOrientation(LinearLayout.HORIZONTAL);
+        linear.setPadding(8, 8, 8, 8);
+        linear.addView(TViewI);
+        linear.addView(TViewII);
+        linear.addView(TViewIII);
+        return linear;
+    }
+
+    // creates new linear layout for disease in result screen
+    private LinearLayout createNewLinearLayoutDisease(TextView TViewI, TextView TViewII) {
+        final LinearLayout linear = new LinearLayout(this);
+        final LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        linear.setLayoutParams(layoutParams);
+        linear.setOrientation(LinearLayout.HORIZONTAL);
+        linear.setPadding(8, 8, 8, 8);
+        linear.addView(TViewI);
+        linear.addView(TViewII);
+        return linear;
+    }
+
+    // creates a new button for controls in control screen
+    private Button createNewResultButton(String text) {
+        final Button button = new Button(this);
+        final LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        buttonParams.setMargins(8, 8, 8, 8);
+        button.setLayoutParams(buttonParams);
+        button.setText(text);
+        button.setBackgroundColor(ContextCompat.getColor(this, R.color.backgroundRed));
+        button.setGravity(Gravity.CENTER_HORIZONTAL);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (radioButtonIsChecked()) {
+                    if (!getDisease().equals("")) {
+                        if (valuesAreValid()) {
+                            ((ViewGroup) v.getParent()).removeView(v);
+                            printResult();
+                            LinearLayout linearLayout = (LinearLayout) findViewById(R.id.resultTab);
+                            linearLayout.addView(createNewResultButton("Check Input"));
+                            linearLayout.addView(createAddButton("Add to database"));
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(), "Values are not valid.", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Please enter a valid disease name", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please select Gender", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        return button;
+    }
+
+    // creates Button, which enables user to send disease to database
+    private Button createAddButton(String text) {
+        final Button button = new Button(this);
+        final LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        buttonParams.setMargins(8, 8, 8, 8);
+        button.setLayoutParams(buttonParams);
+        button.setText(text);
+        button.setBackgroundColor(ContextCompat.getColor(this, R.color.backgroundRed));
+        button.setGravity(Gravity.CENTER_HORIZONTAL);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                LinearLayout printArea = (LinearLayout) findViewById(R.id.resultTab);
+                printArea.removeAllViews();
+                printArea.addView(createNewResultButton("Check Input"));
+                addDiseaseToDatabase();
+                resetAllFields();
+                Toast.makeText(getApplicationContext(), "added successfully", Toast.LENGTH_SHORT).show();
+            }
+        });
+        return button;
+    }
+
+    // adds disease to database with all relations to medication and blood
+    private void addDiseaseToDatabase() {
+
+        List<String> drugList = getDrugs();
+        List<MedicationRecord> medicationList = new ArrayList<>();
+
+        // if drug exists in database it is saved in list
+        // if drug does not exist in database it is created
+        for (int i = 0; i < drugList.size(); i++) {
+            MedicationRecord drug = MedicationOps.getDrug(drugList.get(i), dataSource.database);
+            if (drug.getId() == -1) {
+                medicationList.add(MedicationOps.createMedicationRecord(drugList.get(i), dataSource.database));
+            } else {
+                medicationList.add(drug);
+            }
+        }
+
+        // inserts Blood record into database
+        BloodRecord insertedBloodRecord = BloodOps.createBloodRecord(getLeukocyteMin(), getLeukocyteMax(), getErythrocyteMin(), getErythrocyteMax(), getHemoglobinMin(), getHemoglobinMax(), getHematocritMin(), getHematocritMax(),
+                getMCVMin(), getMCVMax(), getMCHMin(), getMCHMax(), getMCHCMin(), getMCHCMax(), getPlateletMin(), getPlateletMax(), getReticulocytesMin(), getReticulocytesMax(),
+                getMPVMin(), getMPVMax(), getRDWMin(), getRDWMax(), getGender(), dataSource.database);
+
+        // inserts disease into database
+        DiseaseRecord insertedDiseaseRecord = DiseaseOps.createDiseaseRecord(getDisease(), dataSource.database);
+
+        // inserts relation between disease and blood record
+        DiseaseBloodOps.createDiseaseBloodRelationRecord(insertedBloodRecord.getId(), insertedDiseaseRecord.getId(), dataSource.database);
+
+        // inserts relation between disease and medication
+        for (int i = 0; i < medicationList.size(); i++) {
+            DiseaseMedicationOps.createDiseaseMedicationRelationRecord(insertedDiseaseRecord.getId(), medicationList.get(i).getId(), dataSource.database);
+        }
+    }
+
+    // get all entries from user
     @NonNull
-    private String getLeukoMin() {
+    private String getGender() {
+        RadioButton femalButton = (RadioButton) findViewById(R.id.femaleButtonDatabase);
+        if (femalButton.isChecked()) {
+            return "f";
+        } else {
+            return "m";
+        }
+    }
+
+    @NonNull
+    private String getLeukocyteMin() {
         EditText entryField = (EditText) findViewById(R.id.leukocyteMin);
         if (entryField.getText().toString().isEmpty()) {
             return "0";
@@ -196,7 +525,7 @@ public class Database extends AppCompatActivity {
     }
 
     @NonNull
-    private String getLeukoMax() {
+    private String getLeukocyteMax() {
         EditText entryField = (EditText) findViewById(R.id.leukocyteMax);
         if (entryField.getText().toString().isEmpty()) {
             return "0";
@@ -206,7 +535,7 @@ public class Database extends AppCompatActivity {
     }
 
     @NonNull
-    private String getEryMin() {
+    private String getErythrocyteMin() {
         EditText entryField = (EditText) findViewById(R.id.erythrocyteMin);
         if (entryField.getText().toString().isEmpty()) {
             return "0";
@@ -216,7 +545,7 @@ public class Database extends AppCompatActivity {
     }
 
     @NonNull
-    private String getEryMax() {
+    private String getErythrocyteMax() {
         EditText entryField = (EditText) findViewById(R.id.erythrocyteMax);
         if (entryField.getText().toString().isEmpty()) {
             return "0";
@@ -405,31 +734,22 @@ public class Database extends AppCompatActivity {
         }
     }
 
-    /*_____________________________________Disease Medication___________________________________*/
+    // empties all edit views
+    private void resetAllFields() {
 
-    private void enableAutocomplete(){
-        AutoCompleteTextView entry = (AutoCompleteTextView) findViewById(R.id.drug1);
-        List<MedicationRecord> records = MedicationOps.getAllMedicationRecords(dataSource.database);
-        List<String> tmpList = new ArrayList<>();
+        Integer[] fieldArray = new Integer[]{R.id.diseaseName, R.id.leukocyteMin, R.id.leukocyteMax, R.id.erythrocyteMin, R.id.erythrocyteMax, R.id.hemoglobinMin, R.id.hemoglobinMax,
+                R.id.hematocritMin, R.id.hematocritMax, R.id.mcvMin, R.id.mcvMax, R.id.mchMin, R.id.mchMax, R.id.mchcMin, R.id.mchcMax, R.id.plateletMin, R.id.plateletMax, R.id.reticulocytesMin,
+                R.id.reticulocytesMax, R.id.mpvMin, R.id.mpvMax, R.id.rdwMin, R.id.rdwMax};
+        List<Integer> fields = new ArrayList<>();
+        fields.addAll(Arrays.asList(fieldArray));
 
-        for (int i = 0; i < records.size(); i++){
-            tmpList.add(records.get(i).getDrugName());
+        for (int i = 0; i < entryList.size(); i++) {
+            fields.add(entryList.get(i));
         }
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.dropdownlist, tmpList);
-        entry.setAdapter(adapter);
-    }
-
-    // Creates a new default TextView
-    private TextView createNewDrugTextView(String text) {
-        final TextView textView = new TextView(this);
-        final LinearLayout.LayoutParams textViewParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        textView.setLayoutParams(textViewParams);
-        textView.setPadding(16, 16, 16, 16);
-        textView.setTextSize(15);
-        textView.setTextColor(Color.parseColor("#47525E"));
-        textView.setText(text);
-        return textView;
+        for (int i = 0; i < fields.size(); i++) {
+            EditText tmpEdit = (EditText) findViewById(fields.get(i));
+            tmpEdit.setText("");
+        }
     }
 
     // add default field to entryList
@@ -438,207 +758,18 @@ public class Database extends AppCompatActivity {
         entryList.add(drugEntry.getId());
     }
 
-    // Creates Layout which surrounds TextView and EditText of Medication
-    private LinearLayout createNewLinearLayoutMedication(TextView TView, AutoCompleteTextView entry) {
-        final LinearLayout linear = new LinearLayout(this);
-        final LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        linear.setLayoutParams(layoutParams);
-        linear.setOrientation(LinearLayout.HORIZONTAL);
-        linear.setPadding(16, 16, 16, 16);
-        linear.addView(TView);
-        linear.addView(entry);
-        return linear;
-    }
-
-    // Creates a new default EditText
-    private AutoCompleteTextView createNewEntry() {
-
-        AutoCompleteTextView entry = new AutoCompleteTextView(this);
-        entry.setHint("Drug");
-        entry.setDropDownWidth(500);
-        entry.setId(View.generateViewId());
-
-        entryList.add(entry.getId());
-
-        List<MedicationRecord> records = MedicationOps.getAllMedicationRecords(dataSource.database);
-        List<String> tmpList = new ArrayList<>();
-
-        for (int i = 0; i < records.size(); i++){
-            tmpList.add(records.get(i).getDrugName());
-        }
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.dropdownlist, tmpList);
-        entry.setAdapter(adapter);
-        return entry;
-    }
-
-    // Creates a new button for new drugs in medication
-    private Button createNewButton(String text) {
-        final Button button = new Button(this);
-        final LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        buttonParams.setMargins(8, 8, 8, 8);
-        button.setLayoutParams(buttonParams);
-        button.setText(text);
-        button.setBackgroundColor(getResources().getColor(R.color.backgroundRed));
-        button.setGravity(Gravity.CENTER_HORIZONTAL);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                ((ViewGroup) v.getParent()).removeView(v);
-                LinearLayout linearLayout = (LinearLayout) findViewById(R.id.drugs);
-                linearLayout.addView(createNewLinearLayoutMedication(createNewDrugTextView("Drug"), createNewEntry()));
-                linearLayout.addView(createNewButton("Add more"));
-            }
-        });
-        return button;
-    }
-
-    // searches all EditTexts for Entries and returns List of Strings with drug names
-    private List<String> getDrugs() {
-        List<String> drugList = new ArrayList<>();
-        for (int i = 0; i < entryList.size(); ++i) {
-            EditText drug = (EditText) findViewById(entryList.get(i));
-            drugList.add(drug.getText().toString());
-        }
-        return drugList;
-    }
-
-    /*_____________________________________Control Screen_______________________________________*/
-
-
-    // creates a new button for controls in control screen
-    private Button createNewResultButton(String text) {
-        final Button button = new Button(this);
-        final LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        buttonParams.setMargins(8, 8, 8, 8);
-        button.setLayoutParams(buttonParams);
-        button.setText(text);
-        button.setBackgroundColor(getResources().getColor(R.color.backgroundRed));
-        button.setGravity(Gravity.CENTER_HORIZONTAL);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                ((ViewGroup) v.getParent()).removeView(v);
-                printResult();
-                LinearLayout linearLayout = (LinearLayout) findViewById(R.id.resultTab);
-                linearLayout.addView(createNewResultButton("Check Input"));
-                linearLayout.addView(createAddButton("Add to database"));
-            }
-        });
-        return button;
-    }
-
-    // creates new linear layout which surrounds three text views in Database control screen
-    private LinearLayout createNewLinearLayoutResult(TextView TViewI, TextView TViewII, TextView TViewIII) {
-        final LinearLayout linear = new LinearLayout(this);
-        final LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        linear.setLayoutParams(layoutParams);
-        linear.setOrientation(LinearLayout.HORIZONTAL);
-        linear.setPadding(8, 8, 8, 8);
-        linear.addView(TViewI);
-        linear.addView(TViewII);
-        linear.addView(TViewIII);
-        return linear;
-    }
-
-    // creates new linear layout for disease in result screen
-    private LinearLayout createNewLinearLayoutDisease(TextView TViewI, TextView TViewII) {
-        final LinearLayout linear = new LinearLayout(this);
-        final LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        linear.setLayoutParams(layoutParams);
-        linear.setOrientation(LinearLayout.HORIZONTAL);
-        linear.setPadding(8, 8, 8, 8);
-        linear.addView(TViewI);
-        linear.addView(TViewII);
-        return linear;
-    }
-
-    // creates Button, which enables user to send disease to database
-    private Button createAddButton(String text) {
-        final Button button = new Button(this);
-        final LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        buttonParams.setMargins(8, 8, 8, 8);
-        button.setLayoutParams(buttonParams);
-        button.setText(text);
-        button.setBackgroundColor(getResources().getColor(R.color.backgroundRed));
-        button.setGravity(Gravity.CENTER_HORIZONTAL);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                LinearLayout printArea = (LinearLayout) findViewById(R.id.resultTab);
-                printArea.removeAllViews();
-                printArea.addView(createNewResultButton("Check Input"));
-                try {
-                    addDiseaseToDatabase();
-                    resetAllFields();
-                } catch (Exception e) {
-                    Log.d(LOG_TAG, e.getMessage());
-                }
-                Toast.makeText(getApplicationContext(), "added successfully", Toast.LENGTH_LONG).show();
-            }
-        });
-        return button;
-    }
-
-    // adds disease to database with all relations to medication and blood
-    private void addDiseaseToDatabase() {
-
-        List<String> drugList = getDrugs();
-        List<MedicationRecord> medicationList = new ArrayList<>();
-
-        // if drug exists in database it is saved in list
-        // if drug does not exist in database it is created
-        for (int i = 0; i < drugList.size(); i++) {
-            MedicationRecord drug = MedicationOps.getDrug(drugList.get(i), dataSource.database);
-            if (drug.getId() == -1) {
-                medicationList.add(MedicationOps.createMedicationRecord(drugList.get(i), dataSource.database));
-            }
-            else{
-                medicationList.add(drug);
-            }
-        }
-
-        // inserts Blood record into database
-        BloodRecord insertedBloodRecord = BloodOps.createBloodRecord(getLeukoMin(), getLeukoMax(), getEryMin(), getEryMax(), getHemoglobinMin(), getHemoglobinMax(), getHematocritMin(), getHematocritMax(),
-                getMCVMin(), getMCVMax(), getMCHMin(), getMCHMax(), getMCHCMin(), getMCHCMax(), getPlateletMin(), getPlateletMax(), getReticulocytesMin(), getReticulocytesMax(),
-                getMPVMin(), getMPVMax(), getRDWMin(), getRDWMax(), dataSource.database);
-
-        // inserts disease into database
-        DiseaseRecord insertedDiseaseRecord = DiseaseOps.createDiseaseRecord(getDisease(), dataSource.database);
-
-        // inserts relation between disease and blood record
-        DiseaseBloodOps.createDiseaseBloodRelationRecord(insertedBloodRecord.getId(), insertedDiseaseRecord.getId(), dataSource.database);
-
-        // inserts relation between disease and medication
-        for (int i = 0; i < medicationList.size(); i++) {
-            DiseaseMedicationOps.createDiseaseMedicationRelationRecord(insertedDiseaseRecord.getId(), medicationList.get(i).getId(), dataSource.database);
-        }
-    }
-
-    // prints result to result screen
-    public void printResult() {
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.resultTab);
-        List<String> drugList = getDrugs();
-        linearLayout.removeAllViews();
-        linearLayout.addView(createNewLinearLayoutDisease(createNewTextView(getString(R.string.disease)), createNewTextView(getDisease())));
-        linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.leukocyte)), createNewTextView(getLeukoMin()), createNewTextView(getLeukoMax())));
-        linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.erythrocyte)), createNewTextView(getEryMin()), createNewTextView(getEryMax())));
-        linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.hemoglobin)), createNewTextView(getHemoglobinMin()), createNewTextView(getHemoglobinMax())));
-        linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.hematocrit)), createNewTextView(getHematocritMin()), createNewTextView(getHematocritMax())));
-        linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.mcv)), createNewTextView(getMCVMin()), createNewTextView(getMCVMax())));
-        linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.MCH)), createNewTextView(getMCHMin()), createNewTextView(getMCHMax())));
-        linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.mchc)), createNewTextView(getMCHCMin()), createNewTextView(getMCHCMax())));
-        linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.platelet)), createNewTextView(getPlateletMin()), createNewTextView(getPlateletMax())));
-        linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.reticulocytes)), createNewTextView(getReticulocytesMin()), createNewTextView(getReticulocytesMax())));
-        linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.mpv)), createNewTextView(getMPVMin()), createNewTextView(getMPVMax())));
-        linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.rdw)), createNewTextView(getRDWMin()), createNewTextView(getRDWMax())));
-        for (int i = 0; i < drugList.size(); i++) {
-
-            if (!drugList.get(i).equals("") && !firstRun) {
-                linearLayout.addView(createNewLinearLayoutDisease(createNewTextView("Medication"), createNewTextView(drugList.get(i))));
-                firstRun = true;
-            } else if (!drugList.get(i).equals("") && firstRun) {
-                linearLayout.addView(createNewLinearLayoutDisease(createNewTextView(""), createNewTextView(drugList.get(i))));
-            }
-        }
-
+    private boolean valuesAreValid(){
+        return Double.parseDouble(getLeukocyteMin()) < Double.parseDouble(getLeukocyteMax()) &&
+                Double.parseDouble(getErythrocyteMin()) < Double.parseDouble(getErythrocyteMax()) &&
+                Double.parseDouble(getHemoglobinMin()) < Double.parseDouble(getHemoglobinMax()) &&
+                Double.parseDouble(getHematocritMin()) < Double.parseDouble(getHematocritMax()) &&
+                Double.parseDouble(getMCVMin()) < Double.parseDouble(getMCVMax()) &&
+                Double.parseDouble(getMCHMin()) < Double.parseDouble(getMCHMax()) &&
+                Double.parseDouble(getMCHCMin()) < Double.parseDouble(getMCHCMax()) &&
+                Double.parseDouble(getPlateletMin()) < Double.parseDouble(getPlateletMax()) &&
+                Double.parseDouble(getReticulocytesMin()) < Double.parseDouble(getReticulocytesMax()) &&
+                Double.parseDouble(getMPVMin()) < Double.parseDouble(getMPVMax()) &&
+                Double.parseDouble(getRDWMin()) < Double.parseDouble(getRDWMax());
     }
 
 }

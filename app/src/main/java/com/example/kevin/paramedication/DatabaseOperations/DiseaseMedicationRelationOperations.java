@@ -24,6 +24,14 @@ public class DiseaseMedicationRelationOperations {
 
     public DiseaseMedicationRelationRecord createDiseaseMedicationRelationRecord(int diseaseId, int drugId, SQLiteDatabase database) {
 
+        List<DiseaseMedicationRelationRecord> currentDatabase = getAllDiseaseMedicationRelationRecord(database);
+
+        for (int i = 0; i < currentDatabase.size(); i++) {
+            if (currentDatabase.get(i).getDiseaseId() == diseaseId && currentDatabase.get(i).getDrugId() == drugId) {
+                return new DiseaseMedicationRelationRecord(currentDatabase.get(i).getId(), currentDatabase.get(i).getDiseaseId(), currentDatabase.get(i).getDrugId());
+            }
+        }
+
         ContentValues values = new ContentValues();
         values.put(DiseaseMedicationTableContract.DiseaseMedicationEntry.COLUMN_DISEASE_ID, diseaseId);
         values.put(DiseaseMedicationTableContract.DiseaseMedicationEntry.COLUMN_DRUG_ID, drugId);
@@ -72,8 +80,6 @@ public class DiseaseMedicationRelationOperations {
 
         return List;
     }
-
-
 
 
 }

@@ -24,6 +24,14 @@ public class PatientDiseaseOperations {
 
     public PatientDiseaseRecord createPatientDiseaseRecord(int patientId, int diseaseId, SQLiteDatabase database) {
 
+        List<PatientDiseaseRecord> currentDatabase = getAllPatientDiseaseRecord(database);
+
+        for (int i = 0; i < currentDatabase.size(); i++) {
+            if (currentDatabase.get(i).getPatientId() == patientId && currentDatabase.get(i).getDiseaseId() == diseaseId) {
+                return currentDatabase.get(i);
+            }
+        }
+
         ContentValues values = new ContentValues();
         values.put(PatientDiseaseTableContract.PatientDiseaseTableEntry.COLUMN_PATIENT_ID, patientId);
         values.put(PatientDiseaseTableContract.PatientDiseaseTableEntry.COLUMN_DISEASE_ID, diseaseId);

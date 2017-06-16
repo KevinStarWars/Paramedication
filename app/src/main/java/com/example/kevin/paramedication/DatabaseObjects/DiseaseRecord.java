@@ -18,15 +18,15 @@ public class DiseaseRecord {
         this.id = id;
     }
 
-    public String getName(){
+    public String getName() {
         return this.name;
     }
 
-    public void setName(String name){
+    public void setName(String name) {
         this.name = name;
     }
 
-    public String print(){
+    public String print() {
         return "ID: " + this.id + " Disease name: " + this.name;
     }
 

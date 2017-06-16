@@ -8,8 +8,8 @@ import android.provider.BaseColumns;
 
 // ID|Disease ID|MedicationID
 
-public class DiseaseMedicationTableContract{
-    public static final class DiseaseMedicationEntry implements BaseColumns{
+public class DiseaseMedicationTableContract {
+    public static final class DiseaseMedicationEntry implements BaseColumns {
         public static final String TABLE_NAME = "Disease_Medication";
 
         public static final String COLUMN_DISEASE_ID = "Disease_ID";

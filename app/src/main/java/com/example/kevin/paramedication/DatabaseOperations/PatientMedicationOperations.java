@@ -23,6 +23,14 @@ public class PatientMedicationOperations {
 
     public PatientMedicationRecord createPatientMedicationRecord(int patientId, int drugId, SQLiteDatabase database) {
 
+        List<PatientMedicationRecord> currentDatabase = getAllPatientMedicationRecord(database);
+
+        for (int i = 0; i < currentDatabase.size(); i++) {
+            if (patientId == currentDatabase.get(i).getPatientId() && currentDatabase.get(i).getMedicationId() == drugId) {
+                return currentDatabase.get(i);
+            }
+        }
+
         ContentValues values = new ContentValues();
         values.put(PatientMedicationTableContract.PatientMedicationTableEntry.COLUMN_PATIENT_ID, patientId);
         values.put(PatientMedicationTableContract.PatientMedicationTableEntry.COLUMN_DRUG_ID, drugId);

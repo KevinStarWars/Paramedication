@@ -23,12 +23,13 @@ public class MedicationOperations {
 
     public MedicationRecord createMedicationRecord(String name, SQLiteDatabase database) {
 
-        if (name.equals("")){
+        if (name.equals("")) {
             Log.d(LOG_TAG, "Cannot insert empty Drug.");
             return new MedicationRecord(-1, "-1");
         }
 
         List<MedicationRecord> currentDatabase = getAllMedicationRecords(database);
+
         for (int i = 0; i < currentDatabase.size(); i++) {
             if (currentDatabase.get(i).getDrugName().equals(name)) {
                 return currentDatabase.get(i);
@@ -90,12 +91,12 @@ public class MedicationOperations {
 
 
     // is used to get id from existing drug. if drug is non existent returns drug which says that
-    public MedicationRecord getDrug(String drugName, SQLiteDatabase database){
+    public MedicationRecord getDrug(String drugName, SQLiteDatabase database) {
 
         List<MedicationRecord> drugList = getAllMedicationRecords(database);
 
-        for (int i = 0; i < drugList.size(); i++){
-            if (drugList.get(i).getDrugName().equals(drugName)){
+        for (int i = 0; i < drugList.size(); i++) {
+            if (drugList.get(i).getDrugName().equals(drugName)) {
                 return drugList.get(i);
             }
         }

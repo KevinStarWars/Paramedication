@@ -26,7 +26,7 @@ import java.util.List;
  * Helper for Creating and initializing the SQLite Database
  */
 
-class DbHelper extends SQLiteOpenHelper{
+class DbHelper extends SQLiteOpenHelper {
 
     private static final String LOG_TAG = DbHelper.class.getSimpleName();
 
@@ -63,7 +63,8 @@ class DbHelper extends SQLiteOpenHelper{
             BloodTableContract.BloodTableEntry.COLUMN_MPV_MIN + " TEXT NOT NULL, " +
             BloodTableContract.BloodTableEntry.COLUMN_MPV_MAX + " TEXT NOT NULL, " +
             BloodTableContract.BloodTableEntry.COLUMN_RDW_MIN + " TEXT NOT NULL, " +
-            BloodTableContract.BloodTableEntry.COLUMN_RDW_MAX + " TEXT NOT NULL" +
+            BloodTableContract.BloodTableEntry.COLUMN_RDW_MAX + " TEXT NOT NULL," +
+            BloodTableContract.BloodTableEntry.COLUMN_GENDER + " TEXT NOT NULL" +
             "); ";
 
     private final String SQL_CREATE_BLOODCOUNT_TABLE = "CREATE TABLE " + BloodCountTableContract.BloodCountTableEntry.TABLE_NAME + " (" +
@@ -88,7 +89,7 @@ class DbHelper extends SQLiteOpenHelper{
             "); ";
 
 
-    private final String SQL_CREATE_PATIENT_TABLE = "CREATE TABLE " + PatientTableContract.PatientTableEntry.TABLE_NAME+ " (" +
+    private final String SQL_CREATE_PATIENT_TABLE = "CREATE TABLE " + PatientTableContract.PatientTableEntry.TABLE_NAME + " (" +
             PatientTableContract.PatientTableEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
             PatientTableContract.PatientTableEntry.COLUMN_HOSPITAL_ID + " INTEGER NOT NULL, " +
             PatientTableContract.PatientTableEntry.COLUMN_GENDER + " TEXT NOT NULL" +
@@ -136,12 +137,12 @@ class DbHelper extends SQLiteOpenHelper{
             PatientBloodcountTableContract.PatientBloodcountTableEntry.COLUMN_BLOOD_ID + " INTEGER NOT NULL" +
             "); ";
 
-    DbHelper(Context context){
+    DbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
-    public void onCreate(SQLiteDatabase sqLiteDatabase){
+    public void onCreate(SQLiteDatabase sqLiteDatabase) {
         try {
             sqLiteDatabase.execSQL(SQL_CREATE_PATIENT_DISEASE_TABLE);
             sqLiteDatabase.execSQL(SQL_CREATE_PATIENT_BLOODCOUNT_TABLE);
@@ -157,8 +158,7 @@ class DbHelper extends SQLiteOpenHelper{
             Log.d(LOG_TAG, "Tables created");
             createNormalValues(sqLiteDatabase);
             insertDiseaseNone(sqLiteDatabase);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             Log.e(LOG_TAG, "Error creating tables: " + e.getMessage());
         }
 
@@ -168,7 +168,8 @@ class DbHelper extends SQLiteOpenHelper{
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
     }
 
-    private void createNormalValues(SQLiteDatabase database){
+    // femaleid = 1, maleid = 2
+    private void createNormalValues(SQLiteDatabase database) {
         ContentValues values = new ContentValues();
 
         String[] columnArray = {BloodTableContract.BloodTableEntry.COLUMN_LEUKOCYTE_MIN,
@@ -192,7 +193,9 @@ class DbHelper extends SQLiteOpenHelper{
                 BloodTableContract.BloodTableEntry.COLUMN_MPV_MIN,
                 BloodTableContract.BloodTableEntry.COLUMN_MPV_MAX,
                 BloodTableContract.BloodTableEntry.COLUMN_RDW_MIN,
-                BloodTableContract.BloodTableEntry.COLUMN_RDW_MAX};
+                BloodTableContract.BloodTableEntry.COLUMN_RDW_MAX,
+                BloodTableContract.BloodTableEntry.COLUMN_GENDER
+        };
         List<String> columns = new ArrayList<>();
         String[] femaleValues = {"3800", // Leukocyte Min
                 "10500", // Leukocyte Max
@@ -215,7 +218,8 @@ class DbHelper extends SQLiteOpenHelper{
                 "7,5", // MPV Min
                 "11,5", // MPV Max
                 "4,1", // RDW Min
-                "5,1"}; // RDW Max
+                "5,1", //RDW Max
+                "f"};  // gender
         String[] maleValues = {"3800", // Leukocyte Min
                 "10500", // Leukocyte Max
                 "4,3", // Erythrocyte Min
@@ -237,11 +241,12 @@ class DbHelper extends SQLiteOpenHelper{
                 "7,5", // MPV Min
                 "11,5", // MPV Max
                 "4,1", // RDW Min
-                "5,1"}; // RDW Max
+                "5,1", // RDW Max
+                "m"}; // gender
 
         columns.addAll(Arrays.asList(columnArray));
 
-        for (int i = 0; i < columns.size(); i++){
+        for (int i = 0; i < columns.size(); i++) {
             values.put(columns.get(i), femaleValues[i]);
         }
 
@@ -253,7 +258,7 @@ class DbHelper extends SQLiteOpenHelper{
 
         values.clear();
 
-        for (int i = 0; i < columns.size(); i++){
+        for (int i = 0; i < columns.size(); i++) {
             values.put(columns.get(i), maleValues[i]);
         }
 
@@ -263,7 +268,7 @@ class DbHelper extends SQLiteOpenHelper{
         Log.d(LOG_TAG, "Inserted female normal Values");
     }
 
-    private void insertDiseaseNone(SQLiteDatabase database){
+    private void insertDiseaseNone(SQLiteDatabase database) {
         ContentValues values = new ContentValues();
         values.put(DiseaseTableContract.DiseaseTableEntry.COLUMN_DISEASE_NAME, "None");
         database.insert(DiseaseTableContract.DiseaseTableEntry.TABLE_NAME, null, values);

@@ -27,7 +27,7 @@ public class MedicationRecord {
         this.drugName = drugName;
     }
 
-    public String print(){
+    public String print() {
         return "ID: " + this.id + " Drug name: " + this.drugName;
     }
 

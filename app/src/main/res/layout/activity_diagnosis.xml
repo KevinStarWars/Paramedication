@@ -116,8 +116,7 @@
                     android:id="@android:id/tabs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/backgroundRed"
-                    android:backgroundTint="@color/foregroundRed"></TabWidget>
+                    android:background="@color/backgroundRed"></TabWidget>
 
                 <FrameLayout
                     android:id="@android:id/tabcontent"
@@ -141,6 +140,7 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content">
+
                                     <RadioButton
                                         android:id="@+id/femaleButton"
                                         android:layout_width="0dp"
@@ -148,10 +148,8 @@
                                         android:layout_height="wrap_content"
                                         android:text="@string/female"
                                         android:layout_margin="16dp"
-                                        android:textColor="@color/textColor"
-                                        android:buttonTint="@color/textColor"
-                                        android:onClick="checkIfOtherIsClicked">
-                                    </RadioButton>
+                                        android:textColor="@color/textColor" />
+
                                     <RadioButton
                                         android:id="@+id/maleButton"
                                         android:layout_width="0dp"
@@ -159,10 +157,7 @@
                                         android:layout_height="wrap_content"
                                         android:text="@string/male"
                                         android:layout_margin="16dp"
-                                        android:textColor="@color/textColor"
-                                        android:buttonTint="@color/textColor"
-                                        android:onClick="checkIfOtherIsClicked">
-                                    </RadioButton>
+                                        android:textColor="@color/textColor" />
                                 </LinearLayout>
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -175,7 +170,8 @@
                                         android:text="@string/patientNumber"
                                         />
                                     <EditText
-                                        android:id="@+id/hospitalId"
+                                        android:labelFor="@+id/hospital_Id"
+                                        android:id="@+id/hospital_Id"
                                         android:layout_width="0dp"
                                         android:layout_weight="1"
                                         android:inputType="phone"
@@ -489,7 +485,7 @@
                                         android:textColor="@color/textColor"
                                         android:textSize="15sp" />
 
-                                    <EditText
+                                    <AutoCompleteTextView
                                         android:id="@+id/drug1"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"

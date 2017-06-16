@@ -25,11 +25,12 @@ public class BloodRecord {
     private double mpvMax;
     private double rdwMin;
     private double rdwMax;
+    private String gender;
 
     public BloodRecord(int id, double leukocyteMin, double leukocyteMax, double erythrocyteMin, double erythrocyteMax, double hemoglobinMin, double hemoglobinMax,
                        double hematocritMin, double hematocritMax, double mcvMin, double mcvMax, double mchMin, double mchMax, double mchcMin, double mchcMax,
                        double plateletMin, double plateletMax, double reticulocytesMin, double reticulocytesMax, double mpvMin, double mpvMax, double rdwMin,
-                       double rdwMax) {
+                       double rdwMax, String gender) {
         this.id = id;
         this.leukocyteMin = leukocyteMin;
         this.leukocyteMax = leukocyteMax;
@@ -53,6 +54,7 @@ public class BloodRecord {
         this.mpvMax = mpvMax;
         this.rdwMin = rdwMin;
         this.rdwMax = rdwMax;
+        this.gender = gender;
     }
 
     public BloodRecord() {
@@ -242,6 +244,14 @@ public class BloodRecord {
         this.rdwMax = rdwMax;
     }
 
+    public String getGender() {
+        return this.gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
     @Override
     public String toString() {
         return "BloodRecord{" +
@@ -268,6 +278,7 @@ public class BloodRecord {
                 ", mpvMax=" + mpvMax +
                 ", rdwMin=" + rdwMin +
                 ", rdwMax=" + rdwMax +
+                ", Gender=" + gender +
                 '}';
     }
 
@@ -295,5 +306,6 @@ public class BloodRecord {
         this.mpvMax = record.getMpvMax();
         this.rdwMin = record.getRdwMin();
         this.rdwMax = record.getRdwMax();
+        this.gender = record.getGender();
     }
 }

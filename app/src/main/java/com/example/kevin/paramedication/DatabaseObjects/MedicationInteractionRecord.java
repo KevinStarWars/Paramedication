@@ -3,7 +3,7 @@ package com.example.kevin.paramedication.DatabaseObjects;
 
 public class MedicationInteractionRecord {
 
-    private int  id;
+    private int id;
     private int drugId1;
     private int drugId2;
     private String type;

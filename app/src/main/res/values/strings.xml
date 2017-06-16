@@ -17,7 +17,7 @@
     <string name="hemoglobin">Hemoglobin [g/dl]</string>
     <string name="hematocrit">Hematocrit [%]</string>
     <string name="mcv">MCV [fl]</string>
-    <string name="MCH">MCH [pg/Zelle]</string>
+    <string name="MCH">MCH [pg/Cell]</string>
     <string name="mchc">MCHC [g/dl] </string>
     <string name="platelet">Platelet [1/µl]</string>
     <string name="reticulocytes">Reticulocytes [1/1000 erythrocytes]</string>

@@ -11,9 +11,9 @@ import com.example.kevin.paramedication.DatabaseObjects.PatientBloodcountRecord;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PatientBloodcountOperations {
+public class PatientBloodCountOperations {
 
-    static final String LOG_TAG = PatientBloodcountOperations.class.getSimpleName();
+    static final String LOG_TAG = PatientBloodCountOperations.class.getSimpleName();
 
 
     private String[] patientBloodcountColumns = {
@@ -24,11 +24,21 @@ public class PatientBloodcountOperations {
 
     public PatientBloodcountRecord createPatientBloodcountRecord(int patientId, int bloodId, SQLiteDatabase database) {
 
+        List<PatientBloodcountRecord> currentDatabase = getAllPatientBloodcountRecord(database);
+
+        for (int i = 0; i < currentDatabase.size(); i++){
+            if (currentDatabase.get(i).getPatientId() == patientId &&
+                    currentDatabase.get(i).getBloodcountId() == bloodId){
+                return currentDatabase.get(i);
+            }
+        }
+
         ContentValues values = new ContentValues();
         values.put(PatientBloodcountTableContract.PatientBloodcountTableEntry.COLUMN_PATIENT_ID, patientId);
         values.put(PatientBloodcountTableContract.PatientBloodcountTableEntry.COLUMN_BLOOD_ID, bloodId);
 
         long insertId = database.insert(PatientBloodcountTableContract.PatientBloodcountTableEntry.TABLE_NAME, null, values);
+
 
         Cursor cursor = database.query(PatientBloodcountTableContract.PatientBloodcountTableEntry.TABLE_NAME, patientBloodcountColumns,
                 PatientBloodcountTableContract.PatientBloodcountTableEntry._ID + "=" + insertId, null, null, null, null);
@@ -36,6 +46,8 @@ public class PatientBloodcountOperations {
         cursor.moveToFirst();
         PatientBloodcountRecord record = cursorToPatientBloodcountRecord(cursor);
         cursor.close();
+
+        Log.d(LOG_TAG, record.toString());
 
         return record;
     }

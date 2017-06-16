@@ -12,38 +12,26 @@ import android.widget.Toast;
 
 import com.example.kevin.paramedication.DatabaseObjects.MedicationInteractionRecord;
 import com.example.kevin.paramedication.DatabaseObjects.MedicationRecord;
-import com.example.kevin.paramedication.DatabaseOperations.BloodCountOperations;
-import com.example.kevin.paramedication.DatabaseOperations.BloodOperations;
 import com.example.kevin.paramedication.DatabaseOperations.DbDataSource;
-import com.example.kevin.paramedication.DatabaseOperations.DiseaseBloodRelationOperations;
-import com.example.kevin.paramedication.DatabaseOperations.DiseaseMedicationRelationOperations;
-import com.example.kevin.paramedication.DatabaseOperations.DiseaseOperations;
 import com.example.kevin.paramedication.DatabaseOperations.MedicationInteractionOperations;
 import com.example.kevin.paramedication.DatabaseOperations.MedicationOperations;
-import com.example.kevin.paramedication.DatabaseOperations.PatientBloodcountOperations;
-import com.example.kevin.paramedication.DatabaseOperations.PatientDiseaseOperations;
-import com.example.kevin.paramedication.DatabaseOperations.PatientMedicationOperations;
-import com.example.kevin.paramedication.DatabaseOperations.PatientOperations;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Medication extends AppCompatActivity {
 
+    // this is the log_tag which is used to debug the application
     public static final String LOG_TAG = Medication.class.getSimpleName();
 
+    private int[] autoCompleteViewIds = {R.id.autocompleteDrugI, R.id.autocompleteDrugII};
+
+    // these classes are used in order to communicate with SQLite
     private DbDataSource dataSource;
-    private BloodCountOperations BloodCountOps = new BloodCountOperations();
-    private BloodOperations BloodOps = new BloodOperations();
-    private DiseaseBloodRelationOperations DiseaseBloodOps = new DiseaseBloodRelationOperations();
-    private DiseaseMedicationRelationOperations DiseaseMedicationOps = new DiseaseMedicationRelationOperations();
-    private DiseaseOperations DiseaseOps = new DiseaseOperations();
     private MedicationInteractionOperations MedicationInteractionOps = new MedicationInteractionOperations();
     private MedicationOperations MedicationOps = new MedicationOperations();
-    private PatientBloodcountOperations PatientBloodcountOps = new PatientBloodcountOperations();
-    private PatientDiseaseOperations PatientDiseaseOps = new PatientDiseaseOperations();
-    private PatientMedicationOperations PatientMedicationOps= new PatientMedicationOperations();
-    private PatientOperations PatientOps = new PatientOperations();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,55 +42,63 @@ public class Medication extends AppCompatActivity {
         Log.d(LOG_TAG, "Opening database.");
         dataSource.open();
 
+        setOnClickListenerForDrugInteraction();
+        SetOnClickListenerForBothAutoCompleteTextViews(autoCompleteViewIds);
+        enableAutocomplete(autoCompleteViewIds);
+    }
+
+    public void changeToDatabase(View view) {
+        dataSource.close();
+        Intent myIntent = new Intent(this, Database.class);
+        this.startActivity(myIntent);
+    }
+
+    public void changeToDiagnosis(View view) {
+        dataSource.close();
+        Intent myIntent = new Intent(this, Diagnosis.class);
+        this.startActivity(myIntent);
+    }
+
+    public void changeToInfo(View view) {
+        dataSource.close();
+        Intent myIntent = new Intent(this, Info.class);
+        this.startActivity(myIntent);
+    }
+
+    public void changeToPatients(View view) {
+        dataSource.close();
+        Intent myIntent = new Intent(this, Patients.class);
+        this.startActivity(myIntent);
+    }
+
+    private void setOnClickListenerForDrugInteraction() {
         Button button = (Button) findViewById(R.id.addDrugInteraction);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 pasteToDatabase();
             }
         });
-
-        enableAutocomplete();
     }
 
-    public void changeToDatabase(View view){
-        dataSource.close();
-        Intent myIntent = new Intent(this, Database.class);
-        this.startActivity(myIntent);
-    }
+    private void enableAutocomplete(int id[]) {
 
-    public void changeToDiagnosis(View view){
-        dataSource.close();
-        Intent myIntent = new Intent(this, Diagnosis.class);
-        this.startActivity(myIntent);
-    }
-
-    public void changeToInfo(View view){
-        dataSource.close();
-        Intent myIntent = new Intent(this, Info.class);
-        this.startActivity(myIntent);
-    }
-
-    public void changeToPatients(View view){
-        dataSource.close();
-        Intent myIntent = new Intent(this, Patients.class);
-        this.startActivity(myIntent);
-    }
-
-    private void enableAutocomplete(){
-        AutoCompleteTextView entryDrugOne = (AutoCompleteTextView) findViewById(R.id.autocompleteDrugI);
-        AutoCompleteTextView entryDrugTwo = (AutoCompleteTextView) findViewById(R.id.autocompleteDrugII);
 
         List<MedicationRecord> currentDatabase = MedicationOps.getAllMedicationRecords(dataSource.database);
         List<String> tmpList = new ArrayList<>();
 
-        for (int i  = 0; i < currentDatabase.size(); i++){
+        for (int i = 0; i < currentDatabase.size(); i++) {
             tmpList.add(currentDatabase.get(i).getDrugName());
         }
 
+        Collections.sort(tmpList);
+
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.dropdownlist, tmpList);
 
-        entryDrugOne.setAdapter(adapter);
-        entryDrugTwo.setAdapter(adapter);
+        for (int anId : id) {
+            AutoCompleteTextView entryDrugOne = (AutoCompleteTextView) findViewById(anId);
+
+            entryDrugOne.setAdapter(adapter);
+        }
     }
 
     private void pasteToDatabase() {
@@ -110,8 +106,8 @@ public class Medication extends AppCompatActivity {
         AutoCompleteTextView entryDrugTwo = (AutoCompleteTextView) findViewById(R.id.autocompleteDrugII);
         AutoCompleteTextView typeOfInteraction = (AutoCompleteTextView) findViewById(R.id.interaction);
 
-        if (!entryDrugOne.getText().toString().isEmpty()){
-            if (!entryDrugTwo.getText().toString().isEmpty()){
+        if (!entryDrugOne.getText().toString().isEmpty()) {
+            if (!entryDrugTwo.getText().toString().isEmpty()) {
                 if (!typeOfInteraction.getText().toString().isEmpty()) {
                     if (!entryDrugOne.getText().toString().equals(entryDrugTwo.getText().toString())) {
 
@@ -127,12 +123,26 @@ public class Medication extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "added successfully", Toast.LENGTH_LONG).show();
                         }
 
-                        enableAutocomplete();
+                        enableAutocomplete(autoCompleteViewIds);
                     }
-                }
-            }
-        }
-        else Toast.makeText(getApplicationContext(), "please enter something", Toast.LENGTH_LONG).show();
+                } else
+                    Toast.makeText(getApplicationContext(), "Please enter an interaction", Toast.LENGTH_LONG).show();
+            } else
+                Toast.makeText(getApplicationContext(), "Please enter a valid name for Drug II", Toast.LENGTH_LONG).show();
+        } else
+            Toast.makeText(getApplicationContext(), "Please enter a valid name for Drug I", Toast.LENGTH_LONG).show();
 
+    }
+
+    private void SetOnClickListenerForBothAutoCompleteTextViews(int id[]){
+        for (int anId : id) {
+            final AutoCompleteTextView drugView = (AutoCompleteTextView) findViewById(anId);
+            drugView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    drugView.showDropDown();
+                }
+            });
+        }
     }
 }

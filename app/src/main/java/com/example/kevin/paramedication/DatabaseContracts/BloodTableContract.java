@@ -35,5 +35,6 @@ public class BloodTableContract {
         public static final String COLUMN_MPV_MAX = "MPV_Max";
         public static final String COLUMN_RDW_MIN = "RDW_Min";
         public static final String COLUMN_RDW_MAX = "RDW_Max";
+        public static final String COLUMN_GENDER = "Gender";
     }
 }

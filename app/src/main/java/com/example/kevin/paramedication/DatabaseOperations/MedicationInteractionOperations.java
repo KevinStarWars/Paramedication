@@ -29,19 +29,10 @@ public class MedicationInteractionOperations {
 
         List<MedicationInteractionRecord> currentDatabase = getAllMedicationInteractionRecord(database);
 
-        for (int i = 0; i < currentDatabase.size(); i++){
-            if (currentDatabase.get(i).getDrugId1() == drugID1){
-                if (currentDatabase.get(i).getDrugId2() == drugId2){
-                    return new MedicationInteractionRecord(-1,-1,-1, "-1");
-                }
-            }
-        }
-
-        for (int i = 0; i < currentDatabase.size(); i++){
-            if (currentDatabase.get(i).getDrugId2() == drugId2){
-                if (currentDatabase.get(i).getDrugId1() == drugID1){
-                    return new MedicationInteractionRecord(-1,-1,-1, "-1");
-                }
+        for (int i = 0; i < currentDatabase.size(); i++) {
+            if ((currentDatabase.get(i).getDrugId1() == drugID1 && currentDatabase.get(i).getDrugId2() == drugId2) ||
+                    (currentDatabase.get(i).getDrugId1() == drugId2 && currentDatabase.get(i).getDrugId2() == drugID1)) {
+                    return currentDatabase.get(i);
             }
         }
 
@@ -67,7 +58,7 @@ public class MedicationInteractionOperations {
         int idIndex = cursor.getColumnIndex(MedicationInteractionTableContract.MedicationInteractionEntry._ID);
         int idDrug1 = cursor.getColumnIndex(MedicationInteractionTableContract.MedicationInteractionEntry.COLUMN_DRUG_ID1);
         int idDrug2 = cursor.getColumnIndex(MedicationInteractionTableContract.MedicationInteractionEntry.COLUMN_DRUG_ID2);
-        int idType = cursor .getColumnIndex(MedicationInteractionTableContract.MedicationInteractionEntry.COLUMN_TYPE_OF_INTERACTION);
+        int idType = cursor.getColumnIndex(MedicationInteractionTableContract.MedicationInteractionEntry.COLUMN_TYPE_OF_INTERACTION);
 
         int id = cursor.getInt(idIndex);
         int drugId1 = cursor.getInt(idDrug1);

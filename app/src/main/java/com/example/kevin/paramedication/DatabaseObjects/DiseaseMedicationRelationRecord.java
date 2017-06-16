@@ -1,7 +1,6 @@
 package com.example.kevin.paramedication.DatabaseObjects;
 
 
-
 public class DiseaseMedicationRelationRecord {
 
     private int id;
@@ -38,7 +37,7 @@ public class DiseaseMedicationRelationRecord {
         this.drugId = drugId;
     }
 
-    public String print(){
+    public String print() {
         return "ID: " + getId() + " Disease ID: " + getDiseaseId() + " Drug ID" + getDrugId();
     }
 }

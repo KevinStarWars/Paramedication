@@ -37,18 +37,18 @@ public class BloodCountOperations {
                                                    String mpv, String rdw, SQLiteDatabase database) {
 
         List<BloodCountRecord> currentDatabase = getAllBloodCountRecords(database);
-        for (int i = 0; i < currentDatabase.size(); i++){
-            if (currentDatabase.get(i).getLeukocyte() == Double.parseDouble(leukocyte)){
-                if (currentDatabase.get(i).getErythrocyte() == Double.parseDouble(erythrocyte)){
-                    if (currentDatabase.get(i).getHemoglobin() == Double.parseDouble(hemoglobin)){
-                        if (currentDatabase.get(i).getHematocrit()== Double.parseDouble(hematocrit)){
-                            if (currentDatabase.get(i).getMcv() == Double.parseDouble(mcv)){
-                                if (currentDatabase.get(i).getMch() == Double.parseDouble(mch)){
-                                    if (currentDatabase.get(i).getMchc() == Double.parseDouble(mchc)){
-                                        if (currentDatabase.get(i).getPlatelet() == Double.parseDouble(platelet)){
-                                            if (currentDatabase.get(i).getReticulocytes() == Double.parseDouble(reticulocytes)){
-                                                if (currentDatabase.get(i).getMpv() == Double.parseDouble(mpv)){
-                                                    if (currentDatabase.get(i).getRdw() == Double.parseDouble(rdw)){
+        for (int i = 0; i < currentDatabase.size(); i++) {
+            if (currentDatabase.get(i).getLeukocyte() == Double.parseDouble(leukocyte)) {
+                if (currentDatabase.get(i).getErythrocyte() == Double.parseDouble(erythrocyte)) {
+                    if (currentDatabase.get(i).getHemoglobin() == Double.parseDouble(hemoglobin)) {
+                        if (currentDatabase.get(i).getHematocrit() == Double.parseDouble(hematocrit)) {
+                            if (currentDatabase.get(i).getMcv() == Double.parseDouble(mcv)) {
+                                if (currentDatabase.get(i).getMch() == Double.parseDouble(mch)) {
+                                    if (currentDatabase.get(i).getMchc() == Double.parseDouble(mchc)) {
+                                        if (currentDatabase.get(i).getPlatelet() == Double.parseDouble(platelet)) {
+                                            if (currentDatabase.get(i).getReticulocytes() == Double.parseDouble(reticulocytes)) {
+                                                if (currentDatabase.get(i).getMpv() == Double.parseDouble(mpv)) {
+                                                    if (currentDatabase.get(i).getRdw() == Double.parseDouble(rdw)) {
                                                         return currentDatabase.get(i);
                                                     }
                                                 }
@@ -122,7 +122,7 @@ public class BloodCountOperations {
                 mchc, platelet, reticulocytes, mpv, rdw);
     }
 
-    public List<BloodCountRecord> getAllBloodCountRecords( SQLiteDatabase database) {
+    public List<BloodCountRecord> getAllBloodCountRecords(SQLiteDatabase database) {
         List<BloodCountRecord> List = new ArrayList<>();
 
         Cursor cursor = database.query(BloodCountTableContract.BloodCountTableEntry.TABLE_NAME,
@@ -141,7 +141,6 @@ public class BloodCountOperations {
 
         return List;
     }
-
 
 
 }

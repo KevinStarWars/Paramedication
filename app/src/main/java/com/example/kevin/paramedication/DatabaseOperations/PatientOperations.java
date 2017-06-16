@@ -27,10 +27,12 @@ public class PatientOperations {
         try {
             List<PatientRecord> currentDatabase = getAllPatientRecords(database);
 
-            if (name.isEmpty()){name = "0";}
+            if (name.isEmpty()) {
+                name = "0";
+            }
 
-            for (int i = 0; i < currentDatabase.size(); i++){
-                if (Long.parseLong(name) == currentDatabase.get(i).getHospitalId()){
+            for (int i = 0; i < currentDatabase.size(); i++) {
+                if (Long.parseLong(name) == currentDatabase.get(i).getHospitalId()) {
                     return currentDatabase.get(i);
                 }
             }
@@ -41,6 +43,7 @@ public class PatientOperations {
 
             long insertId = database.insert(PatientTableContract.PatientTableEntry.TABLE_NAME, null, values);
 
+
             Cursor cursor = database.query(PatientTableContract.PatientTableEntry.TABLE_NAME, patientColumns,
                     PatientTableContract.PatientTableEntry._ID + "=" + insertId, null, null, null, null);
 
@@ -48,10 +51,12 @@ public class PatientOperations {
             PatientRecord record = cursorToPatientRecord(cursor);
             cursor.close();
 
+            Log.d(LOG_TAG, record.toString());
+
             return record;
         } catch (Exception e) {
             e.printStackTrace();
-            return new PatientRecord(-1,-1,"male");
+            return new PatientRecord(-1, -1, "male");
         }
     }
 
