@@ -28,40 +28,14 @@ public class BloodCountOperations {
             BloodCountTableContract.BloodCountTableEntry.COLUMN_PLATELET,
             BloodCountTableContract.BloodCountTableEntry.COLUMN_RETICULOCYTES,
             BloodCountTableContract.BloodCountTableEntry.COLUMN_MPV,
-            BloodCountTableContract.BloodCountTableEntry.COLUMN_RDW
+            BloodCountTableContract.BloodCountTableEntry.COLUMN_RDW,
+            BloodCountTableContract.BloodCountTableEntry.COLUMN_TIMESTAMP
     };
 
     // creates new entry or returns old entry if entry is already in database
     public BloodCountRecord createBloodCountRecord(String leukocyte, String erythrocyte, String hemoglobin, String hematocrit,
                                                    String mcv, String mch, String mchc, String platelet, String reticulocytes,
                                                    String mpv, String rdw, SQLiteDatabase database) {
-
-        List<BloodCountRecord> currentDatabase = getAllBloodCountRecords(database);
-        for (int i = 0; i < currentDatabase.size(); i++) {
-            if (currentDatabase.get(i).getLeukocyte() == Double.parseDouble(leukocyte)) {
-                if (currentDatabase.get(i).getErythrocyte() == Double.parseDouble(erythrocyte)) {
-                    if (currentDatabase.get(i).getHemoglobin() == Double.parseDouble(hemoglobin)) {
-                        if (currentDatabase.get(i).getHematocrit() == Double.parseDouble(hematocrit)) {
-                            if (currentDatabase.get(i).getMcv() == Double.parseDouble(mcv)) {
-                                if (currentDatabase.get(i).getMch() == Double.parseDouble(mch)) {
-                                    if (currentDatabase.get(i).getMchc() == Double.parseDouble(mchc)) {
-                                        if (currentDatabase.get(i).getPlatelet() == Double.parseDouble(platelet)) {
-                                            if (currentDatabase.get(i).getReticulocytes() == Double.parseDouble(reticulocytes)) {
-                                                if (currentDatabase.get(i).getMpv() == Double.parseDouble(mpv)) {
-                                                    if (currentDatabase.get(i).getRdw() == Double.parseDouble(rdw)) {
-                                                        return currentDatabase.get(i);
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
 
         ContentValues values = new ContentValues();
         values.put(BloodCountTableContract.BloodCountTableEntry.COLUMN_LEUKOCYTE, leukocyte);
@@ -104,10 +78,11 @@ public class BloodCountOperations {
         int idReticulocytes = cursor.getColumnIndex(BloodCountTableContract.BloodCountTableEntry.COLUMN_RETICULOCYTES);
         int idMpv = cursor.getColumnIndex(BloodCountTableContract.BloodCountTableEntry.COLUMN_MPV);
         int idRdw = cursor.getColumnIndex(BloodCountTableContract.BloodCountTableEntry.COLUMN_RDW);
+        int idTimestamp = cursor.getColumnIndex(BloodCountTableContract.BloodCountTableEntry.COLUMN_TIMESTAMP);
 
         int id = cursor.getInt(idIndex);
         double leukocyte = cursor.getDouble(idLeukocyte);
-        double erythocyte = cursor.getDouble(idErythrocyte);
+        double erythrocyte = cursor.getDouble(idErythrocyte);
         double hemoglobin = cursor.getDouble(idHemoglobin);
         double hematocrit = cursor.getDouble(idHematocrit);
         double mcv = cursor.getDouble(idMcv);
@@ -117,9 +92,10 @@ public class BloodCountOperations {
         double reticulocytes = cursor.getDouble(idReticulocytes);
         double mpv = cursor.getDouble(idMpv);
         double rdw = cursor.getDouble(idRdw);
+        String timestamp = cursor.getString(idTimestamp);
 
-        return new BloodCountRecord(id, leukocyte, erythocyte, hemoglobin, hematocrit, mcv, mch,
-                mchc, platelet, reticulocytes, mpv, rdw);
+        return new BloodCountRecord(id, leukocyte, erythrocyte, hemoglobin, hematocrit, mcv, mch,
+                mchc, platelet, reticulocytes, mpv, rdw, timestamp);
     }
 
     public List<BloodCountRecord> getAllBloodCountRecords(SQLiteDatabase database) {
@@ -134,7 +110,7 @@ public class BloodCountOperations {
         while (!cursor.isAfterLast()) {
             record = cursorToBloodCountRecord(cursor);
             List.add(record);
-            Log.d(LOG_TAG, "ID: " + record.getId() + ", Content: " + record.print());
+            Log.d(LOG_TAG, "ID: " + record.getId() + ", Content: " + record.toString());
             cursor.moveToNext();
         }
         cursor.close();
@@ -142,5 +118,14 @@ public class BloodCountOperations {
         return List;
     }
 
+    public BloodCountRecord getById(int id, SQLiteDatabase database){
+
+        Cursor cursor = database.query(BloodCountTableContract.BloodCountTableEntry.TABLE_NAME, bloodCountColumns,
+                BloodCountTableContract.BloodCountTableEntry._ID + "=" + id, null, null, null, null);
+
+        cursor.moveToFirst();
+        return cursorToBloodCountRecord(cursor);
+
+    }
 
 }

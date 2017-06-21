@@ -89,18 +89,4 @@ public class MedicationOperations {
         return List;
     }
 
-
-    // is used to get id from existing drug. if drug is non existent returns drug which says that
-    public MedicationRecord getDrug(String drugName, SQLiteDatabase database) {
-
-        List<MedicationRecord> drugList = getAllMedicationRecords(database);
-
-        for (int i = 0; i < drugList.size(); i++) {
-            if (drugList.get(i).getDrugName().equals(drugName)) {
-                return drugList.get(i);
-            }
-        }
-        return new MedicationRecord(-1, "drug does not exist in database");
-    }
-
 }

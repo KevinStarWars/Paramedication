@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">Paramedication</string>
-    <string name="diagnosis">\nDiagnosis</string>
+    <string name="diagnosis">Diagnosis</string>
     <string name="bloodCount">Blood Count</string>
     <string name="currentMedication">Current Medication</string>
     <string name="result">Result</string>
-    <string name="patients">\nPatients</string>
-    <string name="database">\nDatabase</string>
-    <string name="medication">\nMedication</string>
-    <string name="info">\nInfo</string>
+    <string name="patients">Patients</string>
+    <string name="database">Database</string>
+    <string name="medication">Medication</string>
+    <string name="info">Info</string>
     <string name="titleImageDescription">Paramedcation</string>
     <!--strings used in Diagnosis - Patient-->
     <string name="patientNumber">Patient ID</string>
@@ -20,7 +20,7 @@
     <string name="MCH">MCH [pg/Cell]</string>
     <string name="mchc">MCHC [g/dl] </string>
     <string name="platelet">Platelet [1/µl]</string>
-    <string name="reticulocytes">Reticulocytes [1/1000 erythrocytes]</string>
+    <string name="reticulocytes">Reticulocytes [1/ µl]</string>
     <string name="mpv">MPV [fL]</string>
     <string name="rdw">RDW [Mio./µl]</string>
     <string name="leukocyteval">Leukocyte val</string>
@@ -34,6 +34,9 @@
     <string name="reticulocytesval">Reticulocytes val</string>
     <string name="mpvval">MPV val</string>
     <string name="rdwval">RDW val</string>
+    <string name="update">Update</string>
+    <string name="save">Save</string>
+    <string name="recommendedMedication">Recommended Medication</string>
     <!--strings used in Diagnosis - Blood Count-->
     <string name="drug">Drug</string>
     <string name="addmore">Add more</string>
@@ -61,6 +64,9 @@
     <string name="buttonString">See Data</string>
     <string name="female">Female</string>
     <string name="male">Male</string>
+    <string name="time">Date</string>
+    <!--strings used in Patients for result-->
+    <string name="PatientID">Patient ID</string>
 
     <array name="xyz">hallo</array>
 </resources>

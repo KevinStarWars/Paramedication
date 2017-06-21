@@ -8,9 +8,11 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.kevin.paramedication.DatabaseObjects.MedicationInteractionRecord;
 import com.example.kevin.paramedication.DatabaseObjects.MedicationRecord;
 import com.example.kevin.paramedication.DatabaseOperations.DbDataSource;
 import com.example.kevin.paramedication.DatabaseOperations.MedicationInteractionOperations;
@@ -32,7 +34,6 @@ public class Medication extends AppCompatActivity {
     private MedicationInteractionOperations MedicationInteractionOps = new MedicationInteractionOperations();
     private MedicationOperations MedicationOps = new MedicationOperations();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,8 +46,10 @@ public class Medication extends AppCompatActivity {
         setOnClickListenerForDrugInteraction();
         SetOnClickListenerForBothAutoCompleteTextViews(autoCompleteViewIds);
         enableAutocomplete(autoCompleteViewIds);
+        setOnClickListenerForSaveButton();
     }
 
+    //these methods are used in order to switch between activities
     public void changeToDatabase(View view) {
         dataSource.close();
         Intent myIntent = new Intent(this, Database.class);
@@ -71,11 +74,18 @@ public class Medication extends AppCompatActivity {
         this.startActivity(myIntent);
     }
 
+    // sets OnClickListener for button
+    // enables:
+    // paste to database
     private void setOnClickListenerForDrugInteraction() {
         Button button = (Button) findViewById(R.id.addDrugInteraction);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                pasteToDatabase();
+                if (checkIfValid()) {
+                    setDefaultInterfacesVisibility(View.GONE);
+                    setSaveInterfacesVisibility(View.VISIBLE);
+                    modifyTextViews();
+                }
             }
         });
     }
@@ -101,40 +111,7 @@ public class Medication extends AppCompatActivity {
         }
     }
 
-    private void pasteToDatabase() {
-        AutoCompleteTextView entryDrugOne = (AutoCompleteTextView) findViewById(R.id.autocompleteDrugI);
-        AutoCompleteTextView entryDrugTwo = (AutoCompleteTextView) findViewById(R.id.autocompleteDrugII);
-        AutoCompleteTextView typeOfInteraction = (AutoCompleteTextView) findViewById(R.id.interaction);
-
-        if (!entryDrugOne.getText().toString().isEmpty()) {
-            if (!entryDrugTwo.getText().toString().isEmpty()) {
-                if (!typeOfInteraction.getText().toString().isEmpty()) {
-                    if (!entryDrugOne.getText().toString().equals(entryDrugTwo.getText().toString())) {
-
-                        MedicationRecord drug1 = MedicationOps.createMedicationRecord(entryDrugOne.getText().toString(), dataSource.database);
-                        MedicationRecord drug2 = MedicationOps.createMedicationRecord(entryDrugTwo.getText().toString(), dataSource.database);
-
-                        MedicationInteractionRecord insertedObject = MedicationInteractionOps.createDiseaseMedicationRelationRecord(drug1.getId(), drug2.getId(),
-                                typeOfInteraction.getText().toString(), dataSource.database);
-
-                        if (insertedObject.getId() == -1) {
-                            Toast.makeText(getApplicationContext(), "Interaction is already in database", Toast.LENGTH_LONG).show();
-                        } else {
-                            Toast.makeText(getApplicationContext(), "added successfully", Toast.LENGTH_LONG).show();
-                        }
-
-                        enableAutocomplete(autoCompleteViewIds);
-                    }
-                } else
-                    Toast.makeText(getApplicationContext(), "Please enter an interaction", Toast.LENGTH_LONG).show();
-            } else
-                Toast.makeText(getApplicationContext(), "Please enter a valid name for Drug II", Toast.LENGTH_LONG).show();
-        } else
-            Toast.makeText(getApplicationContext(), "Please enter a valid name for Drug I", Toast.LENGTH_LONG).show();
-
-    }
-
-    private void SetOnClickListenerForBothAutoCompleteTextViews(int id[]){
+    private void SetOnClickListenerForBothAutoCompleteTextViews(int id[]) {
         for (int anId : id) {
             final AutoCompleteTextView drugView = (AutoCompleteTextView) findViewById(anId);
             drugView.setOnClickListener(new View.OnClickListener() {
@@ -144,5 +121,93 @@ public class Medication extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private void setDefaultInterfacesVisibility(int visibility) {
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.printArea1);
+        linearLayout.setVisibility(visibility);
+    }
+
+    private void setSaveInterfacesVisibility(int visibility){
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.printArea2);
+        linearLayout.setVisibility(visibility);
+    }
+
+    private void setOnClickListenerForSaveButton(){
+        Button button = (Button) findViewById(R.id.SaveDrugInteraction);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setSaveInterfacesVisibility(View.GONE);
+                pasteToDatabase();
+                enableAutocomplete(autoCompleteViewIds);
+                emptyViews();
+                setDefaultInterfacesVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    private boolean checkIfValid(){
+        AutoCompleteTextView entryDrugOne = (AutoCompleteTextView) findViewById(R.id.autocompleteDrugI);
+        AutoCompleteTextView entryDrugTwo = (AutoCompleteTextView) findViewById(R.id.autocompleteDrugII);
+        EditText typeOfInteraction = (EditText) findViewById(R.id.interaction);
+
+        if (!entryDrugOne.getText().toString().isEmpty()) {
+            if (!entryDrugTwo.getText().toString().isEmpty()) {
+                if (!typeOfInteraction.getText().toString().isEmpty()) {
+                    if (!entryDrugOne.getText().toString().equals(entryDrugTwo.getText().toString())) {
+                        return true;
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please enter an interaction", Toast.LENGTH_LONG).show();
+                    return false;
+                }
+            } else {
+                Toast.makeText(getApplicationContext(), "Please enter a valid name for Drug II", Toast.LENGTH_LONG).show();
+                return false;
+            }
+        } else{
+            Toast.makeText(getApplicationContext(), "Please enter a valid name for Drug I", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        return false;
+    }
+
+    private void modifyTextViews(){
+
+        TextView saveTextViewDrugI = (TextView) findViewById(R.id.saveDrugIValue);
+        TextView saveTextViewDrugII = (TextView) findViewById(R.id.saveDrugIIValue);
+        TextView saveTextViewInteraction = (TextView) findViewById(R.id.saveInteraction);
+
+        AutoCompleteTextView entryDrugOne = (AutoCompleteTextView) findViewById(R.id.autocompleteDrugI);
+        AutoCompleteTextView entryDrugTwo = (AutoCompleteTextView) findViewById(R.id.autocompleteDrugII);
+        EditText typeOfInteraction = (EditText) findViewById(R.id.interaction);
+
+        saveTextViewDrugI.setText(entryDrugOne.getText().toString());
+        saveTextViewDrugII.setText(entryDrugTwo.getText().toString());
+        saveTextViewInteraction.setText(typeOfInteraction.getText().toString());
+    }
+
+    private void emptyViews(){
+        AutoCompleteTextView entryDrugOne = (AutoCompleteTextView) findViewById(R.id.autocompleteDrugI);
+        AutoCompleteTextView entryDrugTwo = (AutoCompleteTextView) findViewById(R.id.autocompleteDrugII);
+        EditText typeOfInteraction = (EditText) findViewById(R.id.interaction);
+
+        entryDrugOne.setText("");
+        entryDrugTwo.setText("");
+        typeOfInteraction.setText("");
+    }
+
+    private void pasteToDatabase() {
+        AutoCompleteTextView entryDrugOne = (AutoCompleteTextView) findViewById(R.id.autocompleteDrugI);
+        AutoCompleteTextView entryDrugTwo = (AutoCompleteTextView) findViewById(R.id.autocompleteDrugII);
+        EditText typeOfInteraction = (EditText) findViewById(R.id.interaction);
+
+        MedicationInteractionOps.createDiseaseMedicationRelationRecord(
+                MedicationOps.createMedicationRecord(entryDrugOne.getText().toString(), dataSource.database).getId(),
+                MedicationOps.createMedicationRecord(entryDrugTwo.getText().toString(), dataSource.database).getId(),
+                typeOfInteraction.getText().toString(),
+                dataSource.database,
+                this);
     }
 }

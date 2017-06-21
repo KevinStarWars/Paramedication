@@ -15,13 +15,14 @@ public class BloodCountRecord {
     private double reticulocytes;
     private double mpv;
     private double rdw;
+    private String timestamp;
 
     public BloodCountRecord() {
     }
 
     public BloodCountRecord(int id, double leukocyte, double erythrocyte, double hemoglobin, double hematocrit,
                             double mcv, double mch, double mchc, double platelet, double reticulocytes, double mpv,
-                            double rdw) {
+                            double rdw, String timestamp) {
         this.id = id;
         this.leukocyte = leukocyte;
         this.erythrocyte = erythrocyte;
@@ -34,6 +35,7 @@ public class BloodCountRecord {
         this.reticulocytes = reticulocytes;
         this.mpv = mpv;
         this.rdw = rdw;
+        this.timestamp  = timestamp;
     }
 
     public int getId() {
@@ -132,17 +134,30 @@ public class BloodCountRecord {
         this.rdw = rdw;
     }
 
-    public String print() {
-        return "leukocyte: " + this.leukocyte +
-                "\n erythrocyte: " + this.erythrocyte +
-                "\n hemoglobin: " + this.hemoglobin +
-                "\n hematocrit: " + this.hematocrit +
-                "\n mcv: " + this.mcv +
-                "\n mch: " + this.mch +
-                "\n mchc: " + this.mchc +
-                "\n platelet: " + this.platelet +
-                "\n reticulocytes: " + this.reticulocytes +
-                "\n mpv: " + this.mpv +
-                "\n rdw: " + this.rdw;
+    public String getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    @Override
+    public String toString() {
+        return "BloodCountRecord{" +
+                "id=" + id +
+                ", leukocyte=" + leukocyte +
+                ", erythrocyte=" + erythrocyte +
+                ", hemoglobin=" + hemoglobin +
+                ", hematocrit=" + hematocrit +
+                ", mcv=" + mcv +
+                ", mch=" + mch +
+                ", mchc=" + mchc +
+                ", platelet=" + platelet +
+                ", reticulocytes=" + reticulocytes +
+                ", mpv=" + mpv +
+                ", rdw=" + rdw +
+                ", timestamp='" + timestamp + '\'' +
+                '}';
     }
 }

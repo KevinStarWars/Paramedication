@@ -18,5 +18,6 @@ public class BloodCountTableContract {
         public static final String COLUMN_RETICULOCYTES = "Reticulocytes";
         public static final String COLUMN_MPV = "MPV";
         public static final String COLUMN_RDW = "RDW";
+        public static final String COLUMN_TIMESTAMP = "Timestamp";
     }
 }

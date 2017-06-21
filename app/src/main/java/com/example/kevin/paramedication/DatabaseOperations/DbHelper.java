@@ -6,6 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.kevin.paramedication.DatabaseContracts.BloodCountDiseaseTableContract;
+import com.example.kevin.paramedication.DatabaseContracts.BloodCountMedicationTableContract;
 import com.example.kevin.paramedication.DatabaseContracts.BloodCountTableContract;
 import com.example.kevin.paramedication.DatabaseContracts.BloodTableContract;
 import com.example.kevin.paramedication.DatabaseContracts.DiseaseBloodTableContract;
@@ -14,8 +16,6 @@ import com.example.kevin.paramedication.DatabaseContracts.DiseaseTableContract;
 import com.example.kevin.paramedication.DatabaseContracts.MedicationInteractionTableContract;
 import com.example.kevin.paramedication.DatabaseContracts.MedicationTableContract;
 import com.example.kevin.paramedication.DatabaseContracts.PatientBloodcountTableContract;
-import com.example.kevin.paramedication.DatabaseContracts.PatientDiseaseTableContract;
-import com.example.kevin.paramedication.DatabaseContracts.PatientMedicationTableContract;
 import com.example.kevin.paramedication.DatabaseContracts.PatientTableContract;
 
 import java.util.ArrayList;
@@ -32,12 +32,6 @@ class DbHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "paramedication.db";
     private static final int DATABASE_VERSION = 1;
-
-    private final String SQL_CREATE_PATIENT_DISEASE_TABLE = "CREATE TABLE " + PatientDiseaseTableContract.PatientDiseaseTableEntry.TABLE_NAME + " (" +
-            PatientDiseaseTableContract.PatientDiseaseTableEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-            PatientDiseaseTableContract.PatientDiseaseTableEntry.COLUMN_PATIENT_ID + " INTEGER NOT NULL, " +
-            PatientDiseaseTableContract.PatientDiseaseTableEntry.COLUMN_DISEASE_ID + " INTEGER NOT NULL" +
-            "); ";
 
 
     private final String SQL_CREATE_BLOOD_TABLE = "CREATE TABLE " + BloodTableContract.BloodTableEntry.TABLE_NAME + " (" +
@@ -67,7 +61,7 @@ class DbHelper extends SQLiteOpenHelper {
             BloodTableContract.BloodTableEntry.COLUMN_GENDER + " TEXT NOT NULL" +
             "); ";
 
-    private final String SQL_CREATE_BLOODCOUNT_TABLE = "CREATE TABLE " + BloodCountTableContract.BloodCountTableEntry.TABLE_NAME + " (" +
+    private final String SQL_CREATE_BLOOD_COUNT_TABLE = "CREATE TABLE " + BloodCountTableContract.BloodCountTableEntry.TABLE_NAME + " (" +
             BloodCountTableContract.BloodCountTableEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
             BloodCountTableContract.BloodCountTableEntry.COLUMN_LEUKOCYTE + " TEXT NOT NULL, " +
             BloodCountTableContract.BloodCountTableEntry.COLUMN_ERYTHROCYTE + " TEXT NOT NULL, " +
@@ -79,7 +73,8 @@ class DbHelper extends SQLiteOpenHelper {
             BloodCountTableContract.BloodCountTableEntry.COLUMN_PLATELET + " TEXT NOT NULL, " +
             BloodCountTableContract.BloodCountTableEntry.COLUMN_RETICULOCYTES + " TEXT NOT NULL, " +
             BloodCountTableContract.BloodCountTableEntry.COLUMN_MPV + " TEXT NOT NULL, " +
-            BloodCountTableContract.BloodCountTableEntry.COLUMN_RDW + " TEXT NOT NULL" +
+            BloodCountTableContract.BloodCountTableEntry.COLUMN_RDW + " TEXT NOT NULL, " +
+            BloodCountTableContract.BloodCountTableEntry.COLUMN_TIMESTAMP + " DEFAULT CURRENT_TIMESTAMP NOT NULL" +
             "); ";
 
 
@@ -124,17 +119,23 @@ class DbHelper extends SQLiteOpenHelper {
             "); ";
 
 
-    private final String SQL_CREATE_PATIENT_MEDICATION_TABLE = "CREATE TABLE " + PatientMedicationTableContract.PatientMedicationTableEntry.TABLE_NAME + " (" +
-            PatientMedicationTableContract.PatientMedicationTableEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-            PatientMedicationTableContract.PatientMedicationTableEntry.COLUMN_PATIENT_ID + " INTEGER NOT NULL, " +
-            PatientMedicationTableContract.PatientMedicationTableEntry.COLUMN_DRUG_ID + " INTEGER NOT NULL" +
+    private final String SQL_CREATE_BLOOD_COUNT_MEDICATION_TABLE = "CREATE TABLE " + BloodCountMedicationTableContract.BloodCountMedicationTableEntry.TABLE_NAME + " (" +
+            BloodCountMedicationTableContract.BloodCountMedicationTableEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            BloodCountMedicationTableContract.BloodCountMedicationTableEntry.COLUMN_BLOOD_COUNT_ID + " INTEGER NOT NULL, " +
+            BloodCountMedicationTableContract.BloodCountMedicationTableEntry.COLUMN_MEDICATION_ID + " INTEGER NOT NULL" +
             "); ";
 
 
-    private final String SQL_CREATE_PATIENT_BLOODCOUNT_TABLE = "CREATE TABLE " + PatientBloodcountTableContract.PatientBloodcountTableEntry.TABLE_NAME + " (" +
+    private final String SQL_CREATE_PATIENT_BLOOD_COUNT_TABLE = "CREATE TABLE " + PatientBloodcountTableContract.PatientBloodcountTableEntry.TABLE_NAME + " (" +
             PatientBloodcountTableContract.PatientBloodcountTableEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
             PatientBloodcountTableContract.PatientBloodcountTableEntry.COLUMN_PATIENT_ID + " INTEGER NOT NULL, " +
             PatientBloodcountTableContract.PatientBloodcountTableEntry.COLUMN_BLOOD_ID + " INTEGER NOT NULL" +
+            "); ";
+
+    private final String SQL_CREATE_BLOOD_COUNT_DISEASE_TABLE = "CREATE TABLE " + BloodCountDiseaseTableContract.BloodCountDiseaseTableEntry.TABLE_NAME + " (" +
+            BloodCountDiseaseTableContract.BloodCountDiseaseTableEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            BloodCountDiseaseTableContract.BloodCountDiseaseTableEntry.COLUMN_BLOOD_COUNT_ID + " INTEGER NOT NULL, " +
+            BloodCountDiseaseTableContract.BloodCountDiseaseTableEntry.COLUMN_DISEASE_ID + " INTEGER NOT NULL" +
             "); ";
 
     DbHelper(Context context) {
@@ -144,17 +145,17 @@ class DbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         try {
-            sqLiteDatabase.execSQL(SQL_CREATE_PATIENT_DISEASE_TABLE);
-            sqLiteDatabase.execSQL(SQL_CREATE_PATIENT_BLOODCOUNT_TABLE);
+            sqLiteDatabase.execSQL(SQL_CREATE_BLOOD_COUNT_DISEASE_TABLE);
+            sqLiteDatabase.execSQL(SQL_CREATE_PATIENT_BLOOD_COUNT_TABLE);
             sqLiteDatabase.execSQL(SQL_CREATE_MEDICATION_TABLE);
-            sqLiteDatabase.execSQL(SQL_CREATE_BLOODCOUNT_TABLE);
+            sqLiteDatabase.execSQL(SQL_CREATE_BLOOD_COUNT_TABLE);
             sqLiteDatabase.execSQL(SQL_CREATE_DISEASE_TABLE);
             sqLiteDatabase.execSQL(SQL_CREATE_BLOOD_TABLE);
             sqLiteDatabase.execSQL(SQL_CREATE_PATIENT_TABLE);
             sqLiteDatabase.execSQL(SQL_CREATE_DISEASE_BLOOD_TABLE);
             sqLiteDatabase.execSQL(SQL_CREATE_DISEASE_MEDICATION_TABLE);
             sqLiteDatabase.execSQL(SQL_CREATE_MEDICATION_INTERACTION_TABLE);
-            sqLiteDatabase.execSQL(SQL_CREATE_PATIENT_MEDICATION_TABLE);
+            sqLiteDatabase.execSQL(SQL_CREATE_BLOOD_COUNT_MEDICATION_TABLE);
             Log.d(LOG_TAG, "Tables created");
             createNormalValues(sqLiteDatabase);
             insertDiseaseNone(sqLiteDatabase);

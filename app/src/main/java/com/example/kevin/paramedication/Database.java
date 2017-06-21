@@ -5,8 +5,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.ScrollView;
 import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,17 +33,21 @@ import com.example.kevin.paramedication.DatabaseOperations.DiseaseMedicationRela
 import com.example.kevin.paramedication.DatabaseOperations.DiseaseOperations;
 import com.example.kevin.paramedication.DatabaseOperations.MedicationOperations;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 public class Database extends AppCompatActivity {
 
     private static final String LOG_TAG = Database.class.getSimpleName();
     // global vars
     List<Integer> entryList = new ArrayList<>();
-    boolean firstRun = false;
+
     private DbDataSource dataSource;
     private BloodOperations BloodOps = new BloodOperations();
     private DiseaseBloodRelationOperations DiseaseBloodOps = new DiseaseBloodRelationOperations();
@@ -48,7 +55,7 @@ public class Database extends AppCompatActivity {
     private DiseaseOperations DiseaseOps = new DiseaseOperations();
     private MedicationOperations MedicationOps = new MedicationOperations();
 
-    // onCreate method determines which Activity is in use
+    // onCreate method determines which Activity is in use and handles all initializations
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,14 +65,15 @@ public class Database extends AppCompatActivity {
         Log.d(LOG_TAG, "Opening database.");
         dataSource.open();
 
-        enableAutocomplete(R.id.drug1);
-        setOnClickListenerForAutoCompleteTextView(R.id.drug1);
+        initializeMedicationEntryField(R.id.drug1);
         addToEntryList();
         configTabs();
         setOnClickListenerForRadioButtonFemale();
         setOnClickListenerForRadioButtonMale();
         setOnClickListenerForButtonInMedication();
         setOnClickListenerForGetResultButton();
+        setOnClickListenerForUpdateButton();
+        setOnClickListenerForSaveButton();
     }
 
     /*_____________________________________General______________________________________________*/
@@ -91,36 +99,44 @@ public class Database extends AppCompatActivity {
         host.addTab(spec);
     }
 
-    // Send intent in order to open DiagnosisActivity
+    // Send intent in order to open DiagnosisActivity and closes database connection
     public void changeToDiagnosis(View view) {
         dataSource.close();
         Intent myIntent = new Intent(this, Diagnosis.class);
         this.startActivity(myIntent);
     }
 
-    // Send intent in order to open MedicationActivity
+    // Send intent in order to open MedicationActivity and closes database connection
     public void changeToMedication(View view) {
         dataSource.close();
         Intent myIntent = new Intent(this, Medication.class);
         this.startActivity(myIntent);
     }
 
-    // Send intent in order to open InfoActivity
+    // Send intent in order to open InfoActivity and closes database connection
     public void changeToInfo(View view) {
         dataSource.close();
         Intent myIntent = new Intent(this, Info.class);
         this.startActivity(myIntent);
     }
 
-    // Send intent in order to open PatientsActivity
+    // Send intent in order to open PatientsActivity and closes database connection
     public void changeToPatients(View view) {
         dataSource.close();
         Intent myIntent = new Intent(this, Patients.class);
         this.startActivity(myIntent);
     }
 
+    // initializes the first AutoCompleteTextView in Medication
+    // enables:
+    // autocomplete and open drop down menu right away
+    private void initializeMedicationEntryField(int id) {
+        enableInitialAutocomplete(id);
+        setOnClickListenerForAutoCompleteTextView(id);
+    }
+
     // enables AutoCompleteTextViews to use Autocomplete on database entries
-    private void enableAutocomplete(int id) {
+    private void enableInitialAutocomplete(int id) {
         AutoCompleteTextView entry = (AutoCompleteTextView) findViewById(id);
         List<MedicationRecord> records = MedicationOps.getAllMedicationRecords(dataSource.database);
         List<String> tmpList = new ArrayList<>();
@@ -135,7 +151,8 @@ public class Database extends AppCompatActivity {
         entry.setAdapter(adapter);
     }
 
-    private void setOnClickListenerForAutoCompleteTextView(int id){
+    // sets OnClickListener for first AutoCompleteTextView in Medication
+    private void setOnClickListenerForAutoCompleteTextView(int id) {
         final AutoCompleteTextView entry = (AutoCompleteTextView) findViewById(id);
         entry.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,13 +167,11 @@ public class Database extends AppCompatActivity {
         final TextView textView = new TextView(this);
         final LinearLayout.LayoutParams textViewParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
         textView.setLayoutParams(textViewParams);
-        textView.setPadding(16, 16, 16, 16);
-        textView.setTextSize(15);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
         textView.setTextColor(Color.parseColor("#47525E"));
         textView.setText(text);
         return textView;
     }
-
 
     // sets on click listener for female radio button
     // enables:
@@ -175,7 +190,6 @@ public class Database extends AppCompatActivity {
         });
     }
 
-
     // sets on click listener for male radio button
     // enables:
     // only one radio button is checkable
@@ -193,7 +207,6 @@ public class Database extends AppCompatActivity {
         });
     }
 
-
     // sets on click listener for button in medication interface
     // enables:
     // removes itself
@@ -204,35 +217,22 @@ public class Database extends AppCompatActivity {
             public void onClick(View v) {
                 ((ViewGroup) v.getParent()).removeView(v);
                 LinearLayout linearLayout = (LinearLayout) findViewById(R.id.drugs);
-                linearLayout.addView(createNewLinearLayoutMedication(createNewDrugTextView("Drug"), createNewEntry()));
+                linearLayout.addView(createLinearLayout(createNewTextView("Drug"), createNewEntry()));
                 linearLayout.addView(createNewButton("Add more"));
             }
         });
     }
 
-
     // Creates Layout which surrounds TextView and EditText of Medication
-    private LinearLayout createNewLinearLayoutMedication(TextView TView, AutoCompleteTextView entry) {
+    private LinearLayout createLinearLayout(TextView TView, AutoCompleteTextView entry) {
         final LinearLayout linear = new LinearLayout(this);
         final LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         linear.setLayoutParams(layoutParams);
         linear.setOrientation(LinearLayout.HORIZONTAL);
-        linear.setPadding(16, 16, 16, 16);
+        linear.setPadding(convertToDp(8), convertToDp(8), convertToDp(8), convertToDp(8));
         linear.addView(TView);
         linear.addView(entry);
         return linear;
-    }
-
-    // Creates a new default TextView
-    private TextView createNewDrugTextView(String text) {
-        final TextView textView = new TextView(this);
-        final LinearLayout.LayoutParams textViewParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        textView.setLayoutParams(textViewParams);
-        textView.setPadding(16, 16, 16, 16);
-        textView.setTextSize(15);
-        textView.setTextColor(Color.parseColor("#47525E"));
-        textView.setText(text);
-        return textView;
     }
 
     // Creates a new default EditText
@@ -265,7 +265,7 @@ public class Database extends AppCompatActivity {
 
         entryList.add(entry.getId());
 
-        //enableAutocomplete(entry.getId());
+        //enableInitialAutocomplete(entry.getId());
         //setOnClickListenerForAutoCompleteTextView(entry.getId());
         return entry;
     }
@@ -274,7 +274,7 @@ public class Database extends AppCompatActivity {
     private Button createNewButton(String text) {
         final Button button = new Button(this);
         final LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        buttonParams.setMargins(8, 8, 8, 8);
+        buttonParams.setMargins(convertToDp(16), convertToDp(16), convertToDp(16), convertToDp(16));
         button.setLayoutParams(buttonParams);
         button.setText(text);
         button.setBackgroundColor(ContextCompat.getColor(this, R.color.backgroundRed));
@@ -283,13 +283,12 @@ public class Database extends AppCompatActivity {
             public void onClick(View v) {
                 ((ViewGroup) v.getParent()).removeView(v);
                 LinearLayout linearLayout = (LinearLayout) findViewById(R.id.drugs);
-                linearLayout.addView(createNewLinearLayoutMedication(createNewDrugTextView("Drug"), createNewEntry()));
+                linearLayout.addView(createLinearLayout(createNewTextView("Drug"), createNewEntry()));
                 linearLayout.addView(createNewButton("Add more"));
             }
         });
         return button;
     }
-
 
     // sets on click listener for result button
     // enables:
@@ -304,13 +303,12 @@ public class Database extends AppCompatActivity {
                 if (radioButtonIsChecked()) {
                     if (!getDisease().equals("")) {
                         if (valuesAreValid()) {
-                            ((ViewGroup) v.getParent()).removeView(v);
-                            printResult();
-                            LinearLayout linearLayout = (LinearLayout) findViewById(R.id.resultTab);
-                            linearLayout.addView(createNewResultButton("Check Input"));
-                            linearLayout.addView(createAddButton("Add to database"));
-                        }
-                        else {
+                            setDefaultInterfacesVisibility(View.GONE);
+                            loadValuesFromDefaultInterface();
+                            setSaveInterfacesVisibility(View.VISIBLE);
+                            LinearLayout linearLayout = (LinearLayout) findViewById(R.id.medicationLayout);
+                            printDrugList(linearLayout);
+                        } else {
                             Toast.makeText(getApplicationContext(), "Values are not valid.", Toast.LENGTH_SHORT).show();
                         }
                     } else {
@@ -321,6 +319,103 @@ public class Database extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    // sets on click listener for update button
+    // enables:
+    // update values which were changed after displaying them
+    private void setOnClickListenerForUpdateButton(){
+        Button getResultButton = (Button) findViewById(R.id.databaseUpdateButton);
+        getResultButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if (radioButtonIsChecked()) {
+                    if (!getDisease().equals("")) {
+                        if (valuesAreValid()) {
+                            loadValuesFromDefaultInterface();
+
+                            LinearLayout linearLayout = (LinearLayout) findViewById(R.id.medicationLayout);
+                            printDrugList(linearLayout);
+
+                            Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Values are not valid.", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Please enter a valid drug name.", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getApplicationContext(), "Please select Gender.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    // sets on click listener for save button
+    // enables:
+    // push data to database, store it there and reset all edit views
+    private void setOnClickListenerForSaveButton(){
+        Button button = (Button) findViewById(R.id.databaseSaveButton);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setSaveInterfacesVisibility(View.GONE);
+                addDiseaseToDatabase();
+                resetAllFields();
+                setDefaultInterfacesVisibility(View.VISIBLE);
+
+                Toast.makeText(getApplicationContext(), "Saved", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    // sets default interfaces visibility depending on parameter
+    private void setDefaultInterfacesVisibility(int visibility) {
+        NestedScrollView view = (NestedScrollView) findViewById(R.id.resultTab);
+        view.setVisibility(visibility);
+    }
+
+    // sets save interfaces visibility depending on parameter
+    private void setSaveInterfacesVisibility(int visibility) {
+        ScrollView view = (ScrollView) findViewById(R.id.createdResult);
+        view.setVisibility(visibility);
+    }
+
+    // loads user input from default interface and prints it to the save interface
+    private void loadValuesFromDefaultInterface() {
+
+        int[] defaultInterfaceEditTextIds = {R.id.diseaseName,
+                R.id.leukocyteMin, R.id.leukocyteMax,
+                R.id.erythrocyteMin, R.id.erythrocyteMax,
+                R.id.hemoglobinMin, R.id.hemoglobinMax,
+                R.id.hematocritMin, R.id.hematocritMax,
+                R.id.mcvMin, R.id.mcvMax,
+                R.id.mchMin, R.id.mchMax,
+                R.id.mchcMin, R.id.mchcMax,
+                R.id.plateletMin, R.id.plateletMax,
+                R.id.reticulocytesMin, R.id.reticulocytesMax,
+                R.id.mpvMin, R.id.mpvMax,
+                R.id.rdwMin, R.id.rdwMax};
+
+        int[] saveInterfaceTextViewIds = {R.id.diseaseValue,
+                R.id.leukocyteMinValue, R.id.leukocyteMaxValue,
+                R.id.erythrocyteMinValue, R.id.erythrocyteMaxValue,
+                R.id.hemoglobinMinValue, R.id.hemoglobinMaxValue,
+                R.id.hematocritMinValue, R.id.hematocritMaxValue,
+                R.id.mcvMinValue, R.id.mcvMaxValue,
+                R.id.mchMinValue, R.id.mchMaxValue,
+                R.id.mchcMinValue, R.id.mchcMaxValue,
+                R.id.plateletMinValue, R.id.plateletMaxValue,
+                R.id.reticulocytesMinValue, R.id.reticulocytesMaxValue,
+                R.id.mpvMinValue, R.id.mpvMaxValue,
+                R.id.rdwMinValue, R.id.rdwMaxValue};
+
+        for (int i = 0; i < defaultInterfaceEditTextIds.length; i++){
+            TextView textView = (TextView) findViewById(saveInterfaceTextViewIds[i]);
+            EditText editText = (EditText) findViewById(defaultInterfaceEditTextIds[i]);
+
+            textView.setGravity(Gravity.CENTER_HORIZONTAL);
+            textView.setText(editText.getText());
+        }
     }
 
     // checks if any RadioButton is checked.
@@ -338,41 +433,20 @@ public class Database extends AppCompatActivity {
         return entryField.getText().toString();
     }
 
-    // prints result to result screen
-    public void printResult() {
-        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.resultTab);
-        linearLayout.removeAllViews();
-        printBloodRecord(linearLayout);
-        printDrugList(linearLayout);
-    }
-
-    // prints blood record which was entered
-    private void printBloodRecord(LinearLayout linearLayout) {
-        linearLayout.addView(createNewLinearLayoutDisease(createNewTextView(getString(R.string.disease)), createNewTextView(getDisease())));
-        linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.leukocyte)), createNewTextView(getLeukocyteMin()), createNewTextView(getLeukocyteMax())));
-        linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.erythrocyte)), createNewTextView(getErythrocyteMin()), createNewTextView(getErythrocyteMax())));
-        linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.hemoglobin)), createNewTextView(getHemoglobinMin()), createNewTextView(getHemoglobinMax())));
-        linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.hematocrit)), createNewTextView(getHematocritMin()), createNewTextView(getHematocritMax())));
-        linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.mcv)), createNewTextView(getMCVMin()), createNewTextView(getMCVMax())));
-        linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.MCH)), createNewTextView(getMCHMin()), createNewTextView(getMCHMax())));
-        linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.mchc)), createNewTextView(getMCHCMin()), createNewTextView(getMCHCMax())));
-        linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.platelet)), createNewTextView(getPlateletMin()), createNewTextView(getPlateletMax())));
-        linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.reticulocytes)), createNewTextView(getReticulocytesMin()), createNewTextView(getReticulocytesMax())));
-        linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.mpv)), createNewTextView(getMPVMin()), createNewTextView(getMPVMax())));
-        linearLayout.addView(createNewLinearLayoutResult(createNewTextView(getString(R.string.rdw)), createNewTextView(getRDWMin()), createNewTextView(getRDWMax())));
-    }
-
     // prints drugs which were entered
     private void printDrugList(LinearLayout linearLayout) {
+        linearLayout.removeAllViews();
+
+        boolean firstRun = false;
         List<String> drugList = getDrugs();
 
         for (int i = 0; i < drugList.size(); i++) {
 
             if (!drugList.get(i).equals("") && !firstRun) {
-                linearLayout.addView(createNewLinearLayoutDisease(createNewTextView("Medication"), createNewTextView(drugList.get(i))));
+                linearLayout.addView(createLinearLayout(createNewTextView("Medication"), createNewTextView(drugList.get(i))));
                 firstRun = true;
             } else if (!drugList.get(i).equals("") && firstRun) {
-                linearLayout.addView(createNewLinearLayoutDisease(createNewTextView(""), createNewTextView(drugList.get(i))));
+                linearLayout.addView(createLinearLayout(createNewTextView(""), createNewTextView(drugList.get(i))));
             }
         }
     }
@@ -387,21 +461,8 @@ public class Database extends AppCompatActivity {
         return drugList;
     }
 
-    // creates new linear layout which surrounds three text views in Database control screen
-    private LinearLayout createNewLinearLayoutResult(TextView TViewI, TextView TViewII, TextView TViewIII) {
-        final LinearLayout linear = new LinearLayout(this);
-        final LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        linear.setLayoutParams(layoutParams);
-        linear.setOrientation(LinearLayout.HORIZONTAL);
-        linear.setPadding(8, 8, 8, 8);
-        linear.addView(TViewI);
-        linear.addView(TViewII);
-        linear.addView(TViewIII);
-        return linear;
-    }
-
     // creates new linear layout for disease in result screen
-    private LinearLayout createNewLinearLayoutDisease(TextView TViewI, TextView TViewII) {
+    private LinearLayout createLinearLayout(TextView TViewI, TextView TViewII) {
         final LinearLayout linear = new LinearLayout(this);
         final LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         linear.setLayoutParams(layoutParams);
@@ -410,83 +471,26 @@ public class Database extends AppCompatActivity {
         linear.addView(TViewI);
         linear.addView(TViewII);
         return linear;
-    }
-
-    // creates a new button for controls in control screen
-    private Button createNewResultButton(String text) {
-        final Button button = new Button(this);
-        final LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        buttonParams.setMargins(8, 8, 8, 8);
-        button.setLayoutParams(buttonParams);
-        button.setText(text);
-        button.setBackgroundColor(ContextCompat.getColor(this, R.color.backgroundRed));
-        button.setGravity(Gravity.CENTER_HORIZONTAL);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (radioButtonIsChecked()) {
-                    if (!getDisease().equals("")) {
-                        if (valuesAreValid()) {
-                            ((ViewGroup) v.getParent()).removeView(v);
-                            printResult();
-                            LinearLayout linearLayout = (LinearLayout) findViewById(R.id.resultTab);
-                            linearLayout.addView(createNewResultButton("Check Input"));
-                            linearLayout.addView(createAddButton("Add to database"));
-                        }
-                        else {
-                            Toast.makeText(getApplicationContext(), "Values are not valid.", Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Please enter a valid disease name", Toast.LENGTH_SHORT).show();
-                    }
-                } else {
-                    Toast.makeText(getApplicationContext(), "Please select Gender", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        return button;
-    }
-
-    // creates Button, which enables user to send disease to database
-    private Button createAddButton(String text) {
-        final Button button = new Button(this);
-        final LinearLayout.LayoutParams buttonParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        buttonParams.setMargins(8, 8, 8, 8);
-        button.setLayoutParams(buttonParams);
-        button.setText(text);
-        button.setBackgroundColor(ContextCompat.getColor(this, R.color.backgroundRed));
-        button.setGravity(Gravity.CENTER_HORIZONTAL);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                LinearLayout printArea = (LinearLayout) findViewById(R.id.resultTab);
-                printArea.removeAllViews();
-                printArea.addView(createNewResultButton("Check Input"));
-                addDiseaseToDatabase();
-                resetAllFields();
-                Toast.makeText(getApplicationContext(), "added successfully", Toast.LENGTH_SHORT).show();
-            }
-        });
-        return button;
     }
 
     // adds disease to database with all relations to medication and blood
+    // if drug exists in database it is saved in list
+    // if drug does not exist in database it is created
     private void addDiseaseToDatabase() {
 
         List<String> drugList = getDrugs();
         List<MedicationRecord> medicationList = new ArrayList<>();
+        List<MedicationRecord> currentDatabase = MedicationOps.getAllMedicationRecords(dataSource.database);
 
-        // if drug exists in database it is saved in list
-        // if drug does not exist in database it is created
         for (int i = 0; i < drugList.size(); i++) {
-            MedicationRecord drug = MedicationOps.getDrug(drugList.get(i), dataSource.database);
-            if (drug.getId() == -1) {
-                medicationList.add(MedicationOps.createMedicationRecord(drugList.get(i), dataSource.database));
-            } else {
-                medicationList.add(drug);
+            for (int j = 0; j < currentDatabase.size(); j++) {
+                if (drugList.get(i).equals(currentDatabase.get(j).getDrugName())) {
+                    medicationList.add(currentDatabase.get(j));
+                } else
+                    medicationList.add(MedicationOps.createMedicationRecord(drugList.get(i), dataSource.database));
             }
         }
 
-        // inserts Blood record into database
         BloodRecord insertedBloodRecord = BloodOps.createBloodRecord(getLeukocyteMin(), getLeukocyteMax(), getErythrocyteMin(), getErythrocyteMax(), getHemoglobinMin(), getHemoglobinMax(), getHematocritMin(), getHematocritMax(),
                 getMCVMin(), getMCVMax(), getMCHMin(), getMCHMax(), getMCHCMin(), getMCHCMax(), getPlateletMin(), getPlateletMax(), getReticulocytesMin(), getReticulocytesMax(),
                 getMPVMin(), getMPVMax(), getRDWMin(), getRDWMax(), getGender(), dataSource.database);
@@ -503,11 +507,12 @@ public class Database extends AppCompatActivity {
         }
     }
 
+
     // get all entries from user
     @NonNull
     private String getGender() {
-        RadioButton femalButton = (RadioButton) findViewById(R.id.femaleButtonDatabase);
-        if (femalButton.isChecked()) {
+        RadioButton femaleButton = (RadioButton) findViewById(R.id.femaleButtonDatabase);
+        if (femaleButton.isChecked()) {
             return "f";
         } else {
             return "m";
@@ -758,18 +763,39 @@ public class Database extends AppCompatActivity {
         entryList.add(drugEntry.getId());
     }
 
-    private boolean valuesAreValid(){
-        return Double.parseDouble(getLeukocyteMin()) < Double.parseDouble(getLeukocyteMax()) &&
-                Double.parseDouble(getErythrocyteMin()) < Double.parseDouble(getErythrocyteMax()) &&
-                Double.parseDouble(getHemoglobinMin()) < Double.parseDouble(getHemoglobinMax()) &&
-                Double.parseDouble(getHematocritMin()) < Double.parseDouble(getHematocritMax()) &&
-                Double.parseDouble(getMCVMin()) < Double.parseDouble(getMCVMax()) &&
-                Double.parseDouble(getMCHMin()) < Double.parseDouble(getMCHMax()) &&
-                Double.parseDouble(getMCHCMin()) < Double.parseDouble(getMCHCMax()) &&
-                Double.parseDouble(getPlateletMin()) < Double.parseDouble(getPlateletMax()) &&
-                Double.parseDouble(getReticulocytesMin()) < Double.parseDouble(getReticulocytesMax()) &&
-                Double.parseDouble(getMPVMin()) < Double.parseDouble(getMPVMax()) &&
-                Double.parseDouble(getRDWMin()) < Double.parseDouble(getRDWMax());
+    // checks if values are valid. meaning that min values are lower than max values
+    private boolean valuesAreValid() {
+        return convertToDefaultDouble(getLeukocyteMin()) < convertToDefaultDouble(getLeukocyteMax()) &&
+                convertToDefaultDouble(getErythrocyteMin()) < convertToDefaultDouble(getErythrocyteMax()) &&
+                convertToDefaultDouble(getHemoglobinMin()) < convertToDefaultDouble(getHemoglobinMax()) &&
+                convertToDefaultDouble(getHematocritMin()) < convertToDefaultDouble(getHematocritMax()) &&
+                convertToDefaultDouble(getMCVMin()) < convertToDefaultDouble(getMCVMax()) &&
+                convertToDefaultDouble(getMCHMin()) < convertToDefaultDouble(getMCHMax()) &&
+                convertToDefaultDouble(getMCHCMin()) < convertToDefaultDouble(getMCHCMax()) &&
+                convertToDefaultDouble(getPlateletMin()) < convertToDefaultDouble(getPlateletMax()) &&
+                convertToDefaultDouble(getReticulocytesMin()) < convertToDefaultDouble(getReticulocytesMax()) &&
+                convertToDefaultDouble(getMPVMin()) < convertToDefaultDouble(getMPVMax()) &&
+                convertToDefaultDouble(getRDWMin()) < convertToDefaultDouble(getRDWMax());
+    }
+
+    // converts converts DP to actual pixels
+    private int convertToDp(float sizeInDp){
+        float scale = getResources().getDisplayMetrics().density;
+        return (int) (sizeInDp*scale + 0.5f);
+    }
+
+    private double convertToDefaultDouble(String number){
+        Locale theLocale = Locale.getDefault();
+        NumberFormat numberFormat = DecimalFormat.getInstance(theLocale);
+        Number theNumber;
+        try {
+            theNumber = numberFormat.parse(number);
+            return theNumber.doubleValue();
+        }
+        catch (ParseException e){
+            Log.d(LOG_TAG, e.getMessage());
+            return 0d;
+        }
     }
 
 }

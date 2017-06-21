@@ -17,6 +17,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:maxLines="1"
             android:background="@color/foregroundRed"
             android:text="@string/diagnosis"
             android:textAlignment="center"
@@ -30,6 +32,8 @@
 
         <TextView
             android:layout_width="0dp"
+            android:gravity="center_vertical"
+            android:maxLines="1"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:onClick="changeToPatients"
@@ -46,6 +50,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:maxLines="1"
             android:onClick="changeToDatabase"
             android:text="@string/database"
             android:textAlignment="center"
@@ -60,6 +66,8 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:maxLines="1"
             android:onClick="changeToMedication"
             android:text="@string/medication"
             android:textAlignment="center"
@@ -76,6 +84,8 @@
             android:layout_weight="1"
             android:onClick="changeToInfo"
             android:text="@string/info"
+            android:gravity="center_vertical"
+            android:maxLines="1"
             android:textAlignment="center"
             android:textSize="15sp" />
 
@@ -116,7 +126,7 @@
                     android:id="@android:id/tabs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/backgroundRed"></TabWidget>
+                    android:background="@color/foregroundRed"></TabWidget>
 
                 <FrameLayout
                     android:id="@android:id/tabcontent"
@@ -513,28 +523,369 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
 
-                        <android.support.v4.widget.NestedScrollView
+                        <ScrollView
+                            android:id="@+id/diagnosisResultArea"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
-
+                            android:layout_height="wrap_content"
+                            android:visibility="gone">
                             <LinearLayout
-                                android:id="@+id/printAreaDiagnosis"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"
+                                android:layout_height="wrap_content"
                                 android:orientation="vertical">
-
-                                <Button
-                                    android:id="@+id/getResult"
+                                <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/textColor"
-                                    android:layout_gravity="center_horizontal"
-                                    android:layout_margin="16dp"
-                                    android:background="@color/backgroundRed"
-                                    android:text="@string/getResult" />
-                            </LinearLayout>
-                        </android.support.v4.widget.NestedScrollView>
+                                    android:padding="8dp">
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/PatientID"
+                                        android:textSize="15sp"
+                                        android:textColor="@color/textColor"
+                                        android:gravity="center_horizontal"/>
+                                    <TextView
+                                        android:id="@+id/diagnosisPatientId"
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="15sp"
+                                        android:textColor="@color/textColor"
+                                        android:gravity="center_horizontal"/>
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/disease"
+                                        android:textSize="15sp"
+                                        android:textColor="@color/textColor"
+                                        android:gravity="center_horizontal"/>
+                                    <TextView
+                                        android:id="@+id/diagnosisDiseaseId"
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="15sp"
+                                        android:textColor="@color/textColor"
+                                        android:gravity="center_horizontal"/>
+                                </LinearLayout>
 
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/recommendedMedication"
+                                        android:textSize="15sp"
+                                        android:textColor="@color/textColor"
+                                        android:gravity="center_horizontal"/>
+                                    <TextView
+                                        android:id="@+id/diagnosisRecommendedMedication"
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="15sp"
+                                        android:textColor="@color/textColor"
+                                        android:gravity="center_horizontal"/>
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/currentMedication"
+                                        android:textSize="15sp"
+                                        android:textColor="@color/textColor"
+                                        android:gravity="center_horizontal"/>
+                                    <TextView
+                                        android:id="@+id/diagnosisCurrentMedication"
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="15sp"
+                                        android:textColor="@color/textColor"
+                                        android:gravity="center_horizontal"/>
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/leukocyte"
+                                        android:textSize="15sp"
+                                        android:textColor="@color/textColor"
+                                        android:gravity="center_horizontal"/>
+                                    <TextView
+                                        android:id="@+id/diagnosisLeukocyte"
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="15sp"
+                                        android:textColor="@color/textColor"
+                                        android:gravity="center_horizontal"/>
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/erythrocyte"
+                                        android:textSize="15sp"
+                                        android:textColor="@color/textColor"
+                                        android:gravity="center_horizontal"/>
+                                    <TextView
+                                        android:id="@+id/diagnosisErythrocyte"
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="15sp"
+                                        android:textColor="@color/textColor"
+                                        android:gravity="center_horizontal"/>
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/hemoglobin"
+                                        android:textSize="15sp"
+                                        android:textColor="@color/textColor"
+                                        android:gravity="center_horizontal"/>
+                                    <TextView
+                                        android:id="@+id/diagnosisHemoglobin"
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="15sp"
+                                        android:textColor="@color/textColor"
+                                        android:gravity="center_horizontal"/>
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/hematocrit"
+                                        android:textSize="15sp"
+                                        android:textColor="@color/textColor"
+                                        android:gravity="center_horizontal"/>
+                                    <TextView
+                                        android:id="@+id/diagnosisHematocrit"
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="15sp"
+                                        android:textColor="@color/textColor"
+                                        android:gravity="center_horizontal"/>
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/mcv"
+                                        android:textSize="15sp"
+                                        android:textColor="@color/textColor"
+                                        android:gravity="center_horizontal"/>
+                                    <TextView
+                                        android:id="@+id/diagnosisMcv"
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="15sp"
+                                        android:textColor="@color/textColor"
+                                        android:gravity="center_horizontal"/>
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/MCH"
+                                        android:textSize="15sp"
+                                        android:textColor="@color/textColor"
+                                        android:gravity="center_horizontal"/>
+                                    <TextView
+                                        android:id="@+id/diagnosisMch"
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="15sp"
+                                        android:textColor="@color/textColor"
+                                        android:gravity="center_horizontal"/>
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/mchc"
+                                        android:textSize="15sp"
+                                        android:textColor="@color/textColor"
+                                        android:gravity="center_horizontal"/>
+                                    <TextView
+                                        android:id="@+id/diagnosisMchc"
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="15sp"
+                                        android:textColor="@color/textColor"
+                                        android:gravity="center_horizontal"/>
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/platelet"
+                                        android:textSize="15sp"
+                                        android:textColor="@color/textColor"
+                                        android:gravity="center_horizontal"/>
+                                    <TextView
+                                        android:id="@+id/diagnosisPlatelet"
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="15sp"
+                                        android:textColor="@color/textColor"
+                                        android:gravity="center_horizontal"/>
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/reticulocytes"
+                                        android:textSize="15sp"
+                                        android:textColor="@color/textColor"
+                                        android:gravity="center_horizontal"/>
+                                    <TextView
+                                        android:id="@+id/diagnosisReticulocytes"
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="15sp"
+                                        android:textColor="@color/textColor"
+                                        android:gravity="center_horizontal"/>
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/mpv"
+                                        android:textSize="15sp"
+                                        android:textColor="@color/textColor"
+                                        android:gravity="center_horizontal"/>
+                                    <TextView
+                                        android:id="@+id/diagnosisMpv"
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="15sp"
+                                        android:textColor="@color/textColor"
+                                        android:gravity="center_horizontal"/>
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/rdw"
+                                        android:textSize="15sp"
+                                        android:textColor="@color/textColor"
+                                        android:gravity="center_horizontal"/>
+                                    <TextView
+                                        android:id="@+id/diagnosisRdw"
+                                        android:layout_width="0dp"
+                                        android:layout_weight="1"
+                                        android:layout_height="wrap_content"
+                                        android:textSize="15sp"
+                                        android:textColor="@color/textColor"
+                                        android:gravity="center_horizontal"/>
+                                </LinearLayout>
+
+                                <Button
+                                    android:layout_margin="16dp"
+                                    android:id="@+id/diagnosisUpdateButton"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@color/backgroundRed"
+                                    android:textColor="@color/textColor"
+                                    android:text="@string/update"/>
+                                <Button
+                                    android:layout_marginRight="16dp"
+                                    android:layout_marginLeft="16dp"
+                                    android:layout_marginBottom="16dp"
+                                    android:id="@+id/diagnosisSaveButton"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:background="@color/backgroundRed"
+                                    android:textColor="@color/textColor"
+                                    android:text="@string/save"/>
+
+
+                            </LinearLayout>
+                        </ScrollView>
+
+                        <ScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+                        <Button
+                            android:id="@+id/getResult"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/textColor"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_margin="16dp"
+                            android:background="@color/backgroundRed"
+                            android:text="@string/getResult" />
+                        </ScrollView>
 
                     </LinearLayout>
                 </FrameLayout>
