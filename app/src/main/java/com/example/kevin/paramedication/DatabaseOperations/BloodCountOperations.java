@@ -11,10 +11,10 @@ import com.example.kevin.paramedication.DatabaseObjects.BloodCountRecord;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.kevin.paramedication.MainActivity.LOG_TAG;
-
 
 public class BloodCountOperations {
+
+    static final String LOG_TAG = BloodCountOperations.class.getSimpleName();
 
     private String[] bloodCountColumns = {
             BloodCountTableContract.BloodCountTableEntry._ID,
@@ -58,6 +58,8 @@ public class BloodCountOperations {
         cursor.moveToFirst();
         BloodCountRecord record = cursorToBloodCountRecord(cursor);
         cursor.close();
+
+        Log.d(LOG_TAG, record.toString());
 
         return record;
     }
@@ -110,7 +112,6 @@ public class BloodCountOperations {
         while (!cursor.isAfterLast()) {
             record = cursorToBloodCountRecord(cursor);
             List.add(record);
-            Log.d(LOG_TAG, "ID: " + record.getId() + ", Content: " + record.toString());
             cursor.moveToNext();
         }
         cursor.close();

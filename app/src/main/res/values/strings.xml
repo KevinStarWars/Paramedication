@@ -21,8 +21,8 @@
     <string name="mchc">MCHC [g/dl] </string>
     <string name="platelet">Platelet [1/µl]</string>
     <string name="reticulocytes">Reticulocytes [1/ µl]</string>
-    <string name="mpv">MPV [fL]</string>
-    <string name="rdw">RDW [Mio./µl]</string>
+    <string name="mpv">MPV [fl]</string>
+    <string name="rdw">RDW [%]</string>
     <string name="leukocyteval">Leukocyte val</string>
     <string name="erythrocyteval">Erythrocyte val</string>
     <string name="hemoglobinval">Hemoglobin val</string>
@@ -68,5 +68,7 @@
     <!--strings used in Patients for result-->
     <string name="PatientID">Patient ID</string>
 
-    <array name="xyz">hallo</array>
+    <string name="drugName">Drug name</string>
+
+    <string name="noDiseaseFound">No disease found.</string>
 </resources>

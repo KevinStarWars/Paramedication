@@ -27,8 +27,11 @@ public class MedicationRecord {
         this.drugName = drugName;
     }
 
-    public String print() {
-        return "ID: " + this.id + " Drug name: " + this.drugName;
+    @Override
+    public String toString() {
+        return "MedicationRecord{" +
+                "id=" + id +
+                ", drugName='" + drugName + '\'' +
+                '}';
     }
-
 }

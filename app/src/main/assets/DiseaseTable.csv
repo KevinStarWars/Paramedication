@@ -1,0 +1,24 @@
+Iron dificiency anemia,,,,,0,12,,,0,80,0,27,0,33,,,,,,,,,f,Iron(II),
+Iron dificiency anemia,,,,,0,13,,,0,80,0,27,0,33,,,,,,,,,m,Iron(II),
+Macrocytic anemia,,,,,0,12,,,98,9999,33,9999,,,,,,,,,,,f,Vitamine B 12,Folate
+Macrocytic anemia,,,,,0,13,,,98,9999,33,9999,,,,,,,,,,,m,Vitamine B 12,Folate
+Bad Macrocytic anemia,,,0,3800,0,12,,,98,9999,33,9999,,,0,140000,0,30000,,,,,f,Vitamine B 12,Folate
+Bad Macrocytic anemia,,,0,3800,0,13,,,98,9999,33,9999,,,0,140000,0,30000,,,,,m,Vitamine B 12,Folate
+Hemolytic anemia,,,,,0,12,0,38,,,,,,,,,100000,9999999,,,,,f,Red Cell Concentrate,
+Hemolytic anemia,,,,,0,13,0,42,,,,,,,,,100000,9999999,,,,,m,Red Cell Concentrate,
+Thalassemia,,,,,,,,,0,80,0,27,,,,,80000,9999999,,,,,f,,
+Thalassemia,,,,,,,,,0,80,0,27,,,,,80000,9999999,,,,,m,,
+Sickle cell anemia,0,4,,,0,12,0,38,80,98,27,33,,,,,,,,,,,f,Phenoxymethylpenicillin,
+Sickle cell anemia,0,4,,,0,13,0,42,80,98,27,33,,,,,,,,,,,m,Phenoxymethylpenicillin,
+Anemia of Cronic Disease,,,,,9,12,,,80,98,27,33,,,,,0,30000,,,,,f,Iron(II),Red Cell Concentrate
+Anemia of Cronic Disease,,,,,9,13,,,80,98,27,33,,,,,0,30000,,,,,m,Iron(II),Red Cell Concentrate
+Aplastic Anemia,,,,,,,,,,,,,,,0,50000,0,20000,,,,,f,,
+Aplastic Anemia,,,,,,,,,,,,,,,0,50000,0,20000,,,,,m,,
+Bad Aplastic Anemia,,,,,,,,,,,,,,,0,20000,0,20000,,,,,f,,
+Bad Aplastic Anemia,,,,,,,,,,,,,,,0,20000,0,20000,,,,,m,,
+Megaloblastic Anemia,,,,,,,,,98,99999,34,99999,,,,,0,20000,,,,,f,Vitamine B 12,
+Megaloblastic Anemia,,,,,,,,,98,99999,34,99999,,,,,0,20000,,,,,m,Vitamine B 12,
+Folate-deficiency Anemia,,,,,,,,,98,99999,34,99999,,,,,0,20000,,,,,f,Folate,
+Folate-deficiency Anemia,,,,,,,,,98,99999,34,99999,,,,,0,20000,,,,,m,Folate,
+Primary Myelopathic Polycythemia,6,100,,,,,100,55,,,,,,,400000,9999999,80000,9999999,,,,,f,Cytoreductive Drugs,
+Primary Myelopathic Polycythemia,6,100,,,,,100,59,,,,,,,400000,9999999,80000,9999999,,,,,m,Cytoreductive Drugs,

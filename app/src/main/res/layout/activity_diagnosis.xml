@@ -17,9 +17,9 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@color/foregroundRed"
             android:gravity="center_vertical"
             android:maxLines="1"
-            android:background="@color/foregroundRed"
             android:text="@string/diagnosis"
             android:textAlignment="center"
             android:textSize="15sp"
@@ -32,10 +32,10 @@
 
         <TextView
             android:layout_width="0dp"
-            android:gravity="center_vertical"
-            android:maxLines="1"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:maxLines="1"
             android:onClick="changeToPatients"
             android:text="@string/patients"
             android:textAlignment="center"
@@ -82,10 +82,10 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:onClick="changeToInfo"
-            android:text="@string/info"
             android:gravity="center_vertical"
             android:maxLines="1"
+            android:onClick="changeToInfo"
+            android:text="@string/info"
             android:textAlignment="center"
             android:textSize="15sp" />
 
@@ -126,7 +126,7 @@
                     android:id="@android:id/tabs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/foregroundRed"></TabWidget>
+                    android:background="@color/backgroundRed"></TabWidget>
 
                 <FrameLayout
                     android:id="@android:id/tabcontent"
@@ -154,19 +154,19 @@
                                     <RadioButton
                                         android:id="@+id/femaleButton"
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/female"
                                         android:layout_margin="16dp"
+                                        android:layout_weight="1"
+                                        android:text="@string/female"
                                         android:textColor="@color/textColor" />
 
                                     <RadioButton
                                         android:id="@+id/maleButton"
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/male"
                                         android:layout_margin="16dp"
+                                        android:layout_weight="1"
+                                        android:text="@string/male"
                                         android:textColor="@color/textColor" />
                                 </LinearLayout>
                                 <LinearLayout
@@ -175,17 +175,18 @@
                                     android:padding="16dp">
                                     <TextView
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
+                                        android:layout_weight="1"
                                         android:text="@string/patientNumber"
                                         />
                                     <EditText
-                                        android:labelFor="@+id/hospital_Id"
                                         android:id="@+id/hospital_Id"
                                         android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
                                         android:layout_weight="1"
                                         android:inputType="phone"
-                                        android:layout_height="wrap_content" />
+                                        android:labelFor="@+id/hospital_Id"
+                                        android:maxLines="1" />
                                 </LinearLayout>
                             </LinearLayout>
                         </android.support.v4.widget.NestedScrollView>
@@ -205,8 +206,8 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:orientation="vertical"
                                 android:background="@android:color/white"
+                                android:orientation="vertical"
                                 android:padding="16dp">
 
                                 <LinearLayout
@@ -219,8 +220,8 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:textColor="@color/textColor"
                                         android:text="@string/leukocyte"
+                                        android:textColor="@color/textColor"
                                         android:textSize="15sp" />
 
                                     <EditText
@@ -228,9 +229,10 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:hint="@string/leukocyteval"
                                         android:inputType="phone"
-                                        android:textColor="@color/textColor"
-                                        android:hint="@string/leukocyteval" />
+                                        android:maxLines="1"
+                                        android:textColor="@color/textColor" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -242,8 +244,9 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:textColor="@color/textColor"
+                                        android:elegantTextHeight="true"
                                         android:text="@string/erythrocyte"
+                                        android:textColor="@color/textColor"
                                         android:textSize="15sp" />
 
                                     <EditText
@@ -251,9 +254,10 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:hint="@string/erythrocyteval"
                                         android:inputType="phone"
-                                        android:textColor="@color/textColor"
-                                        android:hint="@string/erythrocyteval" />
+                                        android:maxLines="1"
+                                        android:textColor="@color/textColor" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -265,8 +269,8 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:textColor="@color/textColor"
                                         android:text="@string/hemoglobin"
+                                        android:textColor="@color/textColor"
                                         android:textSize="15sp" />
 
                                     <EditText
@@ -274,9 +278,10 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:hint="@string/hemoglobinval"
                                         android:inputType="phone"
-                                        android:textColor="@color/textColor"
-                                        android:hint="@string/hemoglobinval" />
+                                        android:maxLines="1"
+                                        android:textColor="@color/textColor" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -288,8 +293,8 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:textColor="@color/textColor"
                                         android:text="@string/hematocrit"
+                                        android:textColor="@color/textColor"
                                         android:textSize="15sp" />
 
                                     <EditText
@@ -297,9 +302,10 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:hint="@string/hematocritval"
                                         android:inputType="phone"
-                                        android:textColor="@color/textColor"
-                                        android:hint="@string/hematocritval" />
+                                        android:maxLines="1"
+                                        android:textColor="@color/textColor" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -311,8 +317,8 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:textColor="@color/textColor"
                                         android:text="@string/mcv"
+                                        android:textColor="@color/textColor"
                                         android:textSize="15sp" />
 
                                     <EditText
@@ -320,9 +326,10 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:hint="@string/mcvval"
                                         android:inputType="phone"
-                                        android:textColor="@color/textColor"
-                                        android:hint="@string/mcvval" />
+                                        android:maxLines="1"
+                                        android:textColor="@color/textColor" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -334,8 +341,8 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:textColor="@color/textColor"
                                         android:text="@string/MCH"
+                                        android:textColor="@color/textColor"
                                         android:textSize="15sp" />
 
                                     <EditText
@@ -343,9 +350,10 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:hint="@string/MCHval"
                                         android:inputType="phone"
-                                        android:textColor="@color/textColor"
-                                        android:hint="@string/MCHval" />
+                                        android:maxLines="1"
+                                        android:textColor="@color/textColor" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -357,8 +365,8 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:textColor="@color/textColor"
                                         android:text="@string/mchc"
+                                        android:textColor="@color/textColor"
                                         android:textSize="15sp" />
 
                                     <EditText
@@ -366,9 +374,10 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:hint="@string/mchcval"
                                         android:inputType="phone"
-                                        android:textColor="@color/textColor"
-                                        android:hint="@string/mchcval" />
+                                        android:maxLines="1"
+                                        android:textColor="@color/textColor" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -389,9 +398,10 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:hint="@string/plateletval"
                                         android:inputType="phone"
-                                        android:textColor="@color/textColor"
-                                        android:hint="@string/plateletval" />
+                                        android:maxLines="1"
+                                        android:textColor="@color/textColor" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -403,8 +413,8 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:textColor="@color/textColor"
                                         android:text="@string/reticulocytes"
+                                        android:textColor="@color/textColor"
                                         android:textSize="15sp" />
 
                                     <EditText
@@ -412,9 +422,10 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:hint="@string/reticulocytesval"
                                         android:inputType="phone"
-                                        android:textColor="@color/textColor"
-                                        android:hint="@string/reticulocytesval" />
+                                        android:maxLines="1"
+                                        android:textColor="@color/textColor" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -426,8 +437,8 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:textColor="@color/textColor"
                                         android:text="@string/mpv"
+                                        android:textColor="@color/textColor"
                                         android:textSize="15sp" />
 
                                     <EditText
@@ -435,9 +446,10 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:hint="@string/mpvval"
                                         android:inputType="phone"
-                                        android:textColor="@color/textColor"
-                                        android:hint="@string/mpvval" />
+                                        android:maxLines="1"
+                                        android:textColor="@color/textColor" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -458,9 +470,10 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:hint="@string/rdwval"
                                         android:inputType="phone"
-                                        android:textColor="@color/textColor"
-                                        android:hint="@string/rdwval" />
+                                        android:maxLines="1"
+                                        android:textColor="@color/textColor" />
                                 </LinearLayout>
                             </LinearLayout>
                         </android.support.v4.widget.NestedScrollView>
@@ -499,9 +512,10 @@
                                         android:id="@+id/drug1"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:textColor="@color/textColor"
-                                        android:hint="@string/drug" />
+                                        android:layout_weight="2"
+                                        android:hint="@string/drugName"
+                                        android:maxLines="1"
+                                        android:textColor="@color/textColor" />
                                 </LinearLayout>
 
                                 <Button
@@ -538,20 +552,20 @@
                                     android:padding="8dp">
                                     <TextView
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="center_horizontal"
                                         android:text="@string/PatientID"
-                                        android:textSize="15sp"
                                         android:textColor="@color/textColor"
-                                        android:gravity="center_horizontal"/>
+                                        android:textSize="15sp" />
                                     <TextView
                                         android:id="@+id/diagnosisPatientId"
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
-                                        android:textSize="15sp"
+                                        android:layout_weight="1"
+                                        android:gravity="center_horizontal"
                                         android:textColor="@color/textColor"
-                                        android:gravity="center_horizontal"/>
+                                        android:textSize="15sp" />
                                 </LinearLayout>
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -559,20 +573,20 @@
                                     android:padding="8dp">
                                     <TextView
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="center_horizontal"
                                         android:text="@string/disease"
-                                        android:textSize="15sp"
                                         android:textColor="@color/textColor"
-                                        android:gravity="center_horizontal"/>
+                                        android:textSize="15sp" />
                                     <TextView
                                         android:id="@+id/diagnosisDiseaseId"
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
-                                        android:textSize="15sp"
+                                        android:layout_weight="1"
+                                        android:gravity="center_horizontal"
                                         android:textColor="@color/textColor"
-                                        android:gravity="center_horizontal"/>
+                                        android:textSize="15sp" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -581,20 +595,20 @@
                                     android:padding="8dp">
                                     <TextView
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="center_horizontal"
                                         android:text="@string/recommendedMedication"
-                                        android:textSize="15sp"
                                         android:textColor="@color/textColor"
-                                        android:gravity="center_horizontal"/>
+                                        android:textSize="15sp" />
                                     <TextView
                                         android:id="@+id/diagnosisRecommendedMedication"
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
-                                        android:textSize="15sp"
+                                        android:layout_weight="1"
+                                        android:gravity="center_horizontal"
                                         android:textColor="@color/textColor"
-                                        android:gravity="center_horizontal"/>
+                                        android:textSize="15sp" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -603,20 +617,20 @@
                                     android:padding="8dp">
                                     <TextView
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="center_horizontal"
                                         android:text="@string/currentMedication"
-                                        android:textSize="15sp"
                                         android:textColor="@color/textColor"
-                                        android:gravity="center_horizontal"/>
+                                        android:textSize="15sp" />
                                     <TextView
                                         android:id="@+id/diagnosisCurrentMedication"
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
-                                        android:textSize="15sp"
+                                        android:layout_weight="1"
+                                        android:gravity="center_horizontal"
                                         android:textColor="@color/textColor"
-                                        android:gravity="center_horizontal"/>
+                                        android:textSize="15sp" />
                                 </LinearLayout>
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -624,20 +638,20 @@
                                     android:padding="8dp">
                                     <TextView
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="center_horizontal"
                                         android:text="@string/leukocyte"
-                                        android:textSize="15sp"
                                         android:textColor="@color/textColor"
-                                        android:gravity="center_horizontal"/>
+                                        android:textSize="15sp" />
                                     <TextView
                                         android:id="@+id/diagnosisLeukocyte"
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
-                                        android:textSize="15sp"
+                                        android:layout_weight="1"
+                                        android:gravity="center_horizontal"
                                         android:textColor="@color/textColor"
-                                        android:gravity="center_horizontal"/>
+                                        android:textSize="15sp" />
                                 </LinearLayout>
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -645,20 +659,20 @@
                                     android:padding="8dp">
                                     <TextView
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="center_horizontal"
                                         android:text="@string/erythrocyte"
-                                        android:textSize="15sp"
                                         android:textColor="@color/textColor"
-                                        android:gravity="center_horizontal"/>
+                                        android:textSize="15sp" />
                                     <TextView
                                         android:id="@+id/diagnosisErythrocyte"
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
-                                        android:textSize="15sp"
+                                        android:layout_weight="1"
+                                        android:gravity="center_horizontal"
                                         android:textColor="@color/textColor"
-                                        android:gravity="center_horizontal"/>
+                                        android:textSize="15sp" />
                                 </LinearLayout>
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -666,20 +680,20 @@
                                     android:padding="8dp">
                                     <TextView
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="center_horizontal"
                                         android:text="@string/hemoglobin"
-                                        android:textSize="15sp"
                                         android:textColor="@color/textColor"
-                                        android:gravity="center_horizontal"/>
+                                        android:textSize="15sp" />
                                     <TextView
                                         android:id="@+id/diagnosisHemoglobin"
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
-                                        android:textSize="15sp"
+                                        android:layout_weight="1"
+                                        android:gravity="center_horizontal"
                                         android:textColor="@color/textColor"
-                                        android:gravity="center_horizontal"/>
+                                        android:textSize="15sp" />
                                 </LinearLayout>
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -687,20 +701,20 @@
                                     android:padding="8dp">
                                     <TextView
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="center_horizontal"
                                         android:text="@string/hematocrit"
-                                        android:textSize="15sp"
                                         android:textColor="@color/textColor"
-                                        android:gravity="center_horizontal"/>
+                                        android:textSize="15sp" />
                                     <TextView
                                         android:id="@+id/diagnosisHematocrit"
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
-                                        android:textSize="15sp"
+                                        android:layout_weight="1"
+                                        android:gravity="center_horizontal"
                                         android:textColor="@color/textColor"
-                                        android:gravity="center_horizontal"/>
+                                        android:textSize="15sp" />
                                 </LinearLayout>
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -708,20 +722,20 @@
                                     android:padding="8dp">
                                     <TextView
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="center_horizontal"
                                         android:text="@string/mcv"
-                                        android:textSize="15sp"
                                         android:textColor="@color/textColor"
-                                        android:gravity="center_horizontal"/>
+                                        android:textSize="15sp" />
                                     <TextView
                                         android:id="@+id/diagnosisMcv"
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
-                                        android:textSize="15sp"
+                                        android:layout_weight="1"
+                                        android:gravity="center_horizontal"
                                         android:textColor="@color/textColor"
-                                        android:gravity="center_horizontal"/>
+                                        android:textSize="15sp" />
                                 </LinearLayout>
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -729,20 +743,20 @@
                                     android:padding="8dp">
                                     <TextView
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="center_horizontal"
                                         android:text="@string/MCH"
-                                        android:textSize="15sp"
                                         android:textColor="@color/textColor"
-                                        android:gravity="center_horizontal"/>
+                                        android:textSize="15sp" />
                                     <TextView
                                         android:id="@+id/diagnosisMch"
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
-                                        android:textSize="15sp"
+                                        android:layout_weight="1"
+                                        android:gravity="center_horizontal"
                                         android:textColor="@color/textColor"
-                                        android:gravity="center_horizontal"/>
+                                        android:textSize="15sp" />
                                 </LinearLayout>
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -750,20 +764,20 @@
                                     android:padding="8dp">
                                     <TextView
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="center_horizontal"
                                         android:text="@string/mchc"
-                                        android:textSize="15sp"
                                         android:textColor="@color/textColor"
-                                        android:gravity="center_horizontal"/>
+                                        android:textSize="15sp" />
                                     <TextView
                                         android:id="@+id/diagnosisMchc"
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
-                                        android:textSize="15sp"
+                                        android:layout_weight="1"
+                                        android:gravity="center_horizontal"
                                         android:textColor="@color/textColor"
-                                        android:gravity="center_horizontal"/>
+                                        android:textSize="15sp" />
                                 </LinearLayout>
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -771,20 +785,20 @@
                                     android:padding="8dp">
                                     <TextView
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="center_horizontal"
                                         android:text="@string/platelet"
-                                        android:textSize="15sp"
                                         android:textColor="@color/textColor"
-                                        android:gravity="center_horizontal"/>
+                                        android:textSize="15sp" />
                                     <TextView
                                         android:id="@+id/diagnosisPlatelet"
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
-                                        android:textSize="15sp"
+                                        android:layout_weight="1"
+                                        android:gravity="center_horizontal"
                                         android:textColor="@color/textColor"
-                                        android:gravity="center_horizontal"/>
+                                        android:textSize="15sp" />
                                 </LinearLayout>
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -792,20 +806,20 @@
                                     android:padding="8dp">
                                     <TextView
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="center_horizontal"
                                         android:text="@string/reticulocytes"
-                                        android:textSize="15sp"
                                         android:textColor="@color/textColor"
-                                        android:gravity="center_horizontal"/>
+                                        android:textSize="15sp" />
                                     <TextView
                                         android:id="@+id/diagnosisReticulocytes"
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
-                                        android:textSize="15sp"
+                                        android:layout_weight="1"
+                                        android:gravity="center_horizontal"
                                         android:textColor="@color/textColor"
-                                        android:gravity="center_horizontal"/>
+                                        android:textSize="15sp" />
                                 </LinearLayout>
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -813,20 +827,20 @@
                                     android:padding="8dp">
                                     <TextView
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="center_horizontal"
                                         android:text="@string/mpv"
-                                        android:textSize="15sp"
                                         android:textColor="@color/textColor"
-                                        android:gravity="center_horizontal"/>
+                                        android:textSize="15sp" />
                                     <TextView
                                         android:id="@+id/diagnosisMpv"
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
-                                        android:textSize="15sp"
+                                        android:layout_weight="1"
+                                        android:gravity="center_horizontal"
                                         android:textColor="@color/textColor"
-                                        android:gravity="center_horizontal"/>
+                                        android:textSize="15sp" />
                                 </LinearLayout>
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -834,40 +848,40 @@
                                     android:padding="8dp">
                                     <TextView
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="center_horizontal"
                                         android:text="@string/rdw"
-                                        android:textSize="15sp"
                                         android:textColor="@color/textColor"
-                                        android:gravity="center_horizontal"/>
+                                        android:textSize="15sp" />
                                     <TextView
                                         android:id="@+id/diagnosisRdw"
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
-                                        android:textSize="15sp"
+                                        android:layout_weight="1"
+                                        android:gravity="center_horizontal"
                                         android:textColor="@color/textColor"
-                                        android:gravity="center_horizontal"/>
+                                        android:textSize="15sp" />
                                 </LinearLayout>
 
                                 <Button
-                                    android:layout_margin="16dp"
                                     android:id="@+id/diagnosisUpdateButton"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:layout_margin="16dp"
                                     android:background="@color/backgroundRed"
-                                    android:textColor="@color/textColor"
-                                    android:text="@string/update"/>
+                                    android:text="@string/update"
+                                    android:textColor="@color/textColor" />
                                 <Button
-                                    android:layout_marginRight="16dp"
-                                    android:layout_marginLeft="16dp"
-                                    android:layout_marginBottom="16dp"
                                     android:id="@+id/diagnosisSaveButton"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginBottom="16dp"
+                                    android:layout_marginLeft="16dp"
+                                    android:layout_marginRight="16dp"
                                     android:background="@color/backgroundRed"
-                                    android:textColor="@color/textColor"
-                                    android:text="@string/save"/>
+                                    android:text="@string/save"
+                                    android:textColor="@color/textColor" />
 
 
                             </LinearLayout>
@@ -880,11 +894,11 @@
                             android:id="@+id/getResult"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/textColor"
                             android:layout_gravity="center_horizontal"
                             android:layout_margin="16dp"
                             android:background="@color/backgroundRed"
-                            android:text="@string/getResult" />
+                            android:text="@string/getResult"
+                            android:textColor="@color/textColor" />
                         </ScrollView>
 
                     </LinearLayout>

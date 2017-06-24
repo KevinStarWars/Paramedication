@@ -10,6 +10,9 @@ public class DiseaseRecord {
         this.name = name;
     }
 
+    public DiseaseRecord() {
+    }
+
     public int getId() {
         return this.id;
     }
@@ -26,8 +29,11 @@ public class DiseaseRecord {
         this.name = name;
     }
 
-    public String print() {
-        return "ID: " + this.id + " Disease name: " + this.name;
+    @Override
+    public String toString() {
+        return "DiseaseRecord{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
-
 }

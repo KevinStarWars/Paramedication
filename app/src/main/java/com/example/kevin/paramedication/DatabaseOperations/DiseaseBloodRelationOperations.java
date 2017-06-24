@@ -11,10 +11,10 @@ import com.example.kevin.paramedication.DatabaseObjects.DiseaseBloodRelationReco
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.kevin.paramedication.MainActivity.LOG_TAG;
-
 
 public class DiseaseBloodRelationOperations {
+
+    static final String LOG_TAG = DiseaseBloodRelationOperations.class.getSimpleName();
 
     private String[] diseaseBloodColumns = {
             DiseaseBloodTableContract.DiseaseBloodEntry._ID,
@@ -45,6 +45,7 @@ public class DiseaseBloodRelationOperations {
 
         cursor.moveToFirst();
         DiseaseBloodRelationRecord record = cursorToDiseaseBloodRelationRecord(cursor);
+        Log.d(LOG_TAG, record.toString());
         cursor.close();
 
         return record;
@@ -75,7 +76,6 @@ public class DiseaseBloodRelationOperations {
         while (!cursor.isAfterLast()) {
             record = cursorToDiseaseBloodRelationRecord(cursor);
             List.add(record);
-            Log.d(LOG_TAG, "ID: " + record.getId() + ", Content: " + record.print());
             cursor.moveToNext();
         }
         cursor.close();

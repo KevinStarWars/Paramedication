@@ -8,8 +8,12 @@ import android.util.Log;
 import com.example.kevin.paramedication.DatabaseContracts.BloodTableContract;
 import com.example.kevin.paramedication.DatabaseObjects.BloodRecord;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static com.example.kevin.paramedication.MainActivity.LOG_TAG;
 
@@ -48,29 +52,31 @@ public class BloodOperations {
 
         List<BloodRecord> currentDatabase = getAllBloodRecords(database);
 
+        if (leukocyteMin.isEmpty())
+
         for (int i = 0; i < currentDatabase.size(); i++) {
-            if (currentDatabase.get(i).getLeukocyteMin() == Double.parseDouble(leukocyteMin) &&
-                    currentDatabase.get(i).getLeukocyteMax() == Double.parseDouble(leukocyteMax) &&
-                    currentDatabase.get(i).getErythrocyteMin() == Double.parseDouble(erythrocyteMin) &&
-                    currentDatabase.get(i).getErythrocyteMax() == Double.parseDouble(erythrocyteMax) &&
-                    currentDatabase.get(i).getHemoglobinMin() == Double.parseDouble(hemoglobinMin) &&
-                    currentDatabase.get(i).getHemoglobinMax() == Double.parseDouble(hemoglobinMax) &&
-                    currentDatabase.get(i).getHematocritMin() == Double.parseDouble(hematocritMin) &&
-                    currentDatabase.get(i).getHematocritMax() == Double.parseDouble(hematocritMax) &&
-                    currentDatabase.get(i).getMcvMin() == Double.parseDouble(mcvMin) &&
-                    currentDatabase.get(i).getMcvMax() == Double.parseDouble(mcvMax) &&
-                    currentDatabase.get(i).getMchMin() == Double.parseDouble(mchMin) &&
-                    currentDatabase.get(i).getMchMax() == Double.parseDouble(mchMax) &&
-                    currentDatabase.get(i).getMchcMin() == Double.parseDouble(mchcMin) &&
-                    currentDatabase.get(i).getMchcMax() == Double.parseDouble(mchcMax) &&
-                    currentDatabase.get(i).getPlateletMin() == Double.parseDouble(plateletMin) &&
-                    currentDatabase.get(i).getPlateletMax() == Double.parseDouble(plateletMax) &&
-                    currentDatabase.get(i).getReticulocytesMin() == Double.parseDouble(reticulocytesMin) &&
-                    currentDatabase.get(i).getReticulocytesMax() == Double.parseDouble(reticulocytesMax) &&
-                    currentDatabase.get(i).getMpvMin() == Double.parseDouble(mpvMin) &&
-                    currentDatabase.get(i).getMpvMax() == Double.parseDouble(mpvMax) &&
-                    currentDatabase.get(i).getRdwMin() == Double.parseDouble(rdwMin) &&
-                    currentDatabase.get(i).getRdwMax() == Double.parseDouble(rdwMax) &&
+            if (currentDatabase.get(i).getLeukocyteMin() == convertToDefaultDouble(leukocyteMin) &&
+                    currentDatabase.get(i).getLeukocyteMax() == convertToDefaultDouble(leukocyteMax) &&
+                    currentDatabase.get(i).getErythrocyteMin() == convertToDefaultDouble(erythrocyteMin) &&
+                    currentDatabase.get(i).getErythrocyteMax() == convertToDefaultDouble(erythrocyteMax) &&
+                    currentDatabase.get(i).getHemoglobinMin() == convertToDefaultDouble(hemoglobinMin) &&
+                    currentDatabase.get(i).getHemoglobinMax() == convertToDefaultDouble(hemoglobinMax) &&
+                    currentDatabase.get(i).getHematocritMin() == convertToDefaultDouble(hematocritMin) &&
+                    currentDatabase.get(i).getHematocritMax() == convertToDefaultDouble(hematocritMax) &&
+                    currentDatabase.get(i).getMcvMin() == convertToDefaultDouble(mcvMin) &&
+                    currentDatabase.get(i).getMcvMax() == convertToDefaultDouble(mcvMax) &&
+                    currentDatabase.get(i).getMchMin() == convertToDefaultDouble(mchMin) &&
+                    currentDatabase.get(i).getMchMax() == convertToDefaultDouble(mchMax) &&
+                    currentDatabase.get(i).getMchcMin() == convertToDefaultDouble(mchcMin) &&
+                    currentDatabase.get(i).getMchcMax() == convertToDefaultDouble(mchcMax) &&
+                    currentDatabase.get(i).getPlateletMin() == convertToDefaultDouble(plateletMin) &&
+                    currentDatabase.get(i).getPlateletMax() == convertToDefaultDouble(plateletMax) &&
+                    currentDatabase.get(i).getReticulocytesMin() == convertToDefaultDouble(reticulocytesMin) &&
+                    currentDatabase.get(i).getReticulocytesMax() == convertToDefaultDouble(reticulocytesMax) &&
+                    currentDatabase.get(i).getMpvMin() == convertToDefaultDouble(mpvMin) &&
+                    currentDatabase.get(i).getMpvMax() == convertToDefaultDouble(mpvMax) &&
+                    currentDatabase.get(i).getRdwMin() == convertToDefaultDouble(rdwMin) &&
+                    currentDatabase.get(i).getRdwMax() == convertToDefaultDouble(rdwMax) &&
                     currentDatabase.get(i).getGender().equals(gender)) {
                 return currentDatabase.get(i);
             }
@@ -113,6 +119,7 @@ public class BloodOperations {
         }
 
         BloodRecord record = cursorToBloodRecord(cursor);
+        Log.d(LOG_TAG, record.toString());
         cursor.close();
 
         return record;
@@ -170,22 +177,34 @@ public class BloodOperations {
                 Log.d(LOG_TAG, "not able to move to next.");
             }
             List.add(record);
-            Log.d(LOG_TAG, "ID: " + record.getId() + ", Content: " + record.toString());
         }
         cursor.close();
 
         return List;
     }
 
-    public BloodRecord getBloodRecordById(int id, SQLiteDatabase database) {
+    public BloodRecord getById(int id, SQLiteDatabase database) {
         Cursor cursor = database.query(BloodTableContract.BloodTableEntry.TABLE_NAME, bloodColumns,
                 BloodTableContract.BloodTableEntry._ID + "=" + id, null, null, null, null);
 
         cursor.moveToFirst();
-        BloodRecord record = cursorToBloodRecord(cursor);
-        cursor.close();
 
-        return record;
+        return cursorToBloodRecord(cursor);
     }
 
+    private double convertToDefaultDouble(String number) {
+        if (!number.isEmpty()) {
+            Locale theLocale = Locale.getDefault();
+            NumberFormat numberFormat = DecimalFormat.getInstance(theLocale);
+            Number theNumber;
+            try {
+                theNumber = numberFormat.parse(number);
+                return theNumber.doubleValue();
+            } catch (ParseException e) {
+                Log.d(LOG_TAG, e.getMessage());
+                return 0d;
+            }
+        } else return 0;
+    }
+    
 }

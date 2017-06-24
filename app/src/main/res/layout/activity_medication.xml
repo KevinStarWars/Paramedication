@@ -64,14 +64,14 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@color/foregroundRed"
             android:gravity="center_vertical"
             android:maxLines="1"
             android:onClick="changeToMedication"
             android:text="@string/medication"
-            android:textStyle="bold"
-            android:background="@color/foregroundRed"
             android:textAlignment="center"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="1dp"
@@ -119,16 +119,16 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_weight="10"
             android:layout_height="match_parent"
+            android:layout_weight="10"
             android:orientation="vertical">
         <LinearLayout
             android:id="@+id/printArea1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="10"
-            android:padding="8dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="8dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -148,7 +148,9 @@
                     android:id="@+id/autocompleteDrugI"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
+                    android:hint="@string/drugName"
+                    android:maxLines="1"
                     android:textColor="@color/textColor" />
             </LinearLayout>
 
@@ -170,7 +172,9 @@
                     android:id="@+id/autocompleteDrugII"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
+                    android:hint="@string/drugName"
+                    android:maxLines="1"
                     android:textColor="@color/textColor" />
             </LinearLayout>
 
@@ -192,7 +196,8 @@
                     android:id="@+id/interaction"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
+                    android:maxLines="1"
                     android:textColor="@color/textColor" />
             </LinearLayout>
 
@@ -203,16 +208,16 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="8dp"
                 android:background="@color/backgroundRed"
-                android:text="Add"
+                android:text="@string/update"
                 android:textColor="@color/textColor" />
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/printArea2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:padding="8dp"
-                android:visibility="gone"
-                android:orientation="vertical">
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"

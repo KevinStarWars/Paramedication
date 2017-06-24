@@ -157,6 +157,7 @@ public class Database extends AppCompatActivity {
         entry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                entry.setDropDownWidth(convertToDp(200));
                 entry.showDropDown();
             }
         });
@@ -239,8 +240,10 @@ public class Database extends AppCompatActivity {
     private AutoCompleteTextView createNewEntry() {
 
         final AutoCompleteTextView entry = new AutoCompleteTextView(this);
-        final LinearLayout.LayoutParams entryViewParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
-        entryViewParams.setMargins(8, 8, 8, 8);
+        final LinearLayout.LayoutParams entryViewParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 2f);
+
+        entry.setHint(R.string.drugName);
+        entryViewParams.setMargins(convertToDp(8), convertToDp(8), convertToDp(8), convertToDp(8));
         entry.setLayoutParams(entryViewParams);
         entry.setId(View.generateViewId());
 
@@ -797,5 +800,4 @@ public class Database extends AppCompatActivity {
             return 0d;
         }
     }
-
 }

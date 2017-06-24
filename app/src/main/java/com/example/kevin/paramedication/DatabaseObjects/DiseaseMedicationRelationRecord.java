@@ -37,7 +37,12 @@ public class DiseaseMedicationRelationRecord {
         this.drugId = drugId;
     }
 
-    public String print() {
-        return "ID: " + getId() + " Disease ID: " + getDiseaseId() + " Drug ID" + getDrugId();
+    @Override
+    public String toString() {
+        return "DiseaseMedicationRelationRecord{" +
+                "id=" + id +
+                ", diseaseId=" + diseaseId +
+                ", drugId=" + drugId +
+                '}';
     }
 }

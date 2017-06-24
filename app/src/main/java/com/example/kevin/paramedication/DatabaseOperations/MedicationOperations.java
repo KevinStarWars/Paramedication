@@ -41,15 +41,11 @@ public class MedicationOperations {
 
         long insertId = database.insert(MedicationTableContract.MedicationTableEntry.TABLE_NAME, null, values);
 
-        Log.d(LOG_TAG, "Inserted new drug: ");
-
         Cursor cursor = database.query(MedicationTableContract.MedicationTableEntry.TABLE_NAME, medColumns,
                 MedicationTableContract.MedicationTableEntry._ID + "=" + insertId, null, null, null, null);
 
         cursor.moveToFirst();
         MedicationRecord record = cursorToMedicationRecord(cursor);
-
-        Log.d(LOG_TAG, record.print());
 
         cursor.close();
 
@@ -81,7 +77,6 @@ public class MedicationOperations {
         while (!cursor.isAfterLast()) {
             record = cursorToMedicationRecord(cursor);
             List.add(record);
-            Log.d(LOG_TAG, "ID: " + record.getId() + ", Content: " + record.print());
             cursor.moveToNext();
         }
         cursor.close();

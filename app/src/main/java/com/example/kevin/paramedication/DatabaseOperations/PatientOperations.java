@@ -85,7 +85,6 @@ public class PatientOperations {
         while (!cursor.isAfterLast()) {
             record = cursorToPatientRecord(cursor);
             List.add(record);
-            Log.d(LOG_TAG, "ID: " + record.getId() + ", Content: " + record.toString());
             cursor.moveToNext();
         }
         cursor.close();

@@ -37,7 +37,12 @@ public class DiseaseBloodRelationRecord {
         this.diseaseId = diseaseId;
     }
 
-    public String print() {
-        return "ID: " + getId() + " BloodID: " + getBloodId() + " DiseaseID: " + getDiseaseId();
+    @Override
+    public String toString() {
+        return "DiseaseBloodRelationRecord{" +
+                "id=" + id +
+                ", bloodId=" + bloodId +
+                ", diseaseId=" + diseaseId +
+                '}';
     }
 }

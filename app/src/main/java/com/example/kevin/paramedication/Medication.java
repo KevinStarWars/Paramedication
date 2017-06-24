@@ -117,6 +117,7 @@ public class Medication extends AppCompatActivity {
             drugView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    drugView.setDropDownWidth(convertToDp(200));
                     drugView.showDropDown();
                 }
             });
@@ -207,7 +208,12 @@ public class Medication extends AppCompatActivity {
                 MedicationOps.createMedicationRecord(entryDrugOne.getText().toString(), dataSource.database).getId(),
                 MedicationOps.createMedicationRecord(entryDrugTwo.getText().toString(), dataSource.database).getId(),
                 typeOfInteraction.getText().toString(),
-                dataSource.database,
-                this);
+                dataSource.database);
+    }
+
+    // converts dp to actual pixels
+    private int convertToDp(float sizeInDp) {
+        float scale = getResources().getDisplayMetrics().density;
+        return (int) (sizeInDp * scale + 0.5f);
     }
 }

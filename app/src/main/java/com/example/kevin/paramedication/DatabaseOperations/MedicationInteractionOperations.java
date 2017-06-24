@@ -2,11 +2,9 @@ package com.example.kevin.paramedication.DatabaseOperations;
 
 
 import android.content.ContentValues;
-import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.kevin.paramedication.DatabaseContracts.DiseaseMedicationTableContract;
 import com.example.kevin.paramedication.DatabaseContracts.MedicationInteractionTableContract;
@@ -27,14 +25,13 @@ public class MedicationInteractionOperations {
             MedicationInteractionTableContract.MedicationInteractionEntry.COLUMN_TYPE_OF_INTERACTION
     };
 
-    public MedicationInteractionRecord createDiseaseMedicationRelationRecord(int drugID1, int drugId2, String typeOfInteraction, SQLiteDatabase database, Context context) {
+    public MedicationInteractionRecord createDiseaseMedicationRelationRecord(int drugID1, int drugId2, String typeOfInteraction, SQLiteDatabase database) {
 
         List<MedicationInteractionRecord> currentDatabase = getAllMedicationInteractionRecord(database);
 
         for (int i = 0; i < currentDatabase.size(); i++) {
             if ((currentDatabase.get(i).getDrugId1() == drugID1 && currentDatabase.get(i).getDrugId2() == drugId2) ||
                     (currentDatabase.get(i).getDrugId1() == drugId2 && currentDatabase.get(i).getDrugId2() == drugID1)) {
-                    Toast.makeText(context, "Interaction is already in database", Toast.LENGTH_SHORT).show();
                     return currentDatabase.get(i);
             }
         }
@@ -45,7 +42,6 @@ public class MedicationInteractionOperations {
         values.put(MedicationInteractionTableContract.MedicationInteractionEntry.COLUMN_TYPE_OF_INTERACTION, typeOfInteraction);
 
         long insertId = database.insert(MedicationInteractionTableContract.MedicationInteractionEntry.TABLE_NAME, null, values);
-        Toast.makeText(context, "added successfully", Toast.LENGTH_SHORT).show();
 
         Cursor cursor = database.query(MedicationInteractionTableContract.MedicationInteractionEntry.TABLE_NAME, medicationInteractionColumn,
                 DiseaseMedicationTableContract.DiseaseMedicationEntry._ID + "=" + insertId, null, null, null, null);
@@ -53,6 +49,8 @@ public class MedicationInteractionOperations {
         cursor.moveToFirst();
         MedicationInteractionRecord record = cursorToMedicationInteractionRecord(cursor);
         cursor.close();
+
+        Log.d(LOG_TAG, record.toString());
 
         return record;
     }
@@ -84,7 +82,6 @@ public class MedicationInteractionOperations {
         while (!cursor.isAfterLast()) {
             record = cursorToMedicationInteractionRecord(cursor);
             List.add(record);
-            Log.d(LOG_TAG, "ID: " + record.getId() + ", Content: " + record.toString());
             cursor.moveToNext();
         }
         cursor.close();

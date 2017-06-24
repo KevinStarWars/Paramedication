@@ -16,7 +16,7 @@ public class DbDataSource {
     private DbHelper dbHelper;
 
     public DbDataSource(Context context) {
-        Log.d(LOG_TAG, "Unsere DataSource erzeugt jetzt den dbHelper");
+        Log.d(LOG_TAG, "Creating dbHelper");
         dbHelper = new DbHelper(context);
     }
 

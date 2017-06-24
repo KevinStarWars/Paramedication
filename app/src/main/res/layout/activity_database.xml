@@ -17,11 +17,11 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/diagnosis"
-            android:onClick="changeToDiagnosis"
-            android:textAlignment="center"
             android:gravity="center_vertical"
             android:maxLines="1"
+            android:onClick="changeToDiagnosis"
+            android:text="@string/diagnosis"
+            android:textAlignment="center"
             android:textSize="15sp" />
 
         <TextView
@@ -33,9 +33,9 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:onClick="changeToPatients"
             android:gravity="center_vertical"
             android:maxLines="1"
+            android:onClick="changeToPatients"
             android:text="@string/patients"
             android:textAlignment="center"
             android:textSize="15sp" />
@@ -49,13 +49,13 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/database"
+            android:background="@color/foregroundRed"
             android:gravity="center_vertical"
             android:maxLines="1"
-            android:textStyle="bold"
-            android:background="@color/foregroundRed"
+            android:text="@string/database"
             android:textAlignment="center"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="1dp"
@@ -82,9 +82,9 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:onClick="changeToInfo"
             android:gravity="center_vertical"
             android:maxLines="1"
+            android:onClick="changeToInfo"
             android:text="@string/info"
             android:textAlignment="center"
             android:textSize="15sp" />
@@ -131,7 +131,7 @@
                     android:id="@android:id/tabs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/foregroundRed"
+                    android:background="@color/backgroundRed"
                     ></TabWidget>
 
                 <FrameLayout
@@ -150,9 +150,9 @@
                             android:layout_height="match_parent">
 
                             <LinearLayout
-                                android:background="@android:color/white"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
+                                android:background="@android:color/white"
                                 android:orientation="vertical"
                                 android:padding="16dp">
 
@@ -162,19 +162,19 @@
                                 <RadioButton
                                     android:id="@+id/femaleButtonDatabase"
                                     android:layout_width="0dp"
-                                    android:layout_weight="1"
                                     android:layout_height="wrap_content"
-                                    android:text="@string/female"
                                     android:layout_margin="16dp"
+                                    android:layout_weight="1"
+                                    android:text="@string/female"
                                     android:textColor="@color/textColor">
                                 </RadioButton>
                                 <RadioButton
                                     android:id="@+id/maleButtonDatabase"
                                     android:layout_width="0dp"
-                                    android:layout_weight="1"
                                     android:layout_height="wrap_content"
-                                    android:text="@string/male"
                                     android:layout_margin="16dp"
+                                    android:layout_weight="1"
+                                    android:text="@string/male"
                                     android:textColor="@color/textColor">
                                 </RadioButton>
                                 </LinearLayout>
@@ -185,8 +185,8 @@
                                     android:padding="8dp">
                                     <TextView
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
+                                        android:layout_weight="1"
                                         android:text="@string/disease"
                                         android:textColor="@color/textColor"
                                         android:textSize="15sp"/>
@@ -196,8 +196,9 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="2"
-                                        android:textColor="@color/textColor"
-                                        android:hint="@string/disease" />
+                                        android:hint="@string/disease"
+                                        android:maxLines="1"
+                                        android:textColor="@color/textColor" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -225,8 +226,8 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:textColor="@color/textColor"
                                         android:hint="@string/maximum"
+                                        android:textColor="@color/textColor"
                                         android:textSize="15sp" />
                                 </LinearLayout>
 
@@ -237,29 +238,31 @@
 
                                     <TextView
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
+                                        android:layout_height="match_parent"
                                         android:layout_weight="1"
+                                        android:text="@string/leukocyte"
                                         android:textColor="@color/textColor"
-                                        android:textSize="15sp"
-                                        android:text="@string/leukocyte"/>
+                                        android:textSize="15sp" />
 
                                     <EditText
                                         android:id="@+id/leukocyteMin"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:hint="@string/min"
                                         android:inputType="phone"
-                                        android:textColor="@color/textColor"
-                                        android:hint="@string/min" />
+                                        android:maxLines="1"
+                                        android:textColor="@color/textColor" />
 
                                     <EditText
                                         android:id="@+id/leukocyteMax"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:hint="@string/max"
                                         android:inputType="phone"
-                                        android:textColor="@color/textColor"
-                                        android:hint="@string/max" />
+                                        android:maxLines="1"
+                                        android:textColor="@color/textColor" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -269,8 +272,9 @@
 
                                     <TextView
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
+                                        android:layout_height="match_parent"
                                         android:layout_weight="1"
+                                        android:elegantTextHeight="true"
                                         android:text="@string/erythrocyte"
                                         android:textColor="@color/textColor"
                                         android:textSize="15sp" />
@@ -280,18 +284,20 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:hint="@string/min"
                                         android:inputType="phone"
-                                        android:textColor="@color/textColor"
-                                        android:hint="@string/min" />
+                                        android:maxLines="1"
+                                        android:textColor="@color/textColor" />
 
                                     <EditText
                                         android:id="@+id/erythrocyteMax"
                                         android:layout_width="0dp"
-                                        android:textColor="@color/textColor"
-                                        android:inputType="phone"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:hint="@string/max" />
+                                        android:hint="@string/max"
+                                        android:inputType="phone"
+                                        android:maxLines="1"
+                                        android:textColor="@color/textColor" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -301,7 +307,7 @@
 
                                     <TextView
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
+                                        android:layout_height="match_parent"
                                         android:layout_weight="1"
                                         android:text="@string/hemoglobin"
                                         android:textColor="@color/textColor"
@@ -311,19 +317,21 @@
                                         android:id="@+id/hemoglobinMin"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
-                                        android:inputType="phone"
                                         android:layout_weight="1"
-                                        android:textColor="@color/textColor"
-                                        android:hint="@string/min" />
+                                        android:hint="@string/min"
+                                        android:inputType="phone"
+                                        android:maxLines="1"
+                                        android:textColor="@color/textColor" />
 
                                     <EditText
                                         android:id="@+id/hemoglobinMax"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:hint="@string/max"
                                         android:inputType="phone"
-                                        android:textColor="@color/textColor"
-                                        android:hint="@string/max" />
+                                        android:maxLines="1"
+                                        android:textColor="@color/textColor" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -333,7 +341,7 @@
 
                                     <TextView
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
+                                        android:layout_height="match_parent"
                                         android:layout_weight="1"
                                         android:text="@string/hematocrit"
                                         android:textColor="@color/textColor"
@@ -344,18 +352,20 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:hint="@string/min"
                                         android:inputType="phone"
-                                        android:textColor="@color/textColor"
-                                        android:hint="@string/min" />
+                                        android:maxLines="1"
+                                        android:textColor="@color/textColor" />
 
                                     <EditText
                                         android:id="@+id/hematocritMax"
                                         android:layout_width="0dp"
-                                        android:textColor="@color/textColor"
-                                        android:inputType="phone"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:hint="@string/max" />
+                                        android:hint="@string/max"
+                                        android:inputType="phone"
+                                        android:maxLines="1"
+                                        android:textColor="@color/textColor" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -365,10 +375,10 @@
 
                                     <TextView
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
+                                        android:layout_height="match_parent"
                                         android:layout_weight="1"
-                                        android:textColor="@color/textColor"
                                         android:text="@string/mcv"
+                                        android:textColor="@color/textColor"
                                         android:textSize="15sp" />
 
                                     <EditText
@@ -376,18 +386,20 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:hint="@string/min"
                                         android:inputType="phone"
-                                        android:textColor="@color/textColor"
-                                        android:hint="@string/min" />
+                                        android:maxLines="1"
+                                        android:textColor="@color/textColor" />
 
                                     <EditText
                                         android:id="@+id/mcvMax"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:hint="@string/max"
                                         android:inputType="phone"
-                                        android:textColor="@color/textColor"
-                                        android:hint="@string/max" />
+                                        android:maxLines="1"
+                                        android:textColor="@color/textColor" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -397,29 +409,31 @@
 
                                     <TextView
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
+                                        android:layout_height="match_parent"
                                         android:layout_weight="1"
-                                        android:textColor="@color/textColor"
+                                        android:maxLines="1"
                                         android:text="@string/MCH"
+                                        android:textColor="@color/textColor"
                                         android:textSize="15sp" />
 
                                     <EditText
                                         android:id="@+id/mchMin"
                                         android:layout_width="0dp"
-                                        android:textColor="@color/textColor"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:hint="@string/min"
                                         android:inputType="phone"
-                                        android:hint="@string/min" />
+                                        android:textColor="@color/textColor" />
 
                                     <EditText
                                         android:id="@+id/mchMax"
                                         android:layout_width="0dp"
-                                        android:inputType="phone"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:textColor="@color/textColor"
-                                        android:hint="@string/max" />
+                                        android:hint="@string/max"
+                                        android:inputType="phone"
+                                        android:maxLines="1"
+                                        android:textColor="@color/textColor" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -429,29 +443,31 @@
 
                                     <TextView
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
+                                        android:layout_height="match_parent"
                                         android:layout_weight="1"
-                                        android:textColor="@color/textColor"
                                         android:text="@string/mchc"
+                                        android:textColor="@color/textColor"
                                         android:textSize="15sp" />
 
                                     <EditText
                                         android:id="@+id/mchcMin"
                                         android:layout_width="0dp"
-                                        android:textColor="@color/textColor"
-                                        android:inputType="phone"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:hint="@string/min" />
+                                        android:hint="@string/min"
+                                        android:inputType="phone"
+                                        android:maxLines="1"
+                                        android:textColor="@color/textColor" />
 
                                     <EditText
                                         android:id="@+id/mchcMax"
                                         android:layout_width="0dp"
-                                        android:textColor="@color/textColor"
-                                        android:inputType="phone"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:hint="@string/max" />
+                                        android:hint="@string/max"
+                                        android:inputType="phone"
+                                        android:maxLines="1"
+                                        android:textColor="@color/textColor" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -461,29 +477,31 @@
 
                                     <TextView
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
+                                        android:layout_height="match_parent"
                                         android:layout_weight="1"
-                                        android:textColor="@color/textColor"
                                         android:text="@string/platelet"
+                                        android:textColor="@color/textColor"
                                         android:textSize="15sp" />
 
                                     <EditText
                                         android:id="@+id/plateletMin"
                                         android:layout_width="0dp"
-                                        android:textColor="@color/textColor"
                                         android:layout_height="wrap_content"
-                                        android:inputType="phone"
                                         android:layout_weight="1"
-                                        android:hint="@string/min" />
+                                        android:hint="@string/min"
+                                        android:inputType="phone"
+                                        android:maxLines="1"
+                                        android:textColor="@color/textColor" />
 
                                     <EditText
                                         android:id="@+id/plateletMax"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
-                                        android:inputType="phone"
                                         android:layout_weight="1"
-                                        android:textColor="@color/textColor"
-                                        android:hint="@string/max" />
+                                        android:hint="@string/max"
+                                        android:inputType="phone"
+                                        android:maxLines="1"
+                                        android:textColor="@color/textColor" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -493,29 +511,31 @@
 
                                     <TextView
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
+                                        android:layout_height="match_parent"
                                         android:layout_weight="1"
-                                        android:textColor="@color/textColor"
                                         android:text="@string/reticulocytes"
+                                        android:textColor="@color/textColor"
                                         android:textSize="15sp" />
 
                                     <EditText
                                         android:id="@+id/reticulocytesMin"
                                         android:layout_width="0dp"
-                                        android:textColor="@color/textColor"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:hint="@string/min"
                                         android:inputType="phone"
-                                        android:hint="@string/min" />
+                                        android:maxLines="1"
+                                        android:textColor="@color/textColor" />
 
                                     <EditText
                                         android:id="@+id/reticulocytesMax"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
-                                        android:inputType="phone"
-                                        android:textColor="@color/textColor"
                                         android:layout_weight="1"
-                                        android:hint="@string/max" />
+                                        android:hint="@string/max"
+                                        android:inputType="phone"
+                                        android:maxLines="1"
+                                        android:textColor="@color/textColor" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -525,29 +545,31 @@
 
                                     <TextView
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
+                                        android:layout_height="match_parent"
                                         android:layout_weight="1"
-                                        android:textColor="@color/textColor"
                                         android:text="@string/mpv"
+                                        android:textColor="@color/textColor"
                                         android:textSize="15sp" />
 
                                     <EditText
                                         android:id="@+id/mpvMin"
                                         android:layout_width="0dp"
-                                        android:textColor="@color/textColor"
                                         android:layout_height="wrap_content"
-                                        android:inputType="phone"
                                         android:layout_weight="1"
-                                        android:hint="@string/min" />
+                                        android:hint="@string/min"
+                                        android:inputType="phone"
+                                        android:maxLines="1"
+                                        android:textColor="@color/textColor" />
 
                                     <EditText
                                         android:id="@+id/mpvMax"
                                         android:layout_width="0dp"
-                                        android:textColor="@color/textColor"
                                         android:layout_height="wrap_content"
-                                        android:inputType="phone"
                                         android:layout_weight="1"
-                                        android:hint="@string/max" />
+                                        android:hint="@string/max"
+                                        android:inputType="phone"
+                                        android:maxLines="1"
+                                        android:textColor="@color/textColor" />
                                 </LinearLayout>
 
                                 <LinearLayout
@@ -557,29 +579,31 @@
 
                                     <TextView
                                         android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
+                                        android:layout_height="match_parent"
                                         android:layout_weight="1"
-                                        android:textColor="@color/textColor"
                                         android:text="@string/rdw"
+                                        android:textColor="@color/textColor"
                                         android:textSize="15sp" />
 
                                     <EditText
                                         android:id="@+id/rdwMin"
                                         android:layout_width="0dp"
-                                        android:textColor="@color/textColor"
                                         android:layout_height="wrap_content"
-                                        android:inputType="phone"
                                         android:layout_weight="1"
-                                        android:hint="@string/min" />
+                                        android:hint="@string/min"
+                                        android:inputType="phone"
+                                        android:maxLines="1"
+                                        android:textColor="@color/textColor" />
 
                                     <EditText
                                         android:id="@+id/rdwMax"
                                         android:layout_width="0dp"
-                                        android:textColor="@color/textColor"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:hint="@string/max"
                                         android:inputType="phone"
-                                        android:hint="@string/max" />
+                                        android:maxLines="1"
+                                        android:textColor="@color/textColor" />
                                 </LinearLayout>
                             </LinearLayout>
                         </android.support.v4.widget.NestedScrollView>
@@ -609,8 +633,8 @@
 
                                     <TextView
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
+                                        android:layout_weight="1"
                                         android:text="@string/drug"
                                         android:textColor="@color/textColor"
                                         android:textSize="15sp" />
@@ -618,9 +642,11 @@
                                     <AutoCompleteTextView
                                         android:id="@+id/drug1"
                                         android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:textColor="@color/textColor"
-                                        android:layout_height="wrap_content" />
+                                        android:hint="@string/drugName"
+                                        android:maxLines="1"
+                                        android:textColor="@color/textColor" />
                                 </LinearLayout>
 
                                 <Button
@@ -656,11 +682,11 @@
                                     android:id="@+id/getResult"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:textColor="@color/textColor"
                                     android:layout_gravity="center_horizontal"
                                     android:layout_margin="16dp"
                                     android:background="@color/backgroundRed"
-                                    android:text="@string/checkInput" />
+                                    android:text="@string/checkInput"
+                                    android:textColor="@color/textColor" />
                             </LinearLayout>
                         </android.support.v4.widget.NestedScrollView>
                         <ScrollView
@@ -677,305 +703,328 @@
                                     android:layout_height="wrap_content"
                                     android:padding="8dp">
                                     <TextView
-                                        android:textColor="@color/textColor"
-                                        android:textSize="15sp"
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/disease"/>
-                                    <TextView
+                                        android:layout_weight="1"
+                                        android:text="@string/disease"
                                         android:textColor="@color/textColor"
-                                        android:textSize="15sp"
+                                        android:textSize="15sp" />
+
+                                    <TextView
                                         android:id="@+id/diseaseValue"
                                         android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:layout_height="wrap_content" />
+                                        android:textColor="@color/textColor"
+                                        android:textSize="15sp" />
                                 </LinearLayout>
                                 <LinearLayout
-                                    android:padding="8dp"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
                                     <TextView
-                                        android:textColor="@color/textColor"
-                                        android:textSize="15sp"
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/leukocyte"/>
-                                    <TextView
+                                        android:layout_weight="1"
+                                        android:text="@string/leukocyte"
                                         android:textColor="@color/textColor"
-                                        android:textSize="15sp"
+                                        android:textSize="15sp" />
+
+                                    <TextView
                                         android:id="@+id/leukocyteMinValue"
                                         android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:layout_height="wrap_content" />
-                                    <TextView
                                         android:textColor="@color/textColor"
-                                        android:textSize="15sp"
+                                        android:textSize="15sp" />
+
+                                    <TextView
                                         android:id="@+id/leukocyteMaxValue"
                                         android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:layout_height="wrap_content" />
+                                        android:textColor="@color/textColor"
+                                        android:textSize="15sp" />
                                 </LinearLayout>
                                 <LinearLayout
-                                    android:padding="8dp"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
                                     <TextView
-                                        android:textColor="@color/textColor"
-                                        android:textSize="15sp"
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/erythrocyte"/>
-                                    <TextView
+                                        android:layout_weight="1"
+                                        android:text="@string/erythrocyte"
                                         android:textColor="@color/textColor"
-                                        android:textSize="15sp"
+                                        android:textSize="15sp" />
+
+                                    <TextView
                                         android:id="@+id/erythrocyteMinValue"
                                         android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:layout_height="wrap_content" />
-                                    <TextView
                                         android:textColor="@color/textColor"
-                                        android:textSize="15sp"
+                                        android:textSize="15sp" />
+
+                                    <TextView
                                         android:id="@+id/erythrocyteMaxValue"
                                         android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:layout_height="wrap_content" />
+                                        android:textColor="@color/textColor"
+                                        android:textSize="15sp" />
                                 </LinearLayout>
                                 <LinearLayout
-                                    android:padding="8dp"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
                                     <TextView
-                                        android:textColor="@color/textColor"
-                                        android:textSize="15sp"
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/hemoglobin"/>
-                                    <TextView
+                                        android:layout_weight="1"
+                                        android:text="@string/hemoglobin"
                                         android:textColor="@color/textColor"
-                                        android:textSize="15sp"
+                                        android:textSize="15sp" />
+
+                                    <TextView
                                         android:id="@+id/hemoglobinMinValue"
                                         android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:layout_height="wrap_content" />
-                                    <TextView
                                         android:textColor="@color/textColor"
-                                        android:textSize="15sp"
+                                        android:textSize="15sp" />
+
+                                    <TextView
                                         android:id="@+id/hemoglobinMaxValue"
                                         android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:layout_height="wrap_content" />
+                                        android:textColor="@color/textColor"
+                                        android:textSize="15sp" />
                                 </LinearLayout>
                                 <LinearLayout
-                                    android:padding="8dp"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
                                     <TextView
-                                        android:textColor="@color/textColor"
-                                        android:textSize="15sp"
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/hematocrit"/>
-                                    <TextView
+                                        android:layout_weight="1"
+                                        android:text="@string/hematocrit"
                                         android:textColor="@color/textColor"
-                                        android:textSize="15sp"
+                                        android:textSize="15sp" />
+
+                                    <TextView
                                         android:id="@+id/hematocritMinValue"
                                         android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:layout_height="wrap_content" />
-                                    <TextView
                                         android:textColor="@color/textColor"
-                                        android:textSize="15sp"
+                                        android:textSize="15sp" />
+
+                                    <TextView
                                         android:id="@+id/hematocritMaxValue"
                                         android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:layout_height="wrap_content" />
+                                        android:textColor="@color/textColor"
+                                        android:textSize="15sp" />
                                 </LinearLayout>
                                 <LinearLayout
-                                    android:padding="8dp"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
                                     <TextView
-                                        android:textColor="@color/textColor"
-                                        android:textSize="15sp"
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/mcv"/>
-                                    <TextView
+                                        android:layout_weight="1"
+                                        android:text="@string/mcv"
                                         android:textColor="@color/textColor"
-                                        android:textSize="15sp"
+                                        android:textSize="15sp" />
+
+                                    <TextView
                                         android:id="@+id/mcvMinValue"
                                         android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:layout_height="wrap_content" />
-                                    <TextView
                                         android:textColor="@color/textColor"
-                                        android:textSize="15sp"
+                                        android:textSize="15sp" />
+
+                                    <TextView
                                         android:id="@+id/mcvMaxValue"
                                         android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:layout_height="wrap_content" />
+                                        android:textColor="@color/textColor"
+                                        android:textSize="15sp" />
                                 </LinearLayout>
                                 <LinearLayout
-                                    android:padding="8dp"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
                                     <TextView
-                                        android:textColor="@color/textColor"
-                                        android:textSize="15sp"
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/MCH"/>
-                                    <TextView
+                                        android:layout_weight="1"
+                                        android:text="@string/MCH"
                                         android:textColor="@color/textColor"
-                                        android:textSize="15sp"
+                                        android:textSize="15sp" />
+
+                                    <TextView
                                         android:id="@+id/mchMinValue"
                                         android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:layout_height="wrap_content" />
-                                    <TextView
                                         android:textColor="@color/textColor"
-                                        android:textSize="15sp"
+                                        android:textSize="15sp" />
+
+                                    <TextView
                                         android:id="@+id/mchMaxValue"
                                         android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:layout_height="wrap_content" />
+                                        android:textColor="@color/textColor"
+                                        android:textSize="15sp" />
                                 </LinearLayout>
                                 <LinearLayout
-                                    android:padding="8dp"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
                                     <TextView
-                                        android:textColor="@color/textColor"
-                                        android:textSize="15sp"
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/mchc"/>
-                                    <TextView
+                                        android:layout_weight="1"
+                                        android:text="@string/mchc"
                                         android:textColor="@color/textColor"
-                                        android:textSize="15sp"
+                                        android:textSize="15sp" />
+
+                                    <TextView
                                         android:id="@+id/mchcMinValue"
                                         android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:layout_height="wrap_content" />
-                                    <TextView
                                         android:textColor="@color/textColor"
-                                        android:textSize="15sp"
+                                        android:textSize="15sp" />
+
+                                    <TextView
                                         android:id="@+id/mchcMaxValue"
                                         android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:layout_height="wrap_content" />
+                                        android:textColor="@color/textColor"
+                                        android:textSize="15sp" />
                                 </LinearLayout>
                                 <LinearLayout
-                                    android:padding="8dp"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
                                     <TextView
-                                        android:textColor="@color/textColor"
-                                        android:textSize="15sp"
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/platelet"/>
-                                    <TextView
+                                        android:layout_weight="1"
+                                        android:text="@string/platelet"
                                         android:textColor="@color/textColor"
-                                        android:textSize="15sp"
+                                        android:textSize="15sp" />
+
+                                    <TextView
                                         android:id="@+id/plateletMinValue"
                                         android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:layout_height="wrap_content" />
-                                    <TextView
                                         android:textColor="@color/textColor"
-                                        android:textSize="15sp"
+                                        android:textSize="15sp" />
+
+                                    <TextView
                                         android:id="@+id/plateletMaxValue"
                                         android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:layout_height="wrap_content" />
+                                        android:textColor="@color/textColor"
+                                        android:textSize="15sp" />
                                 </LinearLayout>
                                 <LinearLayout
-                                    android:padding="8dp"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
                                     <TextView
-                                        android:textColor="@color/textColor"
-                                        android:textSize="15sp"
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/reticulocytes"/>
-                                    <TextView
+                                        android:layout_weight="1"
+                                        android:text="@string/reticulocytes"
                                         android:textColor="@color/textColor"
-                                        android:textSize="15sp"
+                                        android:textSize="15sp" />
+
+                                    <TextView
                                         android:id="@+id/reticulocytesMinValue"
                                         android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:layout_height="wrap_content" />
-                                    <TextView
                                         android:textColor="@color/textColor"
-                                        android:textSize="15sp"
+                                        android:textSize="15sp" />
+
+                                    <TextView
                                         android:id="@+id/reticulocytesMaxValue"
                                         android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:layout_height="wrap_content" />
+                                        android:textColor="@color/textColor"
+                                        android:textSize="15sp" />
                                 </LinearLayout>
                                 <LinearLayout
-                                    android:padding="8dp"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
                                     <TextView
-                                        android:textColor="@color/textColor"
-                                        android:textSize="15sp"
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/mpv"/>
-                                    <TextView
+                                        android:layout_weight="1"
+                                        android:text="@string/mpv"
                                         android:textColor="@color/textColor"
-                                        android:textSize="15sp"
+                                        android:textSize="15sp" />
+
+                                    <TextView
                                         android:id="@+id/mpvMinValue"
                                         android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:layout_height="wrap_content" />
-                                    <TextView
                                         android:textColor="@color/textColor"
-                                        android:textSize="15sp"
+                                        android:textSize="15sp" />
+
+                                    <TextView
                                         android:id="@+id/mpvMaxValue"
                                         android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:layout_height="wrap_content" />
+                                        android:textColor="@color/textColor"
+                                        android:textSize="15sp" />
                                 </LinearLayout>
                                 <LinearLayout
-                                    android:padding="8dp"
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
                                     <TextView
-                                        android:textColor="@color/textColor"
-                                        android:textSize="15sp"
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/rdw"/>
-                                    <TextView
+                                        android:layout_weight="1"
+                                        android:text="@string/rdw"
                                         android:textColor="@color/textColor"
-                                        android:textSize="15sp"
+                                        android:textSize="15sp" />
+
+                                    <TextView
                                         android:id="@+id/rdwMinValue"
                                         android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:layout_height="wrap_content" />
-                                    <TextView
                                         android:textColor="@color/textColor"
-                                        android:textSize="15sp"
+                                        android:textSize="15sp" />
+
+                                    <TextView
                                         android:id="@+id/rdwMaxValue"
                                         android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:layout_height="wrap_content" />
+                                        android:textColor="@color/textColor"
+                                        android:textSize="15sp" />
                                 </LinearLayout>
                                 <LinearLayout
                                     android:id="@+id/medicationLayout"
@@ -989,8 +1038,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_margin="8dp"
                                     android:background="@color/backgroundRed"
-                                    android:textColor="@color/textColor"
                                     android:text="Update"
+                                    android:textColor="@color/textColor"
                                     />
                                 <Button
                                     android:id="@+id/databaseSaveButton"
@@ -998,8 +1047,8 @@
                                     android:layout_height="wrap_content"
                                     android:layout_margin="8dp"
                                     android:background="@color/backgroundRed"
-                                    android:textColor="@color/textColor"
                                     android:text="Save"
+                                    android:textColor="@color/textColor"
                                     />
                             </LinearLayout>
                         </ScrollView>

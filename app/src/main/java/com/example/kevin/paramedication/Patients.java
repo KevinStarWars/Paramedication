@@ -23,7 +23,7 @@ import com.example.kevin.paramedication.DatabaseObjects.BloodCountMedicationReco
 import com.example.kevin.paramedication.DatabaseObjects.BloodCountRecord;
 import com.example.kevin.paramedication.DatabaseObjects.DiseaseRecord;
 import com.example.kevin.paramedication.DatabaseObjects.MedicationRecord;
-import com.example.kevin.paramedication.DatabaseObjects.PatientBloodcountRecord;
+import com.example.kevin.paramedication.DatabaseObjects.PatientBloodCountRecord;
 import com.example.kevin.paramedication.DatabaseObjects.PatientRecord;
 import com.example.kevin.paramedication.DatabaseOperations.BloodCountDiseaseOperations;
 import com.example.kevin.paramedication.DatabaseOperations.BloodCountMedicationOperations;
@@ -205,7 +205,7 @@ public class Patients extends AppCompatActivity {
     // gets primary key id from blood counts based on primary key patient id
     private List<Integer> getBloodCountIds(int patientId){
         List<Integer> idList = new ArrayList<>();
-        List<PatientBloodcountRecord> tmpList = PatientBloodCountOps.getAllPatientBloodcountRecord(dataSource.database);
+        List<PatientBloodCountRecord> tmpList = PatientBloodCountOps.getAllPatientBloodCountRecord(dataSource.database);
 
         for (int i = 0; i < tmpList.size(); i++){
             if (tmpList.get(i).getPatientId() == patientId){
@@ -316,7 +316,7 @@ public class Patients extends AppCompatActivity {
         List<BloodCountMedicationRecord> returnList  = new ArrayList<>();
 
         for (int i = 0; i < tmpList.size(); i++){
-            if (bloodCountRecord.getId() == tmpList.get(i).getId()){
+            if (bloodCountRecord.getId() == tmpList.get(i).getBloodCountId()) {
                 returnList.add(tmpList.get(i));
             }
         }

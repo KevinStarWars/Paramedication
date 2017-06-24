@@ -43,12 +43,9 @@ import com.example.kevin.paramedication.DatabaseOperations.PatientBloodCountOper
 import com.example.kevin.paramedication.DatabaseOperations.PatientOperations;
 
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 import static com.example.kevin.paramedication.R.id.drug1;
 
@@ -60,6 +57,9 @@ public class Diagnosis extends AppCompatActivity {
     // the actual patient blood count and record
     PatientRecord patRecord = new PatientRecord();
     BloodCountRecord patBloodRecord = new BloodCountRecord();
+    BloodRecord normalValuesFemale = new BloodRecord();
+    BloodRecord normalValuesMale = new BloodRecord();
+    BloodCountRecord normalCount = new BloodCountRecord();
 
     // these are used in order to display the actual disease and the recommended medication
     List<DiseaseRecord> diseaseRecords = new ArrayList<>();
@@ -95,10 +95,14 @@ public class Diagnosis extends AppCompatActivity {
         Log.d(LOG_TAG, "Opening database.");
         dataSource.open();
 
-        createDummyDisease();
-        createDummyMedication();
+        List<MedicationRecord> medicationRecordList = MedicationOps.getAllMedicationRecords(dataSource.database);
+
+        for (int i = 0; i < medicationRecordList.size(); i++) {
+            Log.d(LOG_TAG, medicationRecordList.get(i).toString());
+        }
 
         initializeTabs();
+        initializeNormalValues();
         initializeMedicationButton();
         initializeRadioButtons();
         setOnClickListenerForDiagnosis();
@@ -165,6 +169,12 @@ public class Diagnosis extends AppCompatActivity {
         host.addTab(spec);
     }
 
+    private void initializeNormalValues() {
+        normalValuesFemale = BloodOps.getById(1, dataSource.database);
+        normalValuesMale = BloodOps.getById(2, dataSource.database);
+        normalCount = BloodCountOps.getById(1, dataSource.database);
+    }
+
     // initializes medication button
     // enables:
     // deletes itself and adds a new button and a new TextView
@@ -186,7 +196,7 @@ public class Diagnosis extends AppCompatActivity {
         final LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         linear.setLayoutParams(layoutParams);
         linear.setOrientation(LinearLayout.HORIZONTAL);
-        linear.setPadding(convertToDp(8), convertToDp(8), convertToDp(8), convertToDp(8));
+        linear.setPadding(convertToDp(16), convertToDp(16), convertToDp(16), convertToDp(16));
         linear.addView(view);
         linear.addView(entry);
         return linear;
@@ -196,7 +206,6 @@ public class Diagnosis extends AppCompatActivity {
     public TextView createNewTextView(String text) {
         final TextView textView = new TextView(this);
         final LinearLayout.LayoutParams textViewParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
-        textView.setGravity(Gravity.CENTER_HORIZONTAL);
         textView.setLayoutParams(textViewParams);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
         textView.setText(text);
@@ -226,8 +235,9 @@ public class Diagnosis extends AppCompatActivity {
     // creates new editText field with hint as parameter
     public AutoCompleteTextView createNewEntry() {
         final AutoCompleteTextView entry = new AutoCompleteTextView(this);
-        final LinearLayout.LayoutParams entryViewParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
+        final LinearLayout.LayoutParams entryViewParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 2f);
 
+        entry.setHint(R.string.drugName);
         entry.setLayoutParams(entryViewParams);
         entry.setId(View.generateViewId());
         entryList.add(entry.getId());
@@ -399,8 +409,8 @@ public class Diagnosis extends AppCompatActivity {
     private String getLeukocyteVal() {
         EditText entry = (EditText) findViewById(R.id.leukocyteVal);
         if (entry.getText().toString().isEmpty()) {
-            patBloodRecord.setLeukocyte(0);
-            return "0";
+            patBloodRecord.setLeukocyte(normalCount.getLeukocyte());
+            return String.valueOf(patBloodRecord.getLeukocyte());
         } else {
             patBloodRecord.setLeukocyte(convertToDefaultDouble(entry.getText().toString()));
             return entry.getText().toString();
@@ -412,8 +422,8 @@ public class Diagnosis extends AppCompatActivity {
     private String getErythrocyteVal() {
         EditText entry = (EditText) findViewById(R.id.erythrocyteVal);
         if (entry.getText().toString().isEmpty()) {
-            patBloodRecord.setErythrocyte(0);
-            return "0";
+            patBloodRecord.setErythrocyte(normalCount.getErythrocyte());
+            return String.valueOf(patBloodRecord.getErythrocyte());
         } else {
             patBloodRecord.setErythrocyte(convertToDefaultDouble(entry.getText().toString()));
             return entry.getText().toString();
@@ -425,8 +435,8 @@ public class Diagnosis extends AppCompatActivity {
     private String getHemoglobinVal() {
         EditText entry = (EditText) findViewById(R.id.hemoglobinVal);
         if (entry.getText().toString().isEmpty()) {
-            patBloodRecord.setHemoglobin(0);
-            return "0";
+            patBloodRecord.setHemoglobin(normalCount.getHemoglobin());
+            return String.valueOf(patBloodRecord.getHemoglobin());
         } else {
             patBloodRecord.setHemoglobin(convertToDefaultDouble(entry.getText().toString()));
             return entry.getText().toString();
@@ -438,8 +448,8 @@ public class Diagnosis extends AppCompatActivity {
     private String getHematocritVal() {
         EditText entry = (EditText) findViewById(R.id.hematocritVal);
         if (entry.getText().toString().isEmpty()) {
-            patBloodRecord.setHematocrit(0);
-            return "0";
+            patBloodRecord.setHematocrit(normalCount.getHematocrit());
+            return String.valueOf(patBloodRecord.getHematocrit());
         } else {
             patBloodRecord.setHematocrit(convertToDefaultDouble(entry.getText().toString()));
             return entry.getText().toString();
@@ -452,9 +462,14 @@ public class Diagnosis extends AppCompatActivity {
     private String getMcvVal() {
         EditText entry = (EditText) findViewById(R.id.mcvVal);
         if (entry.getText().toString().isEmpty()) {
-            Double mcv = convertToDefaultDouble(getMchVal()) / convertToDefaultDouble(getMchcVal());
-            patBloodRecord.setMcv(mcv);
-            return mcv.toString();
+            if (!getMchcVal().isEmpty() && !getMchVal().isEmpty()) {
+                Double mcv = (convertToDefaultDouble(getMchVal()) / convertToDefaultDouble(getMchcVal())) * 100;
+                patBloodRecord.setMcv(mcv);
+                return String.valueOf(mcv);
+            } else {
+                patBloodRecord.setMcv(normalCount.getMcv());
+                return String.valueOf(patBloodRecord.getMcv());
+            }
         } else {
             patBloodRecord.setMcv(convertToDefaultDouble(entry.getText().toString()));
             return entry.getText().toString();
@@ -471,9 +486,14 @@ public class Diagnosis extends AppCompatActivity {
     private String getMchVal() {
         EditText entry = (EditText) findViewById(R.id.mchVal);
         if (entry.getText().toString().isEmpty()) {
-            Double mch = (convertToDefaultDouble(getHemoglobinVal()) * Math.pow(10, 13)) / (convertToDefaultDouble(getErythrocyteVal()) * Math.pow(10, 12));
-            patBloodRecord.setMch(mch);
-            return mch.toString();
+            if (!getErythrocyteVal().isEmpty() && !getHemoglobinVal().isEmpty()) {
+                Double mch = (convertToDefaultDouble(getHemoglobinVal()) * Math.pow(10, 13)) / (convertToDefaultDouble(getErythrocyteVal()) * Math.pow(10, 12));
+                patBloodRecord.setMch(mch);
+                return String.valueOf(mch);
+            } else {
+                patBloodRecord.setMch(normalCount.getMch());
+                return String.valueOf(patBloodRecord.getMch());
+            }
         } else {
             patBloodRecord.setMch(convertToDefaultDouble(entry.getText().toString()));
             return entry.getText().toString();
@@ -486,9 +506,8 @@ public class Diagnosis extends AppCompatActivity {
     private String getMchcVal() {
         EditText entry = (EditText) findViewById(R.id.mchcVal);
         if (entry.getText().toString().isEmpty()) {
-            Double mchc = convertToDefaultDouble(getHemoglobinVal()) / convertToDefaultDouble(getHematocritVal());
-            patBloodRecord.setMchc(mchc);
-            return mchc.toString();
+            patBloodRecord.setMchc(normalCount.getMchc());
+            return String.valueOf(patBloodRecord.getMchc());
         } else {
             patBloodRecord.setMchc(convertToDefaultDouble(entry.getText().toString()));
             return entry.getText().toString();
@@ -500,8 +519,8 @@ public class Diagnosis extends AppCompatActivity {
     private String getPlateletVal() {
         EditText entry = (EditText) findViewById(R.id.plateletVal);
         if (entry.getText().toString().isEmpty()) {
-            patBloodRecord.setPlatelet(0);
-            return "0";
+            patBloodRecord.setPlatelet(normalCount.getPlatelet());
+            return String.valueOf(patBloodRecord.getPlatelet());
         } else {
             patBloodRecord.setPlatelet(convertToDefaultDouble(entry.getText().toString()));
             return entry.getText().toString();
@@ -513,8 +532,8 @@ public class Diagnosis extends AppCompatActivity {
     private String getReticulocytesVal() {
         EditText entry = (EditText) findViewById(R.id.reticulocytesVal);
         if (entry.getText().toString().isEmpty()) {
-            patBloodRecord.setReticulocytes(0);
-            return "0";
+            patBloodRecord.setReticulocytes(normalCount.getReticulocytes());
+            return String.valueOf(patBloodRecord.getReticulocytes());
         } else {
             patBloodRecord.setReticulocytes(convertToDefaultDouble(entry.getText().toString()));
             return entry.getText().toString();
@@ -526,8 +545,8 @@ public class Diagnosis extends AppCompatActivity {
     private String getMpvVal() {
         EditText entry = (EditText) findViewById(R.id.mpvVal);
         if (entry.getText().toString().isEmpty()) {
-            patBloodRecord.setMpv(0);
-            return "0";
+            patBloodRecord.setMpv(normalCount.getMpv());
+            return String.valueOf(patBloodRecord.getMpv());
         } else {
             patBloodRecord.setMpv(convertToDefaultDouble(entry.getText().toString()));
             return entry.getText().toString();
@@ -539,8 +558,8 @@ public class Diagnosis extends AppCompatActivity {
     private String getRdwVal() {
         EditText entry = (EditText) findViewById(R.id.rdwVal);
         if (entry.getText().toString().isEmpty()) {
-            patBloodRecord.setRdw(0);
-            return "0";
+            patBloodRecord.setRdw(normalCount.getRdw());
+            return String.valueOf(patBloodRecord.getRdw());
         } else {
             patBloodRecord.setRdw(convertToDefaultDouble(entry.getText().toString()));
             return entry.getText().toString();
@@ -558,17 +577,28 @@ public class Diagnosis extends AppCompatActivity {
             for (int j = 0; j < diseaseDatabase.size(); j++) {
                 for (int k = 0; k < bloodDatabase.size(); k++) {
                     if (diseaseBloodDatabase.get(i).getDiseaseId() == diseaseDatabase.get(j).getId() && diseaseBloodDatabase.get(i).getBloodId() == bloodDatabase.get(k).getId()) {
-                        if (bloodDatabase.get(k).getLeukocyteMin() < patBloodRecord.getLeukocyte() && bloodDatabase.get(k).getLeukocyteMax() > patBloodRecord.getLeukocyte()) {
-                            if (bloodDatabase.get(k).getErythrocyteMin() < patBloodRecord.getErythrocyte() && bloodDatabase.get(k).getErythrocyteMax() > patBloodRecord.getErythrocyte()) {
-                                if (bloodDatabase.get(k).getHemoglobinMin() < patBloodRecord.getHemoglobin() && bloodDatabase.get(k).getHemoglobinMax() > patBloodRecord.getHemoglobin()) {
-                                    if (bloodDatabase.get(k).getHematocritMin() < patBloodRecord.getHematocrit() && bloodDatabase.get(k).getHematocritMax() > patBloodRecord.getHematocrit()) {
-                                        if (bloodDatabase.get(k).getMcvMin() < patBloodRecord.getMcv() && bloodDatabase.get(k).getMcvMax() > patBloodRecord.getMcv()) {
-                                            if (bloodDatabase.get(k).getMchMin() < patBloodRecord.getMch() && bloodDatabase.get(k).getMchMax() > patBloodRecord.getMch()) {
-                                                if (bloodDatabase.get(k).getMchcMin() < patBloodRecord.getMchc() && bloodDatabase.get(k).getMchcMax() > patBloodRecord.getMchc()) {
-                                                    if (bloodDatabase.get(k).getPlateletMin() < patBloodRecord.getPlatelet() && bloodDatabase.get(k).getPlateletMax() > patBloodRecord.getPlatelet()) {
-                                                        if (bloodDatabase.get(k).getReticulocytesMin() < patBloodRecord.getReticulocytes() && bloodDatabase.get(k).getReticulocytesMax() > patBloodRecord.getReticulocytes()) {
-                                                            if (bloodDatabase.get(k).getMpvMin() < patBloodRecord.getMpv() && bloodDatabase.get(k).getMpvMax() > patBloodRecord.getMpv()) {
-                                                                if (bloodDatabase.get(k).getRdwMin() < patBloodRecord.getRdw() && bloodDatabase.get(k).getRdwMax() > patBloodRecord.getRdw()){
+                        if ((bloodDatabase.get(k).getLeukocyteMin() < patBloodRecord.getLeukocyte() && bloodDatabase.get(k).getLeukocyteMax() > patBloodRecord.getLeukocyte()) ||
+                                (bloodDatabase.get(k).getLeukocyteMin() == 0 && bloodDatabase.get(k).getLeukocyteMax() == 0)) {
+                            if ((bloodDatabase.get(k).getErythrocyteMin() < patBloodRecord.getErythrocyte() && bloodDatabase.get(k).getErythrocyteMax() > patBloodRecord.getErythrocyte()) ||
+                                    (bloodDatabase.get(k).getErythrocyteMin() == 0 && bloodDatabase.get(k).getErythrocyteMax() == 0)) {
+                                if ((bloodDatabase.get(k).getHemoglobinMin() < patBloodRecord.getHemoglobin() && bloodDatabase.get(k).getHemoglobinMax() > patBloodRecord.getHemoglobin()) ||
+                                        (bloodDatabase.get(k).getHemoglobinMin() == 0 && bloodDatabase.get(k).getHemoglobinMax() == 0)) {
+                                    if ((bloodDatabase.get(k).getHematocritMin() < patBloodRecord.getHematocrit() && bloodDatabase.get(k).getHematocritMax() > patBloodRecord.getHematocrit()) ||
+                                            (bloodDatabase.get(k).getHematocritMin() == 0 && bloodDatabase.get(k).getHematocritMax() == 0)) {
+                                        if ((bloodDatabase.get(k).getMcvMin() < patBloodRecord.getMcv() && bloodDatabase.get(k).getMcvMax() > patBloodRecord.getMcv()) ||
+                                                (bloodDatabase.get(k).getMcvMin() == 0 && bloodDatabase.get(k).getMcvMax() == 0)) {
+                                            if ((bloodDatabase.get(k).getMchMin() < patBloodRecord.getMch() && bloodDatabase.get(k).getMchMax() > patBloodRecord.getMch()) ||
+                                                    (bloodDatabase.get(k).getMchMin() == 0 && bloodDatabase.get(k).getMchMax() == 0)) {
+                                                if ((bloodDatabase.get(k).getMchcMin() < patBloodRecord.getMchc() && bloodDatabase.get(k).getMchcMax() > patBloodRecord.getMchc()) ||
+                                                        (bloodDatabase.get(k).getMchcMin() == 0 && bloodDatabase.get(k).getMchcMax() == 0)) {
+                                                    if ((bloodDatabase.get(k).getPlateletMin() < patBloodRecord.getPlatelet() && bloodDatabase.get(k).getPlateletMax() > patBloodRecord.getPlatelet()) ||
+                                                            (bloodDatabase.get(k).getPlateletMin() == 0 && bloodDatabase.get(k).getPlateletMax() == 0)) {
+                                                        if ((bloodDatabase.get(k).getReticulocytesMin() < patBloodRecord.getReticulocytes() && bloodDatabase.get(k).getReticulocytesMax() > patBloodRecord.getReticulocytes()) ||
+                                                                (bloodDatabase.get(k).getReticulocytesMin() == 0 && bloodDatabase.get(k).getReticulocytesMax() == 0)) {
+                                                            if ((bloodDatabase.get(k).getMpvMin() < patBloodRecord.getMpv() && bloodDatabase.get(k).getMpvMax() > patBloodRecord.getMpv()) ||
+                                                                    (bloodDatabase.get(k).getMpvMin() == 0 && bloodDatabase.get(k).getMpvMax() == 0)) {
+                                                                if ((bloodDatabase.get(k).getRdwMin() < patBloodRecord.getRdw() && bloodDatabase.get(k).getRdwMax() > patBloodRecord.getRdw()) ||
+                                                                        (bloodDatabase.get(k).getRdwMin() == 0 && bloodDatabase.get(k).getRdwMax() == 0)) {
                                                                     if (bloodDatabase.get(k).getGender().equals(patRecord.getGender())) {
                                                                         diseaseRecords.add(diseaseDatabase.get(j));
                                                                         Log.d(LOG_TAG, "Disease: " + diseaseDatabase.get(j).getName());
@@ -605,7 +635,7 @@ public class Diagnosis extends AppCompatActivity {
         } else {
 
             TextView view = (TextView) findViewById(R.id.diagnosisDiseaseId);
-            view.setText("No disease found.");
+            view.setText(R.string.noDiseaseFound);
 
         }
     }
@@ -656,20 +686,22 @@ public class Diagnosis extends AppCompatActivity {
     }
 
     // checks for medication interaction and removes recommended drugs which interact with current medication
+    // returns a list which includes current and recommended medication
     private void checkForInteraction(){
         List<MedicationInteractionRecord> tmpList = MedicationInteractionOps.getAllMedicationInteractionRecord(dataSource.database);
 
         for (int i = 0; i < tmpList.size(); i++){
             for (int j = 0; j < recommendedMedication.size(); j++){
                 for (int k = 0; k < currentMedication.size(); k++){
-                    if (currentMedication.get(k).getId() == tmpList.get(i).getDrugId1() && recommendedMedication.get(j).getId() ==  tmpList.get(i).getDrugId2()){
-                        recommendedMedication.remove(j);
-                    }
-                    if (currentMedication.get(k).getId() == tmpList.get(i).getDrugId2() && recommendedMedication.get(j).getId() ==  tmpList.get(i).getDrugId1()){
+                    if ((currentMedication.get(k).getId() == tmpList.get(i).getDrugId1() && recommendedMedication.get(j).getId() == tmpList.get(i).getDrugId2()) ||
+                            (currentMedication.get(k).getId() == tmpList.get(i).getDrugId2() && recommendedMedication.get(j).getId() == tmpList.get(i).getDrugId1())) {
                         recommendedMedication.remove(j);
                     }
                 }
             }
+        }
+        for (int i = 0; i < currentMedication.size(); i++) {
+            recommendedMedication.add(currentMedication.get(i));
         }
     }
 
@@ -714,6 +746,8 @@ public class Diagnosis extends AppCompatActivity {
 
     // prints blood count to screen
     private void printBloodCount() {
+        DecimalFormat decimalFormat = new DecimalFormat("#.##");
+
         int[] idList = {R.id.diagnosisLeukocyte,
         R.id.diagnosisErythrocyte,
         R.id.diagnosisHemoglobin,
@@ -726,8 +760,8 @@ public class Diagnosis extends AppCompatActivity {
         R.id.diagnosisMpv,
         R.id.diagnosisRdw};
 
-        double[] valueList = {patBloodRecord.getErythrocyte(),
-        patBloodRecord.getLeukocyte(),
+        double[] valueList = {patBloodRecord.getLeukocyte(),
+                patBloodRecord.getErythrocyte(),
         patBloodRecord.getHemoglobin(),
         patBloodRecord.getHematocrit(),
         patBloodRecord.getMcv(),
@@ -740,7 +774,7 @@ public class Diagnosis extends AppCompatActivity {
 
         for (int i = 0; i < valueList.length; i++){
             TextView view = (TextView) findViewById(idList[i]);
-            view.setText(String.valueOf(valueList[i]));
+            view.setText(String.valueOf(decimalFormat.format(valueList[i])));
         }
     }
 
@@ -808,7 +842,7 @@ public class Diagnosis extends AppCompatActivity {
     private void createPatientBloodCountEntry() {
         if (patRecord.getId() != -1) {
             if (patBloodRecord.getId() != -1) {
-                PatientBloodCountOps.createPatientBloodcountRecord(patRecord.getId(), patBloodRecord.getId(), dataSource.database);
+                PatientBloodCountOps.createPatientBloodCountRecord(patRecord.getId(), patBloodRecord.getId(), dataSource.database);
             }
         }
     }
@@ -856,27 +890,10 @@ public class Diagnosis extends AppCompatActivity {
         entryDrugOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                entryDrugOne.setDropDownWidth(convertToDp(200));
                 entryDrugOne.showDropDown();
             }
         });
-    }
-
-    // creates dummy disease
-    private void createDummyDisease(){
-        DiseaseOps.createDiseaseRecord("Fieber", dataSource.database); // ID: 2
-        BloodOps.createBloodRecord("1","10","1","10","1","10","1","10","1","10","1","10","1","10","1","10","1","10","1","10","1","10","f", dataSource.database); // ID: 3
-        DiseaseBloodOps.createDiseaseBloodRelationRecord(3,2,dataSource.database);
-        DiseaseMedicationOps.createDiseaseMedicationRelationRecord(2,1,dataSource.database);
-    }
-
-    // creates dummy medication
-    private void createDummyMedication(){
-        MedicationOps.createMedicationRecord("Aspirin",dataSource.database); // ID: 1
-        MedicationOps.createMedicationRecord("Ibuprofen", dataSource.database); // ID: 2
-        MedicationOps.createMedicationRecord("Paracetamol", dataSource.database); // ID: 3
-        MedicationOps.createMedicationRecord("xyz", dataSource.database); // ID: 4
-        MedicationInteractionOps.createDiseaseMedicationRelationRecord(1,2,"too strong", dataSource.database, this);
-        MedicationInteractionOps.createDiseaseMedicationRelationRecord(1,4,"too strong", dataSource.database, this);
     }
 
     // converts dp to actual pixels
@@ -886,17 +903,8 @@ public class Diagnosis extends AppCompatActivity {
     }
 
     private double convertToDefaultDouble(String number){
-        Locale theLocale = Locale.getDefault();
-        NumberFormat numberFormat = DecimalFormat.getInstance(theLocale);
-        Number theNumber;
-        try {
-            theNumber = numberFormat.parse(number);
-            return theNumber.doubleValue();
-        }
-        catch (ParseException e){
-            Log.d(LOG_TAG, e.getMessage());
-            return 0d;
-        }
+        number = number.replace(",", ".");
+        return Double.parseDouble(number);
     }
 
 

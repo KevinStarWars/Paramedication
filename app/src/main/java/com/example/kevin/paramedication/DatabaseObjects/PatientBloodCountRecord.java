@@ -1,13 +1,13 @@
 package com.example.kevin.paramedication.DatabaseObjects;
 
 
-public class PatientBloodcountRecord {
+public class PatientBloodCountRecord {
 
     private int id;
     private int patientId;
     private int bloodcountId;
 
-    public PatientBloodcountRecord(int id, int patientId, int bloodcountId) {
+    public PatientBloodCountRecord(int id, int patientId, int bloodcountId) {
         this.id = id;
         this.patientId = patientId;
         this.bloodcountId = bloodcountId;
@@ -39,7 +39,7 @@ public class PatientBloodcountRecord {
 
     @Override
     public String toString() {
-        return "PatientBloodcountRecord{" +
+        return "PatientBloodCountRecord{" +
                 "id=" + id +
                 ", patientId=" + patientId +
                 ", bloodcountId=" + bloodcountId +

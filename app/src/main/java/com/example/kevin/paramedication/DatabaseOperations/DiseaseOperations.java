@@ -11,11 +11,10 @@ import com.example.kevin.paramedication.DatabaseObjects.DiseaseRecord;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.example.kevin.paramedication.MainActivity.LOG_TAG;
-
 
 public class DiseaseOperations {
 
+    static final String LOG_TAG = DiseaseOperations.class.getSimpleName();
 
     private String[] diseaseColumns = {
             DiseaseTableContract.DiseaseTableEntry._ID,
@@ -43,6 +42,8 @@ public class DiseaseOperations {
         DiseaseRecord record = cursorToDiseaseRecord(cursor);
         cursor.close();
 
+        Log.d(LOG_TAG, record.toString());
+
         return record;
     }
 
@@ -69,7 +70,6 @@ public class DiseaseOperations {
         while (!cursor.isAfterLast()) {
             record = cursorToDiseaseRecord(cursor);
             List.add(record);
-            Log.d(LOG_TAG, "ID: " + record.getId() + ", Content: " + record.print());
             cursor.moveToNext();
         }
         cursor.close();
