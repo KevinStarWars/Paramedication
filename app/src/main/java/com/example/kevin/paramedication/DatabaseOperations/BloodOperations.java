@@ -133,8 +133,8 @@ public class BloodOperations {
             int id = cursor.getInt(cursor.getColumnIndex(BloodTableContract.BloodTableEntry._ID));
             double leukocyteMin = cursor.getDouble(cursor.getColumnIndex(BloodTableContract.BloodTableEntry.COLUMN_LEUKOCYTE_MIN));
             double leukocyteMax = cursor.getDouble(cursor.getColumnIndex(BloodTableContract.BloodTableEntry.COLUMN_LEUKOCYTE_MAX));
-            double erythocyteMin = cursor.getDouble(cursor.getColumnIndex(BloodTableContract.BloodTableEntry.COLUMN_ERYTHROCYTE_MIN));
-            double erythocyteMax = cursor.getDouble(cursor.getColumnIndex(BloodTableContract.BloodTableEntry.COLUMN_ERYTHROCYTE_MAX));
+            double erythrocyteMin = cursor.getDouble(cursor.getColumnIndex(BloodTableContract.BloodTableEntry.COLUMN_ERYTHROCYTE_MIN));
+            double erythrocyteMax = cursor.getDouble(cursor.getColumnIndex(BloodTableContract.BloodTableEntry.COLUMN_ERYTHROCYTE_MAX));
             double hemoglobinMin = cursor.getDouble(cursor.getColumnIndex(BloodTableContract.BloodTableEntry.COLUMN_HEMOGLOBIN_MIN));
             double hemoglobinMax = cursor.getDouble(cursor.getColumnIndex(BloodTableContract.BloodTableEntry.COLUMN_HEMOGLOBIN_MAX));
             double hematocritMin = cursor.getDouble(cursor.getColumnIndex(BloodTableContract.BloodTableEntry.COLUMN_HEMATOCRIT_MIN));
@@ -155,7 +155,7 @@ public class BloodOperations {
             double rdwMax = cursor.getDouble(cursor.getColumnIndex(BloodTableContract.BloodTableEntry.COLUMN_RDW_MAX));
             String gender = cursor.getString(cursor.getColumnIndex(BloodTableContract.BloodTableEntry.COLUMN_GENDER));
 
-            return new BloodRecord(id, leukocyteMin, leukocyteMax, erythocyteMin, erythocyteMax, hemoglobinMin, hemoglobinMax,
+            return new BloodRecord(id, leukocyteMin, leukocyteMax, erythrocyteMin, erythrocyteMax, hemoglobinMin, hemoglobinMax,
                     hematocritMin, hematocritMax, mcvMin, mcvMax, mchMin, mchMax, mchcMin, mchcMax, plateletMin, plateletMax,
                     reticulocytesMin, reticulocytesMax, mpvMin, mpvMax, rdwMin, rdwMax, gender);
         }

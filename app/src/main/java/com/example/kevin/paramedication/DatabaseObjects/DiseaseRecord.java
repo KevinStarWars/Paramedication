@@ -10,9 +10,6 @@ public class DiseaseRecord {
         this.name = name;
     }
 
-    public DiseaseRecord() {
-    }
-
     public int getId() {
         return this.id;
     }

@@ -7,17 +7,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.example.kevin.paramedication.DatabaseOperations.BloodOperations;
 import com.example.kevin.paramedication.DatabaseOperations.DbDataSource;
-import com.example.kevin.paramedication.DatabaseOperations.DiseaseBloodRelationOperations;
-import com.example.kevin.paramedication.DatabaseOperations.DiseaseOperations;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final String LOG_TAG = MainActivity.class.getSimpleName();
-    BloodOperations bloodOperations = new BloodOperations();
-    DiseaseBloodRelationOperations diseaseBloodRelationOperations = new DiseaseBloodRelationOperations();
-    DiseaseOperations diseaseOperations = new DiseaseOperations();
     private DbDataSource dataSource;
 
     @Override
@@ -25,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.deleteDatabase("paramedication.db");
+        //this.deleteDatabase("paramedication.db");
 
         dataSource = new DbDataSource(this);
         Log.d(LOG_TAG, "Opening database.");

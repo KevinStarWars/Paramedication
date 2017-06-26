@@ -1,10 +1,12 @@
 package com.example.kevin.paramedication.DatabaseContracts;
 
-//defines the medication table in sqlite database
 
 import android.provider.BaseColumns;
 
-// ID|DrugName
+/**
+ * PRIMARY KEY - ID
+ * STRING - DRUG NAME
+ */
 
 public class MedicationTableContract {
     public static final class MedicationTableEntry implements BaseColumns {

@@ -3,10 +3,30 @@ package com.example.kevin.paramedication.DatabaseContracts;
 import android.provider.BaseColumns;
 
 /**
- * ID|LeukocyteMin|LeukocyteMax|ErythrocyteMin|ErythrocyteMax|HemoglobinMin|
- * HemoglobinMax|HematocritMin|HematocritMax|MCVMin|MCVMax|MCHMin|MCHMax|
- * MCHCMin|MCHCMax|PlateletMin|PlateletMax|ReticulocytesMin|ReticulocytesMax|
- * MPVMin|MPVMax|RDWMin|RDWMax
+ * PRIMARY KEY - ID
+ * STRING - LEUKOCYTE MIN
+ * STRING - LEUKOCYTE MAX
+ * STRING - ERYTHROCYTE MIN
+ * STRING - ERYTHROCYTE MAX
+ * STRING - HEMOGLOBIN MIN
+ * STRING - HEMOGLOBIN MAX
+ * STRING - HEMATOCRIT MIN
+ * STRING - HEMATOCRIT MAX
+ * STRING - MCV MIN
+ * STRING - MCV MAX
+ * STRING - MCH MIN
+ * STRING - MCH MAX
+ * STRING - MCHC MIN
+ * STRING - MCHC MAX
+ * STRING - PLATELET MIN
+ * STRING - PLATELET MAX
+ * STRING - RETICULOCYTES MIN
+ * STRING - RETICULOCYTES MAX
+ * STRING - MPV MIN
+ * STRING - MPV MAX
+ * STRING - RDW MIN
+ * STRING - RDW MAX
+ * STRING - GENDER
  */
 
 public class BloodTableContract {

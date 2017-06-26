@@ -2,6 +2,12 @@ package com.example.kevin.paramedication.DatabaseContracts;
 
 import android.provider.BaseColumns;
 
+/**
+ * PRIMARY KEY - ID
+ * INT - BLOOD COUNT ID
+ * INT - DISEASE ID
+ */
+
 public class BloodCountDiseaseTableContract {
 
     public class BloodCountDiseaseTableEntry implements BaseColumns{

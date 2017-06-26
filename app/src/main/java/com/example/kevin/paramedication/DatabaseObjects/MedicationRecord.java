@@ -23,10 +23,6 @@ public class MedicationRecord {
         return drugName;
     }
 
-    public void setDrugName(String drugName) {
-        this.drugName = drugName;
-    }
-
     @Override
     public String toString() {
         return "MedicationRecord{" +

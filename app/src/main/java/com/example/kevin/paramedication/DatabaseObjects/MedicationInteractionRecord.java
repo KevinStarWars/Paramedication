@@ -27,24 +27,8 @@ public class MedicationInteractionRecord {
         return drugId1;
     }
 
-    public void setDrugId1(int drugId1) {
-        this.drugId1 = drugId1;
-    }
-
     public int getDrugId2() {
         return drugId2;
-    }
-
-    public void setDrugId2(int drugId2) {
-        this.drugId2 = drugId2;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     @Override

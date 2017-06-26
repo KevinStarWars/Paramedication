@@ -1,5 +1,7 @@
 package com.example.kevin.paramedication;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -32,6 +34,7 @@ import com.example.kevin.paramedication.DatabaseOperations.DiseaseBloodRelationO
 import com.example.kevin.paramedication.DatabaseOperations.DiseaseMedicationRelationOperations;
 import com.example.kevin.paramedication.DatabaseOperations.DiseaseOperations;
 import com.example.kevin.paramedication.DatabaseOperations.MedicationOperations;
+import com.example.kevin.paramedication.DatabaseOperations.ProcessOperations;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -74,6 +77,10 @@ public class Database extends AppCompatActivity {
         setOnClickListenerForGetResultButton();
         setOnClickListenerForUpdateButton();
         setOnClickListenerForSaveButton();
+
+        if (getHelp(1)) {
+            displayHelp();
+        }
     }
 
     /*_____________________________________General______________________________________________*/
@@ -799,5 +806,37 @@ public class Database extends AppCompatActivity {
             Log.d(LOG_TAG, e.getMessage());
             return 0d;
         }
+    }
+
+    private boolean getHelp(int id) {
+        ProcessOperations processOperations = new ProcessOperations();
+        return processOperations.getEntry(id, dataSource.database).isDatabaseHelp();
+    }
+
+    private void displayHelp() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Database.this);
+        builder.setTitle("Instruction");
+        builder.setMessage(R.string.databaseHelp);
+
+        builder.setPositiveButton(
+                "Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        builder.setNegativeButton(
+                "No",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        ProcessOperations processOperations = new ProcessOperations();
+                        processOperations.updateEntry("database", dataSource.database);
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }

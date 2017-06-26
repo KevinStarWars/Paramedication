@@ -3,7 +3,9 @@ package com.example.kevin.paramedication.DatabaseContracts;
 import android.provider.BaseColumns;
 
 /**
- * ID|HostpitalID
+ * PRIMARY KEY - ID
+ * LONG - HOSPITAL ID
+ * STRING - GENDER
  */
 
 public class PatientTableContract {

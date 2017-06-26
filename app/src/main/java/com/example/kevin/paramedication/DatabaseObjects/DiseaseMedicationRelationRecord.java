@@ -25,16 +25,8 @@ public class DiseaseMedicationRelationRecord {
         return diseaseId;
     }
 
-    public void setDiseaseId(int diseaseId) {
-        this.diseaseId = diseaseId;
-    }
-
     public int getDrugId() {
         return drugId;
-    }
-
-    public void setDrugId(int drugId) {
-        this.drugId = drugId;
     }
 
     @Override

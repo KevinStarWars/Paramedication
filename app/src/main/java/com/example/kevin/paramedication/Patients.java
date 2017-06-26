@@ -1,5 +1,7 @@
 package com.example.kevin.paramedication;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -33,6 +35,7 @@ import com.example.kevin.paramedication.DatabaseOperations.DiseaseOperations;
 import com.example.kevin.paramedication.DatabaseOperations.MedicationOperations;
 import com.example.kevin.paramedication.DatabaseOperations.PatientBloodCountOperations;
 import com.example.kevin.paramedication.DatabaseOperations.PatientOperations;
+import com.example.kevin.paramedication.DatabaseOperations.ProcessOperations;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -66,7 +69,10 @@ public class Patients extends AppCompatActivity {
         enableAutocomplete();
         setOnClickListenerForResultButton();
         setOnClickListenerForAutoCompleteTextView();
-        //initializeHomeScreen();
+
+        if (getHelp(1)) {
+            displayHelp();
+        }
     }
 
     // Send intent in order to open DiagnosisActivity
@@ -209,7 +215,7 @@ public class Patients extends AppCompatActivity {
 
         for (int i = 0; i < tmpList.size(); i++){
             if (tmpList.get(i).getPatientId() == patientId){
-                idList.add(tmpList.get(i).getBloodcountId());
+                idList.add(tmpList.get(i).getBloodCountId());
             }
         }
         return idList;
@@ -355,7 +361,15 @@ public class Patients extends AppCompatActivity {
     // print blood count details
     private void setTimestamp(BloodCountRecord record){
         TextView view = (TextView) findViewById(R.id.timestampValue);
-        view.setText(record.getTimestamp());
+
+        String[] tmp = record.getTimestamp().split(" ");
+        String dateString = "";
+        for (String aTmp : tmp) {
+            dateString = dateString.concat(aTmp);
+            dateString = dateString.concat("\n");
+        }
+
+        view.setText(dateString);
     }
 
     private void setErythrocyte(BloodCountRecord record){
@@ -433,7 +447,14 @@ public class Patients extends AppCompatActivity {
     //if more than one blood count is found, it will create an extra data field
     private void addExtraDate(BloodCountRecord bloodCountRecord){
         LinearLayout linearLayout= (LinearLayout) findViewById(R.id.patientResultLinearLayout);
-        linearLayout.addView(createLinearLayout(createTextView(getString(R.string.time)), createTextView(bloodCountRecord.getTimestamp())));
+
+        String[] tmp = bloodCountRecord.getTimestamp().split(" ");
+        String dateString = "";
+        for (String aTmp : tmp) {
+            dateString = dateString.concat(aTmp).concat("\n");
+        }
+
+        linearLayout.addView(createLinearLayout(createTextView(getString(R.string.time)), createTextView(dateString)));
     }
 
     // if more than one blood count is found, it will create an extra disease field
@@ -503,5 +524,37 @@ public class Patients extends AppCompatActivity {
     private int convertToDp(float sizeInDp){
         float scale = getResources().getDisplayMetrics().density;
         return (int) (sizeInDp*scale + 0.5f);
+    }
+
+    private boolean getHelp(int id) {
+        ProcessOperations processOperations = new ProcessOperations();
+        return processOperations.getEntry(id, dataSource.database).isPatientHelp();
+    }
+
+    private void displayHelp() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Patients.this);
+        builder.setTitle("Instruction");
+        builder.setMessage(R.string.patientsHelp);
+
+        builder.setPositiveButton(
+                "Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        builder.setNegativeButton(
+                "No",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        ProcessOperations processOperations = new ProcessOperations();
+                        processOperations.updateEntry("patients", dataSource.database);
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }

@@ -138,10 +138,6 @@ public class BloodCountRecord {
         return timestamp;
     }
 
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
-    }
-
     @Override
     public String toString() {
         return "BloodCountRecord{" +

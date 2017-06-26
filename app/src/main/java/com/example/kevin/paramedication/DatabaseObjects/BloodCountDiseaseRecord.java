@@ -1,7 +1,5 @@
 package com.example.kevin.paramedication.DatabaseObjects;
 
-
-
 public class BloodCountDiseaseRecord {
 
     private int id;
@@ -26,16 +24,8 @@ public class BloodCountDiseaseRecord {
         return bloodCountId;
     }
 
-    public void setBloodCountId(int bloodCountId) {
-        this.bloodCountId = bloodCountId;
-    }
-
     public int getDiseaseId() {
         return diseaseId;
-    }
-
-    public void setDiseaseId(int diseaseId) {
-        this.diseaseId = diseaseId;
     }
 
     @Override

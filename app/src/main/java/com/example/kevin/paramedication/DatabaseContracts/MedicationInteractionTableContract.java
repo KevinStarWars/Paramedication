@@ -3,10 +3,12 @@ package com.example.kevin.paramedication.DatabaseContracts;
 import android.provider.BaseColumns;
 
 /**
- * defines medication interaction entries in sqlite database
+ * PRIMARY KEY - ID
+ * INT - DRUG ID 1
+ * INT - DRUG ID 2
+ * STRING - TYPE OF INTERACTION
  */
 
-// ID|DrugID1|DrugID2|TypeOfInteraction
 public class MedicationInteractionTableContract {
     public static class MedicationInteractionEntry implements BaseColumns {
         public static final String TABLE_NAME = "Medication_Interaction";

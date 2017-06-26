@@ -3,7 +3,9 @@ package com.example.kevin.paramedication.DatabaseContracts;
 import android.provider.BaseColumns;
 
 /**
- * ID|Disease ID|BloodID
+ * PRIMARY KEY - ID
+ * INT - DISEASE ID
+ * INT - BLOOD ID
  */
 
 public class DiseaseBloodTableContract {

@@ -24,16 +24,8 @@ public class BloodCountMedicationRecord {
         return bloodCountId;
     }
 
-    public void setBloodCountId(int bloodCountId) {
-        this.bloodCountId = bloodCountId;
-    }
-
     public int getMedicationId() {
         return medicationId;
-    }
-
-    public void setMedicationId(int medicationId) {
-        this.medicationId = medicationId;
     }
 
     @Override

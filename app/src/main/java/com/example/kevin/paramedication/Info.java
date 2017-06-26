@@ -1,5 +1,7 @@
 package com.example.kevin.paramedication;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.example.kevin.paramedication.DatabaseOperations.DbDataSource;
+import com.example.kevin.paramedication.DatabaseOperations.ProcessOperations;
 
 public class Info extends AppCompatActivity {
 
@@ -23,6 +26,10 @@ public class Info extends AppCompatActivity {
         dataSource = new DbDataSource(this);
         Log.d(LOG_TAG, "Opening database.");
         dataSource.open();
+
+        if (getHelp(1)) {
+            displayHelp();
+        }
     }
 
     public void changeToDatabase(View view) {
@@ -54,5 +61,37 @@ public class Info extends AppCompatActivity {
                 "mailto", getString(R.string.supportMail), null));
         emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.subject));
         startActivity(Intent.createChooser(emailIntent, "Send email..."));
+    }
+
+    private boolean getHelp(int id) {
+        ProcessOperations processOperations = new ProcessOperations();
+        return processOperations.getEntry(id, dataSource.database).isInfoHelp();
+    }
+
+    private void displayHelp() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Info.this);
+        builder.setTitle("Instruction");
+        builder.setMessage(R.string.infoHelp);
+
+        builder.setPositiveButton(
+                "Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        builder.setNegativeButton(
+                "No",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        ProcessOperations processOperations = new ProcessOperations();
+                        processOperations.updateEntry("info", dataSource.database);
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }

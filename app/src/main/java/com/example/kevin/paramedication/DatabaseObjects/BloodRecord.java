@@ -72,184 +72,92 @@ public class BloodRecord {
         return leukocyteMin;
     }
 
-    public void setLeukocyteMin(double leukocyteMin) {
-        this.leukocyteMin = leukocyteMin;
-    }
-
     public double getLeukocyteMax() {
         return leukocyteMax;
-    }
-
-    public void setLeukocyteMax(double leukocyteMax) {
-        this.leukocyteMax = leukocyteMax;
     }
 
     public double getErythrocyteMin() {
         return erythrocyteMin;
     }
 
-    public void setErythrocyteMin(double erythrocyteMin) {
-        this.erythrocyteMin = erythrocyteMin;
-    }
-
     public double getErythrocyteMax() {
         return erythrocyteMax;
-    }
-
-    public void setErythrocyteMax(double erythrocyteMax) {
-        this.erythrocyteMax = erythrocyteMax;
     }
 
     public double getHemoglobinMin() {
         return hemoglobinMin;
     }
 
-    public void setHemoglobinMin(double hemoglobinMin) {
-        this.hemoglobinMin = hemoglobinMin;
-    }
-
     public double getHemoglobinMax() {
         return hemoglobinMax;
-    }
-
-    public void setHemoglobinMax(double hemoglobinMax) {
-        this.hemoglobinMax = hemoglobinMax;
     }
 
     public double getHematocritMin() {
         return hematocritMin;
     }
 
-    public void setHematocritMin(double hematocritMin) {
-        this.hematocritMin = hematocritMin;
-    }
-
     public double getHematocritMax() {
         return hematocritMax;
-    }
-
-    public void setHematocritMax(double hematocritMax) {
-        this.hematocritMax = hematocritMax;
     }
 
     public double getMcvMin() {
         return mcvMin;
     }
 
-    public void setMcvMin(double mcvMin) {
-        this.mcvMin = mcvMin;
-    }
-
     public double getMcvMax() {
         return mcvMax;
-    }
-
-    public void setMcvMax(double mcvMax) {
-        this.mcvMax = mcvMax;
     }
 
     public double getMchMin() {
         return mchMin;
     }
 
-    public void setMchMin(double mchMin) {
-        this.mchMin = mchMin;
-    }
-
     public double getMchMax() {
         return mchMax;
-    }
-
-    public void setMchMax(double mchMax) {
-        this.mchMax = mchMax;
     }
 
     public double getMchcMin() {
         return mchcMin;
     }
 
-    public void setMchcMin(double mchcMin) {
-        this.mchcMin = mchcMin;
-    }
-
     public double getMchcMax() {
         return mchcMax;
-    }
-
-    public void setMchcMax(double mchcMax) {
-        this.mchcMax = mchcMax;
     }
 
     public double getPlateletMin() {
         return plateletMin;
     }
 
-    public void setPlateletMin(double plateletMin) {
-        this.plateletMin = plateletMin;
-    }
-
     public double getPlateletMax() {
         return plateletMax;
-    }
-
-    public void setPlateletMax(double plateletMax) {
-        this.plateletMax = plateletMax;
     }
 
     public double getReticulocytesMin() {
         return reticulocytesMin;
     }
 
-    public void setReticulocytesMin(double reticulocytesMin) {
-        this.reticulocytesMin = reticulocytesMin;
-    }
-
     public double getReticulocytesMax() {
         return reticulocytesMax;
-    }
-
-    public void setReticulocytesMax(double reticulocytesMax) {
-        this.reticulocytesMax = reticulocytesMax;
     }
 
     public double getMpvMin() {
         return mpvMin;
     }
 
-    public void setMpvMin(double mpvMin) {
-        this.mpvMin = mpvMin;
-    }
-
     public double getMpvMax() {
         return mpvMax;
-    }
-
-    public void setMpvMax(double mpvMax) {
-        this.mpvMax = mpvMax;
     }
 
     public double getRdwMin() {
         return rdwMin;
     }
 
-    public void setRdwMin(double rdwMin) {
-        this.rdwMin = rdwMin;
-    }
-
     public double getRdwMax() {
         return rdwMax;
     }
 
-    public void setRdwMax(double rdwMax) {
-        this.rdwMax = rdwMax;
-    }
-
     public String getGender() {
         return this.gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
     }
 
     @Override
@@ -280,32 +188,5 @@ public class BloodRecord {
                 ", rdwMax=" + rdwMax +
                 ", Gender=" + gender +
                 '}';
-    }
-
-    public void initializeWithObject(BloodRecord record) {
-        this.id = record.getId();
-        this.leukocyteMin = record.getLeukocyteMin();
-        this.leukocyteMax = record.getLeukocyteMax();
-        this.erythrocyteMin = record.getErythrocyteMin();
-        this.erythrocyteMax = record.getErythrocyteMax();
-        this.hemoglobinMin = record.getHemoglobinMin();
-        this.hemoglobinMax = record.getHemoglobinMax();
-        this.hematocritMin = record.getHematocritMin();
-        this.hematocritMax = record.getHematocritMax();
-        this.mcvMin = record.getMcvMin();
-        this.mcvMax = record.getMcvMax();
-        this.mchMin = record.getMchMin();
-        this.mchMax = record.getMchMax();
-        this.mchcMin = record.getMchcMin();
-        this.mchcMax = record.getMchcMax();
-        this.plateletMin = record.getPlateletMin();
-        this.plateletMax = record.getPlateletMax();
-        this.reticulocytesMin = record.getReticulocytesMin();
-        this.reticulocytesMax = record.getReticulocytesMax();
-        this.mpvMin = record.getMpvMin();
-        this.mpvMax = record.getMpvMax();
-        this.rdwMin = record.getRdwMin();
-        this.rdwMax = record.getRdwMax();
-        this.gender = record.getGender();
     }
 }

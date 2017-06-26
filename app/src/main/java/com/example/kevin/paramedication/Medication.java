@@ -1,5 +1,7 @@
 package com.example.kevin.paramedication;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +19,7 @@ import com.example.kevin.paramedication.DatabaseObjects.MedicationRecord;
 import com.example.kevin.paramedication.DatabaseOperations.DbDataSource;
 import com.example.kevin.paramedication.DatabaseOperations.MedicationInteractionOperations;
 import com.example.kevin.paramedication.DatabaseOperations.MedicationOperations;
+import com.example.kevin.paramedication.DatabaseOperations.ProcessOperations;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -47,6 +50,10 @@ public class Medication extends AppCompatActivity {
         SetOnClickListenerForBothAutoCompleteTextViews(autoCompleteViewIds);
         enableAutocomplete(autoCompleteViewIds);
         setOnClickListenerForSaveButton();
+
+        if (getHelp(1)) {
+            displayHelp();
+        }
     }
 
     //these methods are used in order to switch between activities
@@ -215,5 +222,37 @@ public class Medication extends AppCompatActivity {
     private int convertToDp(float sizeInDp) {
         float scale = getResources().getDisplayMetrics().density;
         return (int) (sizeInDp * scale + 0.5f);
+    }
+
+    private boolean getHelp(int id) {
+        ProcessOperations processOperations = new ProcessOperations();
+        return processOperations.getEntry(id, dataSource.database).isMedicationHelp();
+    }
+
+    private void displayHelp() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(Medication.this);
+        builder.setTitle("Instruction");
+        builder.setMessage(R.string.medicationHelp);
+
+        builder.setPositiveButton(
+                "Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        builder.setNegativeButton(
+                "No",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        ProcessOperations processOperations = new ProcessOperations();
+                        processOperations.updateEntry("medication", dataSource.database);
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }

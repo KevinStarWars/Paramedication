@@ -229,7 +229,7 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:hint="@string/leukocyteval"
+                                        android:hint="@string/leukocyteUnit"
                                         android:inputType="phone"
                                         android:maxLines="1"
                                         android:textColor="@color/textColor" />
@@ -254,7 +254,7 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:hint="@string/erythrocyteval"
+                                        android:hint="@string/erythrocyteUnit"
                                         android:inputType="phone"
                                         android:maxLines="1"
                                         android:textColor="@color/textColor" />
@@ -278,7 +278,7 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:hint="@string/hemoglobinval"
+                                        android:hint="@string/hemoglobinUnit"
                                         android:inputType="phone"
                                         android:maxLines="1"
                                         android:textColor="@color/textColor" />
@@ -302,7 +302,7 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:hint="@string/hematocritval"
+                                        android:hint="@string/hematocritUnit"
                                         android:inputType="phone"
                                         android:maxLines="1"
                                         android:textColor="@color/textColor" />
@@ -326,7 +326,7 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:hint="@string/mcvval"
+                                        android:hint="@string/mcvUnit"
                                         android:inputType="phone"
                                         android:maxLines="1"
                                         android:textColor="@color/textColor" />
@@ -350,7 +350,7 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:hint="@string/MCHval"
+                                        android:hint="@string/mchUnit"
                                         android:inputType="phone"
                                         android:maxLines="1"
                                         android:textColor="@color/textColor" />
@@ -374,7 +374,7 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:hint="@string/mchcval"
+                                        android:hint="@string/mchcUnit"
                                         android:inputType="phone"
                                         android:maxLines="1"
                                         android:textColor="@color/textColor" />
@@ -398,7 +398,7 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:hint="@string/plateletval"
+                                        android:hint="@string/plateletUnit"
                                         android:inputType="phone"
                                         android:maxLines="1"
                                         android:textColor="@color/textColor" />
@@ -422,7 +422,7 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:hint="@string/reticulocytesval"
+                                        android:hint="@string/reticulocytesUnit"
                                         android:inputType="phone"
                                         android:maxLines="1"
                                         android:textColor="@color/textColor" />
@@ -446,7 +446,7 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:hint="@string/mpvval"
+                                        android:hint="@string/mpvUnit"
                                         android:inputType="phone"
                                         android:maxLines="1"
                                         android:textColor="@color/textColor" />
@@ -470,7 +470,7 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:hint="@string/rdwval"
+                                        android:hint="@string/rdwUnit"
                                         android:inputType="phone"
                                         android:maxLines="1"
                                         android:textColor="@color/textColor" />
@@ -525,7 +525,7 @@
                                     android:layout_gravity="center"
                                     android:layout_margin="16dp"
                                     android:background="@color/backgroundRed"
-                                    android:text="@string/addmore"
+                                    android:text="@string/addMore"
                                     android:textColor="@color/textColor" />
                             </LinearLayout>
                         </android.support.v4.widget.NestedScrollView>

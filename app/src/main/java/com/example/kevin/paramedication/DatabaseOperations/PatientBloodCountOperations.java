@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.example.kevin.paramedication.DatabaseContracts.PatientBloodcountTableContract;
+import com.example.kevin.paramedication.DatabaseContracts.PatientBloodCountTableContract;
 import com.example.kevin.paramedication.DatabaseObjects.PatientBloodCountRecord;
 
 import java.util.ArrayList;
@@ -17,9 +17,9 @@ public class PatientBloodCountOperations {
 
 
     private String[] patientBloodCountColumns = {
-            PatientBloodcountTableContract.PatientBloodcountTableEntry._ID,
-            PatientBloodcountTableContract.PatientBloodcountTableEntry.COLUMN_PATIENT_ID,
-            PatientBloodcountTableContract.PatientBloodcountTableEntry.COLUMN_BLOOD_ID
+            PatientBloodCountTableContract.PatientBloodCountTableEntry._ID,
+            PatientBloodCountTableContract.PatientBloodCountTableEntry.COLUMN_PATIENT_ID,
+            PatientBloodCountTableContract.PatientBloodCountTableEntry.COLUMN_BLOOD_ID
     };
 
     public PatientBloodCountRecord createPatientBloodCountRecord(int patientId, int bloodId, SQLiteDatabase database) {
@@ -28,20 +28,20 @@ public class PatientBloodCountOperations {
 
         for (int i = 0; i < currentDatabase.size(); i++){
             if (currentDatabase.get(i).getPatientId() == patientId &&
-                    currentDatabase.get(i).getBloodcountId() == bloodId){
+                    currentDatabase.get(i).getBloodCountId() == bloodId) {
                 return currentDatabase.get(i);
             }
         }
 
         ContentValues values = new ContentValues();
-        values.put(PatientBloodcountTableContract.PatientBloodcountTableEntry.COLUMN_PATIENT_ID, patientId);
-        values.put(PatientBloodcountTableContract.PatientBloodcountTableEntry.COLUMN_BLOOD_ID, bloodId);
+        values.put(PatientBloodCountTableContract.PatientBloodCountTableEntry.COLUMN_PATIENT_ID, patientId);
+        values.put(PatientBloodCountTableContract.PatientBloodCountTableEntry.COLUMN_BLOOD_ID, bloodId);
 
-        long insertId = database.insert(PatientBloodcountTableContract.PatientBloodcountTableEntry.TABLE_NAME, null, values);
+        long insertId = database.insert(PatientBloodCountTableContract.PatientBloodCountTableEntry.TABLE_NAME, null, values);
 
 
-        Cursor cursor = database.query(PatientBloodcountTableContract.PatientBloodcountTableEntry.TABLE_NAME, patientBloodCountColumns,
-                PatientBloodcountTableContract.PatientBloodcountTableEntry._ID + "=" + insertId, null, null, null, null);
+        Cursor cursor = database.query(PatientBloodCountTableContract.PatientBloodCountTableEntry.TABLE_NAME, patientBloodCountColumns,
+                PatientBloodCountTableContract.PatientBloodCountTableEntry._ID + "=" + insertId, null, null, null, null);
 
         cursor.moveToFirst();
         PatientBloodCountRecord record = cursorToPatientBloodCountRecord(cursor);
@@ -54,9 +54,9 @@ public class PatientBloodCountOperations {
 
     private PatientBloodCountRecord cursorToPatientBloodCountRecord(Cursor cursor) {
 
-        int idIndex = cursor.getColumnIndex(PatientBloodcountTableContract.PatientBloodcountTableEntry._ID);
-        int idPatient = cursor.getColumnIndex(PatientBloodcountTableContract.PatientBloodcountTableEntry.COLUMN_PATIENT_ID);
-        int idBlood = cursor.getColumnIndex(PatientBloodcountTableContract.PatientBloodcountTableEntry.COLUMN_BLOOD_ID);
+        int idIndex = cursor.getColumnIndex(PatientBloodCountTableContract.PatientBloodCountTableEntry._ID);
+        int idPatient = cursor.getColumnIndex(PatientBloodCountTableContract.PatientBloodCountTableEntry.COLUMN_PATIENT_ID);
+        int idBlood = cursor.getColumnIndex(PatientBloodCountTableContract.PatientBloodCountTableEntry.COLUMN_BLOOD_ID);
 
         int id = cursor.getInt(idIndex);
         int patientId = cursor.getInt(idPatient);
@@ -68,7 +68,7 @@ public class PatientBloodCountOperations {
     public List<PatientBloodCountRecord> getAllPatientBloodCountRecord(SQLiteDatabase database) {
         List<PatientBloodCountRecord> List = new ArrayList<>();
 
-        Cursor cursor = database.query(PatientBloodcountTableContract.PatientBloodcountTableEntry.TABLE_NAME,
+        Cursor cursor = database.query(PatientBloodCountTableContract.PatientBloodCountTableEntry.TABLE_NAME,
                 patientBloodCountColumns, null, null, null, null, null, null);
 
         cursor.moveToFirst();

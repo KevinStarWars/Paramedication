@@ -15,8 +15,9 @@ import com.example.kevin.paramedication.DatabaseContracts.DiseaseMedicationTable
 import com.example.kevin.paramedication.DatabaseContracts.DiseaseTableContract;
 import com.example.kevin.paramedication.DatabaseContracts.MedicationInteractionTableContract;
 import com.example.kevin.paramedication.DatabaseContracts.MedicationTableContract;
-import com.example.kevin.paramedication.DatabaseContracts.PatientBloodcountTableContract;
+import com.example.kevin.paramedication.DatabaseContracts.PatientBloodCountTableContract;
 import com.example.kevin.paramedication.DatabaseContracts.PatientTableContract;
+import com.example.kevin.paramedication.DatabaseContracts.ProcessTableContract;
 import com.example.kevin.paramedication.DatabaseObjects.BloodRecord;
 import com.example.kevin.paramedication.DatabaseObjects.DiseaseRecord;
 import com.example.kevin.paramedication.DatabaseObjects.MedicationRecord;
@@ -39,10 +40,6 @@ class DbHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "paramedication.db";
     private static final int DATABASE_VERSION = 1;
-    private final String SQL_CREATE_MEDICATION_TABLE = "CREATE TABLE " + MedicationTableContract.MedicationTableEntry.TABLE_NAME + " (" +
-            MedicationTableContract.MedicationTableEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-            MedicationTableContract.MedicationTableEntry.COLUMN_DRUG_NAME + " TEXT NOT NULL" +
-            "); ";
     private Context context;
 
     DbHelper(Context context) {
@@ -54,99 +51,8 @@ class DbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
         try {
-            String SQL_CREATE_BLOOD_COUNT_DISEASE_TABLE = "CREATE TABLE " + BloodCountDiseaseTableContract.BloodCountDiseaseTableEntry.TABLE_NAME + " (" +
-                    BloodCountDiseaseTableContract.BloodCountDiseaseTableEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    BloodCountDiseaseTableContract.BloodCountDiseaseTableEntry.COLUMN_BLOOD_COUNT_ID + " INTEGER NOT NULL, " +
-                    BloodCountDiseaseTableContract.BloodCountDiseaseTableEntry.COLUMN_DISEASE_ID + " INTEGER NOT NULL" +
-                    "); ";
-            sqLiteDatabase.execSQL(SQL_CREATE_BLOOD_COUNT_DISEASE_TABLE);
-            String SQL_CREATE_PATIENT_BLOOD_COUNT_TABLE = "CREATE TABLE " + PatientBloodcountTableContract.PatientBloodcountTableEntry.TABLE_NAME + " (" +
-                    PatientBloodcountTableContract.PatientBloodcountTableEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    PatientBloodcountTableContract.PatientBloodcountTableEntry.COLUMN_PATIENT_ID + " INTEGER NOT NULL, " +
-                    PatientBloodcountTableContract.PatientBloodcountTableEntry.COLUMN_BLOOD_ID + " INTEGER NOT NULL" +
-                    "); ";
-            sqLiteDatabase.execSQL(SQL_CREATE_PATIENT_BLOOD_COUNT_TABLE);
-            sqLiteDatabase.execSQL(SQL_CREATE_MEDICATION_TABLE);
-            String SQL_CREATE_BLOOD_COUNT_TABLE = "CREATE TABLE " + BloodCountTableContract.BloodCountTableEntry.TABLE_NAME + " (" +
-                    BloodCountTableContract.BloodCountTableEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    BloodCountTableContract.BloodCountTableEntry.COLUMN_LEUKOCYTE + " TEXT NOT NULL, " +
-                    BloodCountTableContract.BloodCountTableEntry.COLUMN_ERYTHROCYTE + " TEXT NOT NULL, " +
-                    BloodCountTableContract.BloodCountTableEntry.COLUMN_HEMOGLOBIN + " TEXT NOT NULL, " +
-                    BloodCountTableContract.BloodCountTableEntry.COLUMN_HEMATOCRIT + " TEXT NOT NULL, " +
-                    BloodCountTableContract.BloodCountTableEntry.COLUMN_MCV + " TEXT NOT NULL, " +
-                    BloodCountTableContract.BloodCountTableEntry.COLUMN_MCH + " TEXT NOT NULL, " +
-                    BloodCountTableContract.BloodCountTableEntry.COLUMN_MCHC + " TEXT NOT NULL, " +
-                    BloodCountTableContract.BloodCountTableEntry.COLUMN_PLATELET + " TEXT NOT NULL, " +
-                    BloodCountTableContract.BloodCountTableEntry.COLUMN_RETICULOCYTES + " TEXT NOT NULL, " +
-                    BloodCountTableContract.BloodCountTableEntry.COLUMN_MPV + " TEXT NOT NULL, " +
-                    BloodCountTableContract.BloodCountTableEntry.COLUMN_RDW + " TEXT NOT NULL, " +
-                    BloodCountTableContract.BloodCountTableEntry.COLUMN_TIMESTAMP + " DEFAULT CURRENT_TIMESTAMP NOT NULL" +
-                    "); ";
-            sqLiteDatabase.execSQL(SQL_CREATE_BLOOD_COUNT_TABLE);
-            String SQL_CREATE_DISEASE_TABLE = "CREATE TABLE " + DiseaseTableContract.DiseaseTableEntry.TABLE_NAME + " (" +
-                    DiseaseTableContract.DiseaseTableEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    DiseaseTableContract.DiseaseTableEntry.COLUMN_DISEASE_NAME + " TEXT NOT NULL" +
-                    "); ";
-            sqLiteDatabase.execSQL(SQL_CREATE_DISEASE_TABLE);
-            String SQL_CREATE_BLOOD_TABLE = "CREATE TABLE " + BloodTableContract.BloodTableEntry.TABLE_NAME + " (" +
-                    BloodTableContract.BloodTableEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    BloodTableContract.BloodTableEntry.COLUMN_LEUKOCYTE_MIN + " TEXT NOT NULL, " +
-                    BloodTableContract.BloodTableEntry.COLUMN_LEUKOCYTE_MAX + " TEXT NOT NULL, " +
-                    BloodTableContract.BloodTableEntry.COLUMN_ERYTHROCYTE_MIN + " TEXT NOT NULL, " +
-                    BloodTableContract.BloodTableEntry.COLUMN_ERYTHROCYTE_MAX + " TEXT NOT NULL, " +
-                    BloodTableContract.BloodTableEntry.COLUMN_HEMOGLOBIN_MIN + " TEXT NOT NULL, " +
-                    BloodTableContract.BloodTableEntry.COLUMN_HEMOGLOBIN_MAX + " TEXT NOT NULL, " +
-                    BloodTableContract.BloodTableEntry.COLUMN_HEMATOCRIT_MIN + " TEXT NOT NULL, " +
-                    BloodTableContract.BloodTableEntry.COLUMN_HEMATOCRIT_MAX + " TEXT NOT NULL, " +
-                    BloodTableContract.BloodTableEntry.COLUMN_MCV_MIN + " TEXT NOT NULL, " +
-                    BloodTableContract.BloodTableEntry.COLUMN_MCV_MAX + " TEXT NOT NULL, " +
-                    BloodTableContract.BloodTableEntry.COLUMN_MCH_MIN + " TEXT NOT NULL, " +
-                    BloodTableContract.BloodTableEntry.COLUMN_MCH_MAX + " TEXT NOT NULL, " +
-                    BloodTableContract.BloodTableEntry.COLUMN_MCHC_MIN + " TEXT NOT NULL, " +
-                    BloodTableContract.BloodTableEntry.COLUMN_MCHC_MAX + " TEXT NOT NULL, " +
-                    BloodTableContract.BloodTableEntry.COLUMN_PLATELET_MIN + " TEXT NOT NULL, " +
-                    BloodTableContract.BloodTableEntry.COLUMN_PLATELET_MAX + " TEXT NOT NULL, " +
-                    BloodTableContract.BloodTableEntry.COLUMN_RETICULOCYTES_MIN + " TEXT NOT NULL, " +
-                    BloodTableContract.BloodTableEntry.COLUMN_RETICULOCYTES_MAX + " TEXT NOT NULL, " +
-                    BloodTableContract.BloodTableEntry.COLUMN_MPV_MIN + " TEXT NOT NULL, " +
-                    BloodTableContract.BloodTableEntry.COLUMN_MPV_MAX + " TEXT NOT NULL, " +
-                    BloodTableContract.BloodTableEntry.COLUMN_RDW_MIN + " TEXT NOT NULL, " +
-                    BloodTableContract.BloodTableEntry.COLUMN_RDW_MAX + " TEXT NOT NULL," +
-                    BloodTableContract.BloodTableEntry.COLUMN_GENDER + " TEXT NOT NULL" +
-                    "); ";
-            sqLiteDatabase.execSQL(SQL_CREATE_BLOOD_TABLE);
-            String SQL_CREATE_PATIENT_TABLE = "CREATE TABLE " + PatientTableContract.PatientTableEntry.TABLE_NAME + " (" +
-                    PatientTableContract.PatientTableEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    PatientTableContract.PatientTableEntry.COLUMN_HOSPITAL_ID + " INTEGER NOT NULL, " +
-                    PatientTableContract.PatientTableEntry.COLUMN_GENDER + " TEXT NOT NULL" +
-                    "); ";
-            sqLiteDatabase.execSQL(SQL_CREATE_PATIENT_TABLE);
-            String SQL_CREATE_DISEASE_BLOOD_TABLE = "CREATE TABLE " + DiseaseBloodTableContract.DiseaseBloodEntry.TABLE_NAME + " (" +
-                    DiseaseBloodTableContract.DiseaseBloodEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    DiseaseBloodTableContract.DiseaseBloodEntry.COLUMN_DISEASE_ID + " INTEGER NOT NULL, " +
-                    DiseaseBloodTableContract.DiseaseBloodEntry.COLUMN_BLOOD_ID + " INTEGER NOT NULL" +
-                    "); ";
-            sqLiteDatabase.execSQL(SQL_CREATE_DISEASE_BLOOD_TABLE);
-            String SQL_CREATE_DISEASE_MEDICATION_TABLE = "CREATE TABLE " + DiseaseMedicationTableContract.DiseaseMedicationEntry.TABLE_NAME + " (" +
-                    DiseaseMedicationTableContract.DiseaseMedicationEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    DiseaseMedicationTableContract.DiseaseMedicationEntry.COLUMN_DISEASE_ID + " INTEGER NOT NULL, " +
-                    DiseaseMedicationTableContract.DiseaseMedicationEntry.COLUMN_DRUG_ID + " INTEGER NOT NULL" +
-                    "); ";
-            sqLiteDatabase.execSQL(SQL_CREATE_DISEASE_MEDICATION_TABLE);
-            String SQL_CREATE_MEDICATION_INTERACTION_TABLE = "CREATE TABLE " + MedicationInteractionTableContract.MedicationInteractionEntry.TABLE_NAME + " (" +
-                    MedicationInteractionTableContract.MedicationInteractionEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    MedicationInteractionTableContract.MedicationInteractionEntry.COLUMN_DRUG_ID1 + " INTEGER NOT NULL, " +
-                    MedicationInteractionTableContract.MedicationInteractionEntry.COLUMN_DRUG_ID2 + " INTEGER NOT NULL, " +
-                    MedicationInteractionTableContract.MedicationInteractionEntry.COLUMN_TYPE_OF_INTERACTION + " TEXT NOT NULL" +
-                    "); ";
-            sqLiteDatabase.execSQL(SQL_CREATE_MEDICATION_INTERACTION_TABLE);
-            String SQL_CREATE_BLOOD_COUNT_MEDICATION_TABLE = "CREATE TABLE " + BloodCountMedicationTableContract.BloodCountMedicationTableEntry.TABLE_NAME + " (" +
-                    BloodCountMedicationTableContract.BloodCountMedicationTableEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                    BloodCountMedicationTableContract.BloodCountMedicationTableEntry.COLUMN_BLOOD_COUNT_ID + " INTEGER NOT NULL, " +
-                    BloodCountMedicationTableContract.BloodCountMedicationTableEntry.COLUMN_MEDICATION_ID + " INTEGER NOT NULL" +
-                    "); ";
-            sqLiteDatabase.execSQL(SQL_CREATE_BLOOD_COUNT_MEDICATION_TABLE);
-            Log.d(LOG_TAG, "Tables created");
+            createTables(sqLiteDatabase);
+            initializeProcess(sqLiteDatabase);
             createNormalValues(sqLiteDatabase);
             createNormalCount(sqLiteDatabase);
             insertDiseaseNone(sqLiteDatabase);
@@ -162,6 +68,130 @@ class DbHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
     }
 
+    private void createTables(SQLiteDatabase sqLiteDatabase) {
+        String SQL_CREATE_BLOOD_COUNT_DISEASE_TABLE = "CREATE TABLE " + BloodCountDiseaseTableContract.BloodCountDiseaseTableEntry.TABLE_NAME + " (" +
+                BloodCountDiseaseTableContract.BloodCountDiseaseTableEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                BloodCountDiseaseTableContract.BloodCountDiseaseTableEntry.COLUMN_BLOOD_COUNT_ID + " INTEGER NOT NULL, " +
+                BloodCountDiseaseTableContract.BloodCountDiseaseTableEntry.COLUMN_DISEASE_ID + " INTEGER NOT NULL" +
+                "); ";
+        sqLiteDatabase.execSQL(SQL_CREATE_BLOOD_COUNT_DISEASE_TABLE);
+
+        String SQL_CREATE_PATIENT_BLOOD_COUNT_TABLE = "CREATE TABLE " + PatientBloodCountTableContract.PatientBloodCountTableEntry.TABLE_NAME + " (" +
+                PatientBloodCountTableContract.PatientBloodCountTableEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                PatientBloodCountTableContract.PatientBloodCountTableEntry.COLUMN_PATIENT_ID + " INTEGER NOT NULL, " +
+                PatientBloodCountTableContract.PatientBloodCountTableEntry.COLUMN_BLOOD_ID + " INTEGER NOT NULL" +
+                "); ";
+        sqLiteDatabase.execSQL(SQL_CREATE_PATIENT_BLOOD_COUNT_TABLE);
+
+        String SQL_CREATE_MEDICATION_TABLE = "CREATE TABLE " + MedicationTableContract.MedicationTableEntry.TABLE_NAME + " (" +
+                MedicationTableContract.MedicationTableEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                MedicationTableContract.MedicationTableEntry.COLUMN_DRUG_NAME + " TEXT NOT NULL" +
+                "); ";
+        sqLiteDatabase.execSQL(SQL_CREATE_MEDICATION_TABLE);
+
+        String SQL_CREATE_BLOOD_COUNT_TABLE = "CREATE TABLE " + BloodCountTableContract.BloodCountTableEntry.TABLE_NAME + " (" +
+                BloodCountTableContract.BloodCountTableEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                BloodCountTableContract.BloodCountTableEntry.COLUMN_LEUKOCYTE + " TEXT NOT NULL, " +
+                BloodCountTableContract.BloodCountTableEntry.COLUMN_ERYTHROCYTE + " TEXT NOT NULL, " +
+                BloodCountTableContract.BloodCountTableEntry.COLUMN_HEMOGLOBIN + " TEXT NOT NULL, " +
+                BloodCountTableContract.BloodCountTableEntry.COLUMN_HEMATOCRIT + " TEXT NOT NULL, " +
+                BloodCountTableContract.BloodCountTableEntry.COLUMN_MCV + " TEXT NOT NULL, " +
+                BloodCountTableContract.BloodCountTableEntry.COLUMN_MCH + " TEXT NOT NULL, " +
+                BloodCountTableContract.BloodCountTableEntry.COLUMN_MCHC + " TEXT NOT NULL, " +
+                BloodCountTableContract.BloodCountTableEntry.COLUMN_PLATELET + " TEXT NOT NULL, " +
+                BloodCountTableContract.BloodCountTableEntry.COLUMN_RETICULOCYTES + " TEXT NOT NULL, " +
+                BloodCountTableContract.BloodCountTableEntry.COLUMN_MPV + " TEXT NOT NULL, " +
+                BloodCountTableContract.BloodCountTableEntry.COLUMN_RDW + " TEXT NOT NULL, " +
+                BloodCountTableContract.BloodCountTableEntry.COLUMN_TIMESTAMP + " DEFAULT CURRENT_TIMESTAMP NOT NULL" +
+                "); ";
+        sqLiteDatabase.execSQL(SQL_CREATE_BLOOD_COUNT_TABLE);
+
+        String SQL_CREATE_DISEASE_TABLE = "CREATE TABLE " + DiseaseTableContract.DiseaseTableEntry.TABLE_NAME + " (" +
+                DiseaseTableContract.DiseaseTableEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                DiseaseTableContract.DiseaseTableEntry.COLUMN_DISEASE_NAME + " TEXT NOT NULL" +
+                "); ";
+        sqLiteDatabase.execSQL(SQL_CREATE_DISEASE_TABLE);
+
+        String SQL_CREATE_BLOOD_TABLE = "CREATE TABLE " + BloodTableContract.BloodTableEntry.TABLE_NAME + " (" +
+                BloodTableContract.BloodTableEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                BloodTableContract.BloodTableEntry.COLUMN_LEUKOCYTE_MIN + " TEXT NOT NULL, " +
+                BloodTableContract.BloodTableEntry.COLUMN_LEUKOCYTE_MAX + " TEXT NOT NULL, " +
+                BloodTableContract.BloodTableEntry.COLUMN_ERYTHROCYTE_MIN + " TEXT NOT NULL, " +
+                BloodTableContract.BloodTableEntry.COLUMN_ERYTHROCYTE_MAX + " TEXT NOT NULL, " +
+                BloodTableContract.BloodTableEntry.COLUMN_HEMOGLOBIN_MIN + " TEXT NOT NULL, " +
+                BloodTableContract.BloodTableEntry.COLUMN_HEMOGLOBIN_MAX + " TEXT NOT NULL, " +
+                BloodTableContract.BloodTableEntry.COLUMN_HEMATOCRIT_MIN + " TEXT NOT NULL, " +
+                BloodTableContract.BloodTableEntry.COLUMN_HEMATOCRIT_MAX + " TEXT NOT NULL, " +
+                BloodTableContract.BloodTableEntry.COLUMN_MCV_MIN + " TEXT NOT NULL, " +
+                BloodTableContract.BloodTableEntry.COLUMN_MCV_MAX + " TEXT NOT NULL, " +
+                BloodTableContract.BloodTableEntry.COLUMN_MCH_MIN + " TEXT NOT NULL, " +
+                BloodTableContract.BloodTableEntry.COLUMN_MCH_MAX + " TEXT NOT NULL, " +
+                BloodTableContract.BloodTableEntry.COLUMN_MCHC_MIN + " TEXT NOT NULL, " +
+                BloodTableContract.BloodTableEntry.COLUMN_MCHC_MAX + " TEXT NOT NULL, " +
+                BloodTableContract.BloodTableEntry.COLUMN_PLATELET_MIN + " TEXT NOT NULL, " +
+                BloodTableContract.BloodTableEntry.COLUMN_PLATELET_MAX + " TEXT NOT NULL, " +
+                BloodTableContract.BloodTableEntry.COLUMN_RETICULOCYTES_MIN + " TEXT NOT NULL, " +
+                BloodTableContract.BloodTableEntry.COLUMN_RETICULOCYTES_MAX + " TEXT NOT NULL, " +
+                BloodTableContract.BloodTableEntry.COLUMN_MPV_MIN + " TEXT NOT NULL, " +
+                BloodTableContract.BloodTableEntry.COLUMN_MPV_MAX + " TEXT NOT NULL, " +
+                BloodTableContract.BloodTableEntry.COLUMN_RDW_MIN + " TEXT NOT NULL, " +
+                BloodTableContract.BloodTableEntry.COLUMN_RDW_MAX + " TEXT NOT NULL," +
+                BloodTableContract.BloodTableEntry.COLUMN_GENDER + " TEXT NOT NULL" +
+                "); ";
+        sqLiteDatabase.execSQL(SQL_CREATE_BLOOD_TABLE);
+
+        String SQL_CREATE_PATIENT_TABLE = "CREATE TABLE " + PatientTableContract.PatientTableEntry.TABLE_NAME + " (" +
+                PatientTableContract.PatientTableEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                PatientTableContract.PatientTableEntry.COLUMN_HOSPITAL_ID + " INTEGER NOT NULL, " +
+                PatientTableContract.PatientTableEntry.COLUMN_GENDER + " TEXT NOT NULL" +
+                "); ";
+        sqLiteDatabase.execSQL(SQL_CREATE_PATIENT_TABLE);
+
+        String SQL_CREATE_DISEASE_BLOOD_TABLE = "CREATE TABLE " + DiseaseBloodTableContract.DiseaseBloodEntry.TABLE_NAME + " (" +
+                DiseaseBloodTableContract.DiseaseBloodEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                DiseaseBloodTableContract.DiseaseBloodEntry.COLUMN_DISEASE_ID + " INTEGER NOT NULL, " +
+                DiseaseBloodTableContract.DiseaseBloodEntry.COLUMN_BLOOD_ID + " INTEGER NOT NULL" +
+                "); ";
+        sqLiteDatabase.execSQL(SQL_CREATE_DISEASE_BLOOD_TABLE);
+
+        String SQL_CREATE_DISEASE_MEDICATION_TABLE = "CREATE TABLE " + DiseaseMedicationTableContract.DiseaseMedicationEntry.TABLE_NAME + " (" +
+                DiseaseMedicationTableContract.DiseaseMedicationEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                DiseaseMedicationTableContract.DiseaseMedicationEntry.COLUMN_DISEASE_ID + " INTEGER NOT NULL, " +
+                DiseaseMedicationTableContract.DiseaseMedicationEntry.COLUMN_DRUG_ID + " INTEGER NOT NULL" +
+                "); ";
+        sqLiteDatabase.execSQL(SQL_CREATE_DISEASE_MEDICATION_TABLE);
+
+        String SQL_CREATE_MEDICATION_INTERACTION_TABLE = "CREATE TABLE " + MedicationInteractionTableContract.MedicationInteractionEntry.TABLE_NAME + " (" +
+                MedicationInteractionTableContract.MedicationInteractionEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                MedicationInteractionTableContract.MedicationInteractionEntry.COLUMN_DRUG_ID1 + " INTEGER NOT NULL, " +
+                MedicationInteractionTableContract.MedicationInteractionEntry.COLUMN_DRUG_ID2 + " INTEGER NOT NULL, " +
+                MedicationInteractionTableContract.MedicationInteractionEntry.COLUMN_TYPE_OF_INTERACTION + " TEXT NOT NULL" +
+                "); ";
+        sqLiteDatabase.execSQL(SQL_CREATE_MEDICATION_INTERACTION_TABLE);
+
+        String SQL_CREATE_BLOOD_COUNT_MEDICATION_TABLE = "CREATE TABLE " + BloodCountMedicationTableContract.BloodCountMedicationTableEntry.TABLE_NAME + " (" +
+                BloodCountMedicationTableContract.BloodCountMedicationTableEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                BloodCountMedicationTableContract.BloodCountMedicationTableEntry.COLUMN_BLOOD_COUNT_ID + " INTEGER NOT NULL, " +
+                BloodCountMedicationTableContract.BloodCountMedicationTableEntry.COLUMN_MEDICATION_ID + " INTEGER NOT NULL" +
+                "); ";
+        sqLiteDatabase.execSQL(SQL_CREATE_BLOOD_COUNT_MEDICATION_TABLE);
+
+        String SQL_CREATE_PROCESS_TABLE = "CREATE TABLE " + ProcessTableContract.ProcessTableEntry.TABLE_NAME + " (" +
+                ProcessTableContract.ProcessTableEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                ProcessTableContract.ProcessTableEntry.COLUMN_DIAGNOSIS_HELP + " INTEGER NOT NULL," +
+                ProcessTableContract.ProcessTableEntry.COLUMN_PATIENT_HELP + " INTEGER NOT NULL," +
+                ProcessTableContract.ProcessTableEntry.COLUMN_DATABASE_HELP + " INTEGER NOT NULL," +
+                ProcessTableContract.ProcessTableEntry.COLUMN_MEDICATION_HELP + " INTEGER NOT NULL," +
+                ProcessTableContract.ProcessTableEntry.COLUMN_INFO_HELP + " INTEGER NOT NULL" +
+                "); ";
+        sqLiteDatabase.execSQL(SQL_CREATE_PROCESS_TABLE);
+        Log.d(LOG_TAG, "Tables created");
+    }
+
+    private void initializeProcess(SQLiteDatabase sqLiteDatabase) {
+        ProcessOperations processOperations = new ProcessOperations();
+        processOperations.createProcessRecord(1, 1, 1, 1, 1, sqLiteDatabase);
+    }
     // female id = 1, male id = 2
     private void createNormalValues(SQLiteDatabase database) {
         ContentValues values = new ContentValues();

@@ -5,12 +5,12 @@ public class PatientBloodCountRecord {
 
     private int id;
     private int patientId;
-    private int bloodcountId;
+    private int bloodCountId;
 
-    public PatientBloodCountRecord(int id, int patientId, int bloodcountId) {
+    public PatientBloodCountRecord(int id, int patientId, int bloodCountId) {
         this.id = id;
         this.patientId = patientId;
-        this.bloodcountId = bloodcountId;
+        this.bloodCountId = bloodCountId;
     }
 
     public int getId() {
@@ -25,16 +25,8 @@ public class PatientBloodCountRecord {
         return patientId;
     }
 
-    public void setPatientId(int patientId) {
-        this.patientId = patientId;
-    }
-
-    public int getBloodcountId() {
-        return bloodcountId;
-    }
-
-    public void setBloodcountId(int bloodcountId) {
-        this.bloodcountId = bloodcountId;
+    public int getBloodCountId() {
+        return bloodCountId;
     }
 
     @Override
@@ -42,7 +34,7 @@ public class PatientBloodCountRecord {
         return "PatientBloodCountRecord{" +
                 "id=" + id +
                 ", patientId=" + patientId +
-                ", bloodcountId=" + bloodcountId +
+                ", bloodCountId=" + bloodCountId +
                 '}';
     }
 }
