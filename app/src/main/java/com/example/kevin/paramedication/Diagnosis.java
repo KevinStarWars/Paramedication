@@ -779,9 +779,21 @@ public class Diagnosis extends AppCompatActivity {
         patBloodRecord.getMpv(),
         patBloodRecord.getRdw()};
 
+        String[] unitList = {getString(R.string.leukocyteUnit),
+                getString(R.string.erythrocyteUnit),
+                getString(R.string.hemoglobinUnit),
+                getString(R.string.hematocritUnit),
+                getString(R.string.mcvUnit),
+                getString(R.string.mchUnit),
+                getString(R.string.mchcUnit),
+                getString(R.string.plateletUnit),
+                getString(R.string.reticulocytesUnit),
+                getString(R.string.mpvUnit),
+                getString(R.string.rdwUnit)};
+
         for (int i = 0; i < valueList.length; i++){
             TextView view = (TextView) findViewById(idList[i]);
-            view.setText(String.valueOf(decimalFormat.format(valueList[i])));
+            view.setText(String.valueOf(decimalFormat.format(valueList[i])) + " " + unitList[i]);
         }
     }
 

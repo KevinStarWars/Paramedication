@@ -419,12 +419,25 @@ public class Database extends AppCompatActivity {
                 R.id.mpvMinValue, R.id.mpvMaxValue,
                 R.id.rdwMinValue, R.id.rdwMaxValue};
 
+        String[] units = {"",
+                getString(R.string.leukocyteUnit), getString(R.string.leukocyteUnit),
+                getString(R.string.erythrocyteUnit), getString(R.string.erythrocyteUnit),
+                getString(R.string.hemoglobinUnit), getString(R.string.hemoglobinUnit),
+                getString(R.string.hematocritUnit), getString(R.string.hematocritUnit),
+                getString(R.string.mcvUnit), getString(R.string.mcvUnit),
+                getString(R.string.mchUnit), getString(R.string.mchUnit),
+                getString(R.string.mchcUnit), getString(R.string.mchcUnit),
+                getString(R.string.plateletUnit), getString(R.string.plateletUnit),
+                getString(R.string.reticulocytesUnit), getString(R.string.reticulocytesUnit),
+                getString(R.string.mpvUnit), getString(R.string.mpvUnit),
+                getString(R.string.rdwUnit), getString(R.string.rdwUnit)};
+
         for (int i = 0; i < defaultInterfaceEditTextIds.length; i++){
             TextView textView = (TextView) findViewById(saveInterfaceTextViewIds[i]);
             EditText editText = (EditText) findViewById(defaultInterfaceEditTextIds[i]);
 
             textView.setGravity(Gravity.CENTER_HORIZONTAL);
-            textView.setText(editText.getText());
+            textView.setText(editText.getText() + " " + units[i]);
         }
     }
 

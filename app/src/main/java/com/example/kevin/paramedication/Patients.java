@@ -241,7 +241,7 @@ public class Patients extends AppCompatActivity {
     private void print(List<BloodCountRecord> list){
         boolean firstRun = true;
 
-        for (int i = 0; i < list.size(); i++) {
+        for (int i = list.size() - 1; i >= 0; i--) {
             if (firstRun) {
                 setTimestamp(list.get(i));
                 setErythrocyte(list.get(i));
@@ -374,74 +374,74 @@ public class Patients extends AppCompatActivity {
 
     private void setErythrocyte(BloodCountRecord record){
         TextView view = (TextView) findViewById(R.id.erythrocyteValue);
-        view.setText(String.valueOf(record.getErythrocyte()));
+        view.setText(String.valueOf(record.getErythrocyte()) + " " + getString(R.string.erythrocyteUnit));
     }
 
     private void setLeukocyte(BloodCountRecord record){
         TextView view = (TextView) findViewById(R.id.leukocyteValue);
-        view.setText(String.valueOf(record.getLeukocyte()));
+        view.setText(String.valueOf(record.getLeukocyte()) + " " + getString(R.string.leukocyteUnit));
     }
 
     private void setHemoglobin(BloodCountRecord record){
         TextView view = (TextView) findViewById(R.id.hemoglobinValue);
-        view.setText(String.valueOf(record.getHemoglobin()));
+        view.setText(String.valueOf(record.getHemoglobin()) + " " + getString(R.string.hemoglobinUnit));
     }
 
     private void setHematocrit(BloodCountRecord record){
         TextView view = (TextView) findViewById(R.id.hematocritValue);
-        view.setText(String.valueOf(record.getHematocrit()));
+        view.setText(String.valueOf(record.getHematocrit()) + " " + getString(R.string.hematocritUnit));
     }
 
     private void setMcv(BloodCountRecord record){
         TextView view = (TextView) findViewById(R.id.mcvValue);
-        view.setText(String.valueOf(record.getMcv()));
+        view.setText(String.valueOf(record.getMcv()) + " " + getString(R.string.mcvUnit));
     }
 
     private void setMch(BloodCountRecord record){
         TextView view = (TextView) findViewById(R.id.mchValue);
-        view.setText(String.valueOf(record.getMch()));
+        view.setText(String.valueOf(record.getMch()) + " " + getString(R.string.mchUnit));
     }
 
     private void setMchc(BloodCountRecord record){
         TextView view = (TextView) findViewById(R.id.mchcValue);
-        view.setText(String.valueOf(record.getMchc()));
+        view.setText(String.valueOf(record.getMchc()) + " " + getString(R.string.mchcUnit));
     }
 
     private void setPlatelet(BloodCountRecord record){
         TextView view = (TextView) findViewById(R.id.plateletValue);
-        view.setText(String.valueOf(record.getPlatelet()));
+        view.setText(String.valueOf(record.getPlatelet()) + " " + getString(R.string.plateletUnit));
     }
 
     private void setReticulocytes(BloodCountRecord record){
         TextView view = (TextView) findViewById(R.id.reticulocytesValue);
-        view.setText(String.valueOf(record.getReticulocytes()));
+        view.setText(String.valueOf(record.getReticulocytes()) + " " + getString(R.string.reticulocytesUnit));
     }
 
     private void setMpv(BloodCountRecord record){
         TextView view =(TextView) findViewById(R.id.mpvValue);
-        view.setText(String.valueOf(record.getMpv()));
+        view.setText(String.valueOf(record.getMpv()) + " " + getString(R.string.mpvUnit));
     }
 
     private void setRdw(BloodCountRecord record){
         TextView view = (TextView) findViewById(R.id.rdwValue);
-        view.setText(String.valueOf(record.getRdw()));
+        view.setText(String.valueOf(record.getRdw()) + " " + getString(R.string.rdwUnit));
     }
 
     // if more than one blood count is found, it will create an extra blood count field
     private void addExtraBloodCount(BloodCountRecord bloodCountRecord){
         LinearLayout linearLayout= (LinearLayout) findViewById(R.id.patientResultLinearLayout);
 
-        linearLayout.addView(createLinearLayout(createTextView(getString(R.string.leukocyte)), createTextView(String.valueOf(bloodCountRecord.getLeukocyte()))));
-        linearLayout.addView(createLinearLayout(createTextView(getString(R.string.erythrocyte)), createTextView(String.valueOf(bloodCountRecord.getErythrocyte()))));
-        linearLayout.addView(createLinearLayout(createTextView(getString(R.string.hemoglobin)), createTextView(String.valueOf(bloodCountRecord.getHemoglobin()))));
-        linearLayout.addView(createLinearLayout(createTextView(getString(R.string.hematocrit)), createTextView(String.valueOf(bloodCountRecord.getHematocrit()))));
-        linearLayout.addView(createLinearLayout(createTextView(getString(R.string.mcv)), createTextView(String.valueOf(bloodCountRecord.getMcv()))));
-        linearLayout.addView(createLinearLayout(createTextView(getString(R.string.MCH)), createTextView(String.valueOf(bloodCountRecord.getMch()))));
-        linearLayout.addView(createLinearLayout(createTextView(getString(R.string.mchc)), createTextView(String.valueOf(bloodCountRecord.getMchc()))));
-        linearLayout.addView(createLinearLayout(createTextView(getString(R.string.platelet)), createTextView(String.valueOf(bloodCountRecord.getPlatelet()))));
-        linearLayout.addView(createLinearLayout(createTextView(getString(R.string.reticulocytes)), createTextView(String.valueOf(bloodCountRecord.getReticulocytes()))));
-        linearLayout.addView(createLinearLayout(createTextView(getString(R.string.mpv)), createTextView(String.valueOf(bloodCountRecord.getMpv()))));
-        linearLayout.addView(createLinearLayout(createTextView(getString(R.string.rdw)), createTextView(String.valueOf(bloodCountRecord.getRdw()))));
+        linearLayout.addView(createLinearLayout(createTextView(getString(R.string.leukocyte)), createTextView(String.valueOf(bloodCountRecord.getLeukocyte()) + " " + getString(R.string.leukocyteUnit))));
+        linearLayout.addView(createLinearLayout(createTextView(getString(R.string.erythrocyte)), createTextView(String.valueOf(bloodCountRecord.getErythrocyte()) + " " + getString(R.string.erythrocyteUnit))));
+        linearLayout.addView(createLinearLayout(createTextView(getString(R.string.hemoglobin)), createTextView(String.valueOf(bloodCountRecord.getHemoglobin()) + " " + getString(R.string.hemoglobinUnit))));
+        linearLayout.addView(createLinearLayout(createTextView(getString(R.string.hematocrit)), createTextView(String.valueOf(bloodCountRecord.getHematocrit()) + " " + getString(R.string.hematocritUnit))));
+        linearLayout.addView(createLinearLayout(createTextView(getString(R.string.mcv)), createTextView(String.valueOf(bloodCountRecord.getMcv()) + " " + getString(R.string.mcvUnit))));
+        linearLayout.addView(createLinearLayout(createTextView(getString(R.string.MCH)), createTextView(String.valueOf(bloodCountRecord.getMch()) + " " + getString(R.string.mchUnit))));
+        linearLayout.addView(createLinearLayout(createTextView(getString(R.string.mchc)), createTextView(String.valueOf(bloodCountRecord.getMchc()) + " " + getString(R.string.mchcUnit))));
+        linearLayout.addView(createLinearLayout(createTextView(getString(R.string.platelet)), createTextView(String.valueOf(bloodCountRecord.getPlatelet()) + " " + getString(R.string.plateletUnit))));
+        linearLayout.addView(createLinearLayout(createTextView(getString(R.string.reticulocytes)), createTextView(String.valueOf(bloodCountRecord.getReticulocytes()) + " " + getString(R.string.reticulocytesUnit))));
+        linearLayout.addView(createLinearLayout(createTextView(getString(R.string.mpv)), createTextView(String.valueOf(bloodCountRecord.getMpv()) + " " + getString(R.string.mpvUnit))));
+        linearLayout.addView(createLinearLayout(createTextView(getString(R.string.rdw)), createTextView(String.valueOf(bloodCountRecord.getRdw()) + " " + getString(R.string.rdwUnit))));
     }
 
     //if more than one blood count is found, it will create an extra data field
