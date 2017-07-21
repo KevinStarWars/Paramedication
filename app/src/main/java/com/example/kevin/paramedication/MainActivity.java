@@ -21,10 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
         //this.deleteDatabase("paramedication.db");
 
-        dataSource = new DbDataSource(this);
-        Log.d(LOG_TAG, "Opening database.");
-        dataSource.open();
-
+        initializeDatabase();
         setOnClickListenerForImage();
     }
 
@@ -40,6 +37,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void initializeDatabase() {
+        dataSource = new DbDataSource(this);
+        Log.d(LOG_TAG, "Opening database.");
+        dataSource.open();
     }
 
     public void changeToStart() {

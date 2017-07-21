@@ -305,9 +305,13 @@ public class Diagnosis extends AppCompatActivity {
             public void onClick(View v) {
                 if (radioButtonIsChecked()) {
                     if (getHospitalID() > 0) {
-                        updateResult();
-                        setDefaultScreenVisibility(View.GONE);
-                        setResultScreenVisibility(View.VISIBLE);
+                        if (valuesAreValid()) {
+                            updateResult();
+                            setDefaultScreenVisibility(View.GONE);
+                            setResultScreenVisibility(View.VISIBLE);
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Please enter valid numbers", Toast.LENGTH_SHORT).show();
+                        }
                     } else {
                         Toast.makeText(getApplicationContext(), "Please enter a valid Hospital ID", Toast.LENGTH_SHORT).show();
                     }
@@ -316,6 +320,31 @@ public class Diagnosis extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private boolean valuesAreValid() {
+        Integer[] ids = {
+                R.id.leukocyteVal,
+                R.id.erythrocyteVal,
+                R.id.hemoglobinVal,
+                R.id.hematocritVal,
+                R.id.mcvVal,
+                R.id.mchVal,
+                R.id.mchcVal,
+                R.id.plateletVal,
+                R.id.reticulocytesVal,
+                R.id.mpvVal,
+                R.id.rdwVal
+        };
+
+        for (Integer id : ids) {
+            EditText editText = (EditText) findViewById(id);
+
+            if (!editText.getText().toString().matches("[0-9]+[.,]?[0-9]*") && !editText.getText().toString().isEmpty()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     // sets on click listener for update button
@@ -365,7 +394,11 @@ public class Diagnosis extends AppCompatActivity {
     // gets entered hospital id from entry field
     private Long getHospitalID() {
         EditText hospitalID = (EditText) findViewById(R.id.hospital_Id);
-        return Long.parseLong(hospitalID.getText().toString());
+        if (hospitalID.getText().toString().matches("[0-9]+")) {
+            return Long.parseLong(hospitalID.getText().toString());
+        } else {
+            return -1L;
+        }
     }
 
     // sets gender

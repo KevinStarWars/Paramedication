@@ -251,8 +251,9 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:digits="0123456789."
                                         android:hint="@string/leukocyteUnit"
-                                        android:inputType="phone"
+                                        android:inputType="numberDecimal"
                                         android:maxLines="1"
                                         android:textColor="@color/textColor" />
 
@@ -261,8 +262,9 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:digits="0123456789."
                                         android:hint="@string/leukocyteUnit"
-                                        android:inputType="phone"
+                                        android:inputType="numberDecimal"
                                         android:maxLines="1"
                                         android:textColor="@color/textColor" />
                                 </LinearLayout>
@@ -286,8 +288,9 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:digits="0123456789."
                                         android:hint="@string/erythrocyteUnit"
-                                        android:inputType="phone"
+                                        android:inputType="numberDecimal"
                                         android:maxLines="1"
                                         android:textColor="@color/textColor" />
 
@@ -296,8 +299,9 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:digits="0123456789."
                                         android:hint="@string/erythrocyteUnit"
-                                        android:inputType="phone"
+                                        android:inputType="numberDecimal"
                                         android:maxLines="1"
                                         android:textColor="@color/textColor" />
                                 </LinearLayout>
@@ -321,8 +325,9 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:digits="0123456789."
                                         android:hint="@string/hemoglobinUnit"
-                                        android:inputType="phone"
+                                        android:inputType="numberDecimal"
                                         android:maxLines="1"
                                         android:textColor="@color/textColor" />
 
@@ -331,8 +336,9 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:digits="0123456789."
                                         android:hint="@string/hemoglobinUnit"
-                                        android:inputType="phone"
+                                        android:inputType="numberDecimal"
                                         android:maxLines="1"
                                         android:textColor="@color/textColor" />
                                 </LinearLayout>
@@ -356,8 +362,9 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:digits="0123456789."
                                         android:hint="@string/hematocritUnit"
-                                        android:inputType="phone"
+                                        android:inputType="numberDecimal"
                                         android:maxLines="1"
                                         android:textColor="@color/textColor" />
 
@@ -366,8 +373,9 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:digits="0123456789."
                                         android:hint="@string/hematocritUnit"
-                                        android:inputType="phone"
+                                        android:inputType="numberDecimal"
                                         android:maxLines="1"
                                         android:textColor="@color/textColor" />
                                 </LinearLayout>
@@ -391,8 +399,9 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:digits="0123456789."
                                         android:hint="@string/mcvUnit"
-                                        android:inputType="phone"
+                                        android:inputType="numberDecimal"
                                         android:maxLines="1"
                                         android:textColor="@color/textColor" />
 
@@ -401,8 +410,9 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:digits="0123456789."
                                         android:hint="@string/mcvUnit"
-                                        android:inputType="phone"
+                                        android:inputType="numberDecimal"
                                         android:maxLines="1"
                                         android:textColor="@color/textColor" />
                                 </LinearLayout>
@@ -427,8 +437,9 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:digits="0123456789."
                                         android:hint="@string/mchUnit"
-                                        android:inputType="phone"
+                                        android:inputType="numberDecimal"
                                         android:textColor="@color/textColor" />
 
                                     <EditText
@@ -436,8 +447,9 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:digits="0123456789."
                                         android:hint="@string/mchUnit"
-                                        android:inputType="phone"
+                                        android:inputType="numberDecimal"
                                         android:maxLines="1"
                                         android:textColor="@color/textColor" />
                                 </LinearLayout>
@@ -461,8 +473,9 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:digits="0123456789."
                                         android:hint="@string/mchcUnit"
-                                        android:inputType="phone"
+                                        android:inputType="numberDecimal"
                                         android:maxLines="1"
                                         android:textColor="@color/textColor" />
 
@@ -471,8 +484,9 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:digits="0123456789."
                                         android:hint="@string/mchcUnit"
-                                        android:inputType="phone"
+                                        android:inputType="numberDecimal"
                                         android:maxLines="1"
                                         android:textColor="@color/textColor" />
                                 </LinearLayout>
@@ -496,8 +510,9 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:digits="0123456789."
                                         android:hint="@string/plateletUnit"
-                                        android:inputType="phone"
+                                        android:inputType="numberDecimal"
                                         android:maxLines="1"
                                         android:textColor="@color/textColor" />
 
@@ -506,8 +521,9 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:digits="0123456789."
                                         android:hint="@string/plateletUnit"
-                                        android:inputType="phone"
+                                        android:inputType="numberDecimal"
                                         android:maxLines="1"
                                         android:textColor="@color/textColor" />
                                 </LinearLayout>
@@ -531,8 +547,9 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:digits="0123456789."
                                         android:hint="@string/reticulocytesUnit"
-                                        android:inputType="phone"
+                                        android:inputType="numberDecimal"
                                         android:maxLines="1"
                                         android:textColor="@color/textColor" />
 
@@ -541,8 +558,9 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:digits="0123456789."
                                         android:hint="@string/reticulocytesUnit"
-                                        android:inputType="phone"
+                                        android:inputType="numberDecimal"
                                         android:maxLines="1"
                                         android:textColor="@color/textColor" />
                                 </LinearLayout>
@@ -566,8 +584,9 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:digits="0123456789."
                                         android:hint="@string/mpvUnit"
-                                        android:inputType="phone"
+                                        android:inputType="numberDecimal"
                                         android:maxLines="1"
                                         android:textColor="@color/textColor" />
 
@@ -576,8 +595,9 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:digits="0123456789."
                                         android:hint="@string/mpvUnit"
-                                        android:inputType="phone"
+                                        android:inputType="numberDecimal"
                                         android:maxLines="1"
                                         android:textColor="@color/textColor" />
                                 </LinearLayout>
@@ -601,8 +621,9 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:digits="0123456789."
                                         android:hint="@string/rdwUnit"
-                                        android:inputType="phone"
+                                        android:inputType="numberDecimal"
                                         android:maxLines="1"
                                         android:textColor="@color/textColor" />
 
@@ -611,8 +632,9 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
+                                        android:digits="0123456789."
                                         android:hint="@string/rdwUnit"
-                                        android:inputType="phone"
+                                        android:inputType="numberDecimal"
                                         android:maxLines="1"
                                         android:textColor="@color/textColor" />
                                 </LinearLayout>

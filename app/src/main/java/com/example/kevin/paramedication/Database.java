@@ -788,7 +788,32 @@ public class Database extends AppCompatActivity {
 
     // checks if values are valid. meaning that min values are lower than max values
     private boolean valuesAreValid() {
-        return convertToDefaultDouble(getLeukocyteMin()) < convertToDefaultDouble(getLeukocyteMax()) &&
+        Integer[] ids = {
+                R.id.leukocyteMin,
+                R.id.leukocyteMax,
+                R.id.erythrocyteMin,
+                R.id.erythrocyteMax,
+                R.id.hemoglobinMin,
+                R.id.hemoglobinMax,
+                R.id.hematocritMin,
+                R.id.hematocritMax,
+                R.id.mcvMin,
+                R.id.mcvMax,
+                R.id.mchMin,
+                R.id.mchMax,
+                R.id.mchcMin,
+                R.id.mchcMax,
+                R.id.plateletMin,
+                R.id.plateletMax,
+                R.id.reticulocytesMin,
+                R.id.reticulocytesMax,
+                R.id.mpvMin,
+                R.id.mpvMax,
+                R.id.rdwMin,
+                R.id.rdwMax
+        };
+
+        if (!(convertToDefaultDouble(getLeukocyteMin()) < convertToDefaultDouble(getLeukocyteMax()) &&
                 convertToDefaultDouble(getErythrocyteMin()) < convertToDefaultDouble(getErythrocyteMax()) &&
                 convertToDefaultDouble(getHemoglobinMin()) < convertToDefaultDouble(getHemoglobinMax()) &&
                 convertToDefaultDouble(getHematocritMin()) < convertToDefaultDouble(getHematocritMax()) &&
@@ -798,7 +823,18 @@ public class Database extends AppCompatActivity {
                 convertToDefaultDouble(getPlateletMin()) < convertToDefaultDouble(getPlateletMax()) &&
                 convertToDefaultDouble(getReticulocytesMin()) < convertToDefaultDouble(getReticulocytesMax()) &&
                 convertToDefaultDouble(getMPVMin()) < convertToDefaultDouble(getMPVMax()) &&
-                convertToDefaultDouble(getRDWMin()) < convertToDefaultDouble(getRDWMax());
+                convertToDefaultDouble(getRDWMin()) < convertToDefaultDouble(getRDWMax()))) {
+            return false;
+        }
+
+        for (Integer id : ids) {
+            EditText editText = (EditText) findViewById(id);
+            if ((editText.getText().toString().matches("[0-9]+[.,]?[0-9]*")) && !editText.getText().toString().isEmpty()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     // converts converts DP to actual pixels
