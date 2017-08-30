@@ -305,11 +305,15 @@ public class Patients extends AppCompatActivity {
     }
 
     // concatenates several different diseases to one string and prints String
-    private void setDiseases(List<DiseaseRecord> diseaseRecords){
+    private void setDiseases(List<DiseaseRecord> diseaseRecords) {
         String diseases = "";
 
-        for (int i = 0; i < diseaseRecords.size(); i++){
-            diseases += diseaseRecords.get(i).getName() + "\n";
+        if (diseaseRecords.size() < 1) {
+            diseases = "None";
+        } else {
+            for (int i = 0; i < diseaseRecords.size(); i++) {
+                diseases += diseaseRecords.get(i).getName() + "\n";
+            }
         }
 
         TextView view = (TextView) findViewById(R.id.diseaseValue);
@@ -350,8 +354,13 @@ public class Patients extends AppCompatActivity {
     private void setMedication(List<MedicationRecord> medicationRecords){
         String medication = "";
 
-        for (int i = 0; i < medicationRecords.size(); i++){
-            medication += medicationRecords.get(i).getDrugName() + "\n";
+        if (medicationRecords.size() < 1) {
+            medication = getString((R.string.none));
+        } else {
+
+            for (int i = 0; i < medicationRecords.size(); i++) {
+                medication += medicationRecords.get(i).getDrugName() + "\n";
+            }
         }
 
         TextView view = (TextView) findViewById(R.id.patientRecommendedMedication);
@@ -478,11 +487,16 @@ public class Patients extends AppCompatActivity {
         String medication = "";
         LinearLayout linearLayout= (LinearLayout) findViewById(R.id.patientResultLinearLayout);
 
-        for (int i = 0; i < medicationRecords.size(); i++){
-            medication += medicationRecords.get(i).getDrugName() + "\n";
-        }
+        if (medicationRecords.size() < 1) {
+            linearLayout.addView(createLinearLayout(createTextView(getString(R.string.recommendedMedication)), createTextView(getString(R.string.none))));
+        } else {
 
-        linearLayout.addView(createLinearLayout(createTextView(getString(R.string.recommendedMedication)), createTextView(medication)));
+            for (int i = 0; i < medicationRecords.size(); i++) {
+                medication += medicationRecords.get(i).getDrugName() + "\n";
+            }
+
+            linearLayout.addView(createLinearLayout(createTextView(getString(R.string.recommendedMedication)), createTextView(medication)));
+        }
     }
 
     // creates a linear layout which takes two text views as parameters

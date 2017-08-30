@@ -140,7 +140,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <LinearLayout
+                    <ScrollView
                         android:id="@+id/tab1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -198,6 +198,31 @@
                                         android:layout_height="wrap_content"
                                         android:layout_weight="2"
                                         android:hint="@string/disease"
+                                        android:maxLines="1"
+                                        android:textColor="@color/textColor" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="@string/incidence"
+                                        android:textColor="@color/textColor"
+                                        android:textSize="15sp" />
+
+                                    <EditText
+                                        android:id="@+id/incidence"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="2"
+                                        android:digits="0123456789."
+                                        android:hint="@string/incidenceUnit"
+                                        android:inputType="numberDecimal"
                                         android:maxLines="1"
                                         android:textColor="@color/textColor" />
                                 </LinearLayout>
@@ -641,9 +666,9 @@
                             </LinearLayout>
                         </android.support.v4.widget.NestedScrollView>
 
-                    </LinearLayout>
+                    </ScrollView>
 
-                    <LinearLayout
+                    <ScrollView
                         android:id="@+id/tab2"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -676,7 +701,7 @@
                                         android:id="@+id/drug1"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
-                                        android:layout_weight="1"
+                                        android:layout_weight="2"
                                         android:hint="@string/drugName"
                                         android:maxLines="1"
                                         android:textColor="@color/textColor" />
@@ -693,7 +718,7 @@
                                     android:textColor="@color/textColor" />
                             </LinearLayout>
                         </android.support.v4.widget.NestedScrollView>
-                    </LinearLayout>
+                    </ScrollView>
 
                     <LinearLayout
                         android:id="@+id/tab3"
@@ -745,6 +770,28 @@
 
                                     <TextView
                                         android:id="@+id/diseaseValue"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:textColor="@color/textColor"
+                                        android:textSize="15sp" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:padding="8dp">
+
+                                    <TextView
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:text="@string/incidence"
+                                        android:textColor="@color/textColor"
+                                        android:textSize="15sp" />
+
+                                    <TextView
+                                        android:id="@+id/incidenceValue"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
@@ -1072,7 +1119,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_margin="8dp"
                                     android:background="@color/backgroundRed"
-                                    android:text="Update"
+                                    android:text="@string/update"
                                     android:textColor="@color/textColor"
                                     />
                                 <Button
@@ -1081,7 +1128,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_margin="8dp"
                                     android:background="@color/backgroundRed"
-                                    android:text="Save"
+                                    android:text="@string/update"
                                     android:textColor="@color/textColor"
                                     />
                             </LinearLayout>

@@ -134,7 +134,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <LinearLayout
+                    <ScrollView
                         android:id="@+id/tab1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -193,8 +193,9 @@
                         </android.support.v4.widget.NestedScrollView>
 
 
-                    </LinearLayout>
-                    <LinearLayout
+                    </ScrollView>
+
+                    <ScrollView
                         android:id="@+id/tab2"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -202,7 +203,7 @@
 
                         <android.support.v4.widget.NestedScrollView
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent">
+                            android:layout_height="wrap_content">
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -246,7 +247,6 @@
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_weight="1"
-                                        android:elegantTextHeight="true"
                                         android:text="@string/erythrocyte"
                                         android:textColor="@color/textColor"
                                         android:textSize="15sp" />
@@ -489,9 +489,9 @@
                                 </LinearLayout>
                             </LinearLayout>
                         </android.support.v4.widget.NestedScrollView>
-                    </LinearLayout>
+                    </ScrollView>
 
-                    <LinearLayout
+                    <ScrollView
                         android:id="@+id/tab3"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -541,7 +541,7 @@
                                     android:textColor="@color/textColor" />
                             </LinearLayout>
                         </android.support.v4.widget.NestedScrollView>
-                    </LinearLayout>
+                    </ScrollView>
 
                     <LinearLayout
                         android:id="@+id/tab4"

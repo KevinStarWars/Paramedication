@@ -1,4 +1,6 @@
 <resources>
+    <string name="none">None</string>
+
     <string name="app_name">Paramedication</string>
     <string name="diagnosis">Diagnosis</string>
     <string name="bloodCount">Blood Count</string>
@@ -13,9 +15,9 @@
     <!--strings used in Diagnosis - Patient-->
     <string name="patientNumber">Patient ID</string>
     <string name="diagnosisHelp">
-        In this tab you are able to give the patient an identity.\nYou will have to enter the respective blood count and current medication.\nAfter that you can get the result of the blood count by pushing the Result button in the
+        In this tab you are able to make a diagnosis.\nTherefore you have to enter the respective patient\'s data, blood count and current medication.\nAfter that you can get a diagnosis by pushing the Result button in the
         fourth tab.
-        \n\nDo you want to see the instruction on the next start again?
+        \n\nDo you want to see this instruction next time again?
     </string>
 
     <!--strings used in Diagnosis - Blood Count-->
@@ -57,11 +59,12 @@
     <string name="maximum">Maximum</string>
     <string name="checkInput">Check input</string>
     <string name="disease">Disease</string>
+    <string name="incidence">Prevalence</string>
+    <string name="incidenceUnit">1/1 Mio.</string>
     <string name="databaseHelp">In this tab you are able to add new diseases to the database.
-        Therefor all you have to do is to enter the disease\'s name, threshold values of the
-        respective blood values and a recommended medication for the disease. After you have to
-        push the Save button at the bottom of the fourth tab.
-        \n\nDo you want to see the instruction on the next start again?
+        Therefore you have to enter the disease\'s name, its threshold values and a recommended
+        medication for the disease. When done push the Save button at the bottom of the fourth tab.
+        \n\nDo you want to see this instruction next time again?
     </string>
 
     <!--strings used in medication-->
@@ -69,26 +72,28 @@
     <string name="Drug2">Drug II</string>
     <string name="type">Interaction</string>
     <string name="medicationHelp">In this tab you are able to enter new medication interactions to
-        the database. Therefor you just have to enter the respective names, type of interaction and
+        the database. Therefore you just have to enter the respective names, type of interaction and
         push the button on the bottom.
-        \n\nDo you want to see the instruction on the next start again?
+        \n\nDo you want to see this instruction next time again?
     </string>
 
     <!--strings used in info-->
-    <string name="universityInfo">The RheinMain University of Applied Sciences was founded in 1971.\n
-        With more than 12,000 students it is one of the bigger universities in Germany.
+    <string name="universityInfo">The RheinMain University of Applied Sciences was founded in 1971.\nWith more than 12,000 students, which are divided into five faculties, it is one of the bigger universities in Germany.
     </string>
     <string name="appInfo">This app was created as part of a bachelor thesis. Every diagnosis is
-        only a suggestion and does not have to right.
+        only a suggestion and does not have to be right.
     </string>
     <string name="bugInfo">If you find any bugs, mistakes or have suggestions to make the app more
-        efficient, feel free to send an email.\nWe are really looking forward to get your feedback.
+        efficient, feel free to send an email.\nWe are really looking forward to get your feedback.\n\n
+        Developer:\n
+        Kevin Stowers\n
+        RheinMain University of Applied Sciences
     </string>
     <string name="buttonMail">Send E-Mail</string>
     <string name="supportMail">kevin.stowers92@gmail.com</string>
     <string name="subject">Paramedication</string>
-    <string name="infoHelp">This tab is about the project. If you find any bugs, feel free to send
-        an email. For that you just have to push the button on the bottom.
+    <string name="infoHelp">This tab is about the project. If you find bugs, feel free to send
+        an email. In order to do this you just have to push the button on the bottom.
         \n\nDo you want to see the instruction on the next start again?
     </string>
 
@@ -98,9 +103,9 @@
     <string name="female">Female</string>
     <string name="male">Male</string>
     <string name="time">Date</string>
-    <string name="patientsHelp">In this tab you can see every patient\'s chart. You just have to
-        enter the respective id and push the button.
-        \n\nDo you want to see the instruction on the next start again?
+    <string name="patientsHelp">In this tab you can see every patient\'s file. In order to do so you have to
+        enter the respective patient\'s id.
+        \n\nDo you want to see this instruction next time again?
     </string>
 
     <!--strings used in Patients for result-->

@@ -18,20 +18,24 @@ public class DiseaseOperations {
 
     private String[] diseaseColumns = {
             DiseaseTableContract.DiseaseTableEntry._ID,
-            DiseaseTableContract.DiseaseTableEntry.COLUMN_DISEASE_NAME
+            DiseaseTableContract.DiseaseTableEntry.COLUMN_DISEASE_NAME,
+            DiseaseTableContract.DiseaseTableEntry.COLUMN_DISEASE_INCIDENCE
     };
 
-    public DiseaseRecord createDiseaseRecord(String name, SQLiteDatabase database) {
+    public DiseaseRecord createDiseaseRecord(String name, Integer incidence, SQLiteDatabase database) {
 
         List<DiseaseRecord> currentDatabase = getAllDiseaseRecords(database);
         for (int i = 0; i < currentDatabase.size(); i++) {
             if (currentDatabase.get(i).getName().equals(name)) {
-                return currentDatabase.get(i);
+                if (currentDatabase.get(i).getIncidence() == incidence) {
+                    return currentDatabase.get(i);
+                }
             }
         }
 
         ContentValues values = new ContentValues();
         values.put(DiseaseTableContract.DiseaseTableEntry.COLUMN_DISEASE_NAME, name);
+        values.put(DiseaseTableContract.DiseaseTableEntry.COLUMN_DISEASE_INCIDENCE, incidence);
 
         long insertId = database.insert(DiseaseTableContract.DiseaseTableEntry.TABLE_NAME, null, values);
 
@@ -49,13 +53,11 @@ public class DiseaseOperations {
 
     private DiseaseRecord cursorToDiseaseRecord(Cursor cursor) {
 
-        int idIndex = cursor.getColumnIndex(DiseaseTableContract.DiseaseTableEntry._ID);
-        int idName = cursor.getColumnIndex(DiseaseTableContract.DiseaseTableEntry.COLUMN_DISEASE_NAME);
+        int id = cursor.getInt(cursor.getColumnIndex(DiseaseTableContract.DiseaseTableEntry._ID));
+        String name = cursor.getString(cursor.getColumnIndex(DiseaseTableContract.DiseaseTableEntry.COLUMN_DISEASE_NAME));
+        int incidence = cursor.getInt(cursor.getColumnIndex(DiseaseTableContract.DiseaseTableEntry.COLUMN_DISEASE_INCIDENCE));
 
-        int id = cursor.getInt(idIndex);
-        String name = cursor.getString(idName);
-
-        return new DiseaseRecord(id, name);
+        return new DiseaseRecord(id, name, incidence);
     }
 
     public List<DiseaseRecord> getAllDiseaseRecords(SQLiteDatabase database) {

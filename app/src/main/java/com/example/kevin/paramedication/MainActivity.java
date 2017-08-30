@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //this.deleteDatabase("paramedication.db");
+        this.deleteDatabase("paramedication.db");
 
         initializeDatabase();
         setOnClickListenerForImage();

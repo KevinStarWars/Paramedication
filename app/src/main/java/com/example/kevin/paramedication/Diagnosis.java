@@ -48,6 +48,7 @@ import com.example.kevin.paramedication.DatabaseOperations.ProcessOperations;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import static com.example.kevin.paramedication.R.id.drug1;
@@ -97,12 +98,6 @@ public class Diagnosis extends AppCompatActivity {
         dataSource = new DbDataSource(this);
         Log.d(LOG_TAG, "Opening database.");
         dataSource.open();
-
-        List<MedicationRecord> medicationRecordList = MedicationOps.getAllMedicationRecords(dataSource.database);
-
-        for (int i = 0; i < medicationRecordList.size(); i++) {
-            Log.d(LOG_TAG, medicationRecordList.get(i).toString());
-        }
 
         initializeTabs();
         initializeNormalValues();
@@ -304,22 +299,45 @@ public class Diagnosis extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (radioButtonIsChecked()) {
-                    if (getHospitalID() > 0) {
-                        if (valuesAreValid()) {
-                            updateResult();
-                            setDefaultScreenVisibility(View.GONE);
-                            setResultScreenVisibility(View.VISIBLE);
+                    if (!wrongGender()) {
+                        if (getHospitalID() > 0) {
+                            if (valuesAreValid()) {
+                                updateResult();
+                                setDefaultScreenVisibility(View.GONE);
+                                setResultScreenVisibility(View.VISIBLE);
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Please enter valid numbers", Toast.LENGTH_SHORT).show();
+                            }
                         } else {
-                            Toast.makeText(getApplicationContext(), "Please enter valid numbers", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Please enter a valid Hospital ID", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(getApplicationContext(), "Please enter a valid Hospital ID", Toast.LENGTH_SHORT).show();
+                        if (isFemale()) {
+                            Toast.makeText(getApplicationContext(), "Wrong gender. User ID is already in database as male.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Wrong gender. User ID is already in database as female.", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 } else {
                     Toast.makeText(getApplicationContext(), "Please choose a Gender", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+    }
+
+    private boolean wrongGender() {
+
+        List<PatientRecord> patientRecords = PatientOps.getAllPatientRecords(dataSource.database);
+
+        for (int i = 0; i < patientRecords.size(); i++) {
+            if (patientRecords.get(i).getHospitalId() == getHospitalID()) {
+                if ((isFemale() && patientRecords.get(i).getGender().equals("m")) || (!isFemale() && patientRecords.get(i).getGender().equals("f"))) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     private boolean valuesAreValid() {
@@ -350,13 +368,13 @@ public class Diagnosis extends AppCompatActivity {
     // sets on click listener for update button
     // enables:
     // if values have changed, prints new values
-    private void setOnClickListenerForUpdateButton(){
+    private void setOnClickListenerForUpdateButton() {
         Button button = (Button) findViewById(R.id.diagnosisUpdateButton);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (radioButtonIsChecked()){
-                    if (getHospitalID() > 0){
+                if (radioButtonIsChecked()) {
+                    if (getHospitalID() > 0) {
                         updateResult();
                         Toast.makeText(getApplicationContext(), "Updated", Toast.LENGTH_SHORT).show();
                     }
@@ -366,14 +384,14 @@ public class Diagnosis extends AppCompatActivity {
     }
 
     // updates result
-    private void updateResult(){
+    private void updateResult() {
         setHospitalId();
         setGender();
         initializePatientBloodCountRecord();
         printBloodCount();
         printPatientInfo();
         compareToDiseases();
-        printDisease();
+        rankDiseases();
         printCurrentMedication();
         printRecommendedMedication();
     }
@@ -387,7 +405,7 @@ public class Diagnosis extends AppCompatActivity {
     }
 
     // sets individual id set by user
-    private void setHospitalId(){
+    private void setHospitalId() {
         patRecord.setHospitalId(getHospitalID());
     }
 
@@ -402,11 +420,10 @@ public class Diagnosis extends AppCompatActivity {
     }
 
     // sets gender
-    private void setGender(){
-        if (isFemale()){
+    private void setGender() {
+        if (isFemale()) {
             patRecord.setGender("f");
-        }
-        else patRecord.setGender("m");
+        } else patRecord.setGender("m");
     }
 
     // checks if patient is female or male
@@ -416,14 +433,14 @@ public class Diagnosis extends AppCompatActivity {
     }
 
     // sets default screen visibility depending on parameter
-    private boolean setDefaultScreenVisibility(int visibility){
+    private boolean setDefaultScreenVisibility(int visibility) {
         Button button = (Button) findViewById(R.id.getResult);
         button.setVisibility(visibility);
         return true;
     }
 
     // sets default screen visibility depending on parameter
-    private boolean setResultScreenVisibility(int visibility){
+    private boolean setResultScreenVisibility(int visibility) {
         ScrollView view = (ScrollView) findViewById(R.id.diagnosisResultArea);
         view.setVisibility(visibility);
         return true;
@@ -617,6 +634,8 @@ public class Diagnosis extends AppCompatActivity {
             for (int j = 0; j < diseaseDatabase.size(); j++) {
                 for (int k = 0; k < bloodDatabase.size(); k++) {
                     if (diseaseBloodDatabase.get(i).getDiseaseId() == diseaseDatabase.get(j).getId() && diseaseBloodDatabase.get(i).getBloodId() == bloodDatabase.get(k).getId()) {
+                        Log.d(LOG_TAG, diseaseDatabase.get(j).toString());
+                        Log.d(LOG_TAG, bloodDatabase.get(k).toString());
                         if ((bloodDatabase.get(k).getLeukocyteMin() < patBloodRecord.getLeukocyte() && bloodDatabase.get(k).getLeukocyteMax() > patBloodRecord.getLeukocyte()) ||
                                 (bloodDatabase.get(k).getLeukocyteMin() == 0 && bloodDatabase.get(k).getLeukocyteMax() == 0)) {
                             if ((bloodDatabase.get(k).getErythrocyteMin() < patBloodRecord.getErythrocyte() && bloodDatabase.get(k).getErythrocyteMax() > patBloodRecord.getErythrocyte()) ||
@@ -660,24 +679,126 @@ public class Diagnosis extends AppCompatActivity {
         }
     }
 
-    // prints possible diseases to disease field
-    private void printDisease() {
-        String disease = "";
+    // ranks disease in order to find out which disease
+    private void rankDiseases() {
 
-        if (!diseaseRecords.isEmpty()) {
-            for (int i = 0; i < diseaseRecords.size(); i++) {
-                disease += diseaseRecords.get(i).getName() + "\n";
+        Log.d(LOG_TAG, diseaseRecords.size() + "");
+
+        if (diseaseRecords.size() > 1) {
+
+            List<Double> distanceList = calculateDistance();
+
+            class rankedObject {
+
+                private Double distance;
+                private Double total;
+                private DiseaseRecord diseaseRecord;
+
+                private rankedObject(Double distance, DiseaseRecord diseaseRecord) {
+                    this.distance = distance;
+                    this.diseaseRecord = diseaseRecord;
+                    this.total = 15 * diseaseRecord.getIncidence() - distance;
+                }
+
+                private DiseaseRecord getDiseaseRecord() {
+                    return diseaseRecord;
+                }
+
+                Double getTotal() {
+                    return total;
+                }
+
+                @Override
+                public String toString() {
+                    return "rankedObject{" +
+                            "distance=" + distance +
+                            ", total=" + total +
+                            ", diseaseRecord=" + diseaseRecord +
+                            '}';
+                }
             }
 
-            TextView view = (TextView) findViewById(R.id.diagnosisDiseaseId);
-            view.setText(disease);
+            List<rankedObject> rankedObjects = new ArrayList<>();
 
-        } else {
+            for (int i = 0; i < diseaseRecords.size(); i++) {
+                rankedObjects.add(new rankedObject(distanceList.get(i), diseaseRecords.get(i)));
+            }
 
-            TextView view = (TextView) findViewById(R.id.diagnosisDiseaseId);
-            view.setText(R.string.noDiseaseFound);
+            Collections.sort(rankedObjects, new Comparator<rankedObject>() {
+                @Override
+                public int compare(rankedObject o1, rankedObject o2) {
+                    return Double.compare(o2.getTotal(), o1.getTotal());
+                }
+            });
 
+            int sum = 0;
+
+            for (int i = 0; i < rankedObjects.size(); i++) {
+                sum += rankedObjects.get(i).getTotal();
+            }
+
+            double percentage = rankedObjects.get(0).getTotal() / sum;
+            Log.d(LOG_TAG, percentage + "");
+
+            DiseaseRecord diseaseRecord = new DiseaseRecord(rankedObjects.get(0).getDiseaseRecord().getId(), rankedObjects.get(0).getDiseaseRecord().getName(), rankedObjects.get(0).getDiseaseRecord().getIncidence());
+
+            diseaseRecords.clear();
+            diseaseRecords.add(diseaseRecord);
+
+            TextView textView = (TextView) findViewById(R.id.diagnosisDiseaseId);
+            textView.setText(diseaseRecord.getName() + "( " + new DecimalFormat("##.##").format(percentage * 100) + " % )");
+        } else if (diseaseRecords.size() == 1) {
+            TextView textView = (TextView) findViewById(R.id.diagnosisDiseaseId);
+            textView.setText(diseaseRecords.get(0).getName());
+        } else if (diseaseRecords.size() == 0) {
+            TextView textView = (TextView) findViewById(R.id.diagnosisDiseaseId);
+            textView.setText(getString(R.string.none));
         }
+
+    }
+
+    private List<Double> calculateDistance() {
+        List<Double> distanceList = new ArrayList<>();
+
+        List<BloodRecord> bloodDatabase = BloodOps.getAllBloodRecords(dataSource.database);
+        List<DiseaseBloodRelationRecord> diseaseBloodDatabase = DiseaseBloodOps.getAllDiseaseBloodRelationRecord(dataSource.database);
+
+        for (int i = 0; i < diseaseBloodDatabase.size(); i++) {
+            for (int j = 0; j < bloodDatabase.size(); j++) {
+                for (int k = 0; k < diseaseRecords.size(); k++) {
+                    if (diseaseBloodDatabase.get(i).getBloodId() == bloodDatabase.get(j).getId() && diseaseBloodDatabase.get(i).getDiseaseId() == diseaseRecords.get(k).getId()) {
+                        Log.d(LOG_TAG, "Pairing:");
+                        Log.d(LOG_TAG, diseaseBloodDatabase.get(i).toString());
+                        Log.d(LOG_TAG, diseaseRecords.get(k).toString());
+                        Log.d(LOG_TAG, bloodDatabase.get(j).toString());
+
+                        double distance = 0;
+
+                        distance += Math.pow(((bloodDatabase.get(j).getLeukocyteMin() + bloodDatabase.get(j).getLeukocyteMax()) / 2) - Double.parseDouble(getLeukocyteVal()), 2);
+                        distance += Math.pow(((bloodDatabase.get(j).getErythrocyteMin() + bloodDatabase.get(j).getErythrocyteMax()) / 2) - Double.parseDouble(getErythrocyteVal()), 2);
+                        distance += Math.pow(((bloodDatabase.get(j).getHemoglobinMin() + bloodDatabase.get(j).getHemoglobinMax()) / 2) - Double.parseDouble(getHemoglobinVal()), 2);
+                        distance += Math.pow(((bloodDatabase.get(j).getHematocritMin() + bloodDatabase.get(j).getHematocritMax()) / 2) - Double.parseDouble(getHematocritVal()), 2);
+                        distance += Math.pow(((bloodDatabase.get(j).getMcvMin() + bloodDatabase.get(j).getMcvMax()) / 2) - Double.parseDouble(getMcvVal()), 2);
+                        distance += Math.pow(((bloodDatabase.get(j).getMchMin() + bloodDatabase.get(j).getMchMax()) / 2) - Double.parseDouble(getMchVal()), 2);
+                        distance += Math.pow(((bloodDatabase.get(j).getMchcMin() + bloodDatabase.get(j).getMchcMax()) / 2) - Double.parseDouble(getMchcVal()), 2);
+                        distance += Math.pow(((bloodDatabase.get(j).getPlateletMin() + bloodDatabase.get(j).getPlateletMax()) / 2) - Double.parseDouble(getPlateletVal()), 2);
+                        distance += Math.pow(((bloodDatabase.get(j).getReticulocytesMin() + bloodDatabase.get(j).getReticulocytesMax()) / 2) - Double.parseDouble(getReticulocytesVal()), 2);
+                        distance += Math.pow(((bloodDatabase.get(j).getMpvMin() + bloodDatabase.get(j).getMpvMax()) / 2) - Double.parseDouble(getMpvVal()), 2);
+                        distance += Math.pow(((bloodDatabase.get(j).getRdwMin() + bloodDatabase.get(j).getRdwMax()) / 2) - Double.parseDouble(getRdwVal()), 2);
+
+                        distanceList.add(Math.sqrt(distance));
+
+
+                    }
+                }
+            }
+        }
+
+
+        Log.d(LOG_TAG, distanceList.toString());
+        return distanceList;
+
+
     }
 
     // prints recommended medication to screen
@@ -691,19 +812,19 @@ public class Diagnosis extends AppCompatActivity {
         List<DiseaseMedicationRelationRecord> diseaseMedicationList = DiseaseMedicationOps.getAllDiseaseMedicationRelationRecord(dataSource.database);
 
         if (diseaseRecords.isEmpty()) {
-            setRecommendedMedication("Could not find a recommended Medication.");
+            setRecommendedMedication(getString(R.string.none));
         } else {
             for (int i = 0; i < diseaseRecords.size(); i++) {
                 for (int j = 0; j < medicationList.size(); j++) {
                     for (int k = 0; k < diseaseMedicationList.size(); k++) {
                         if (diseaseRecords.get(i).getId() == diseaseMedicationList.get(k).getDiseaseId() && medicationList.get(j).getId() == diseaseMedicationList.get(k).getDrugId()) {
                             boolean insert = true;
-                            for (int l = 0; l < recommendedMedication.size(); l++){
-                                if (recommendedMedication.get(l).getDrugName().equals(medicationList.get(j).getDrugName())){
+                            for (int l = 0; l < recommendedMedication.size(); l++) {
+                                if (recommendedMedication.get(l).getDrugName().equals(medicationList.get(j).getDrugName())) {
                                     insert = false;
                                 }
                             }
-                            if (insert){
+                            if (insert) {
                                 recommendedMedication.add(medicationList.get(j));
                             }
                         }
@@ -717,7 +838,7 @@ public class Diagnosis extends AppCompatActivity {
                 recommendedMedicationStr += recommendedMedication.get(i).getDrugName() + "\n";
             }
 
-            if (recommendedMedicationStr.equals("")){
+            if (recommendedMedicationStr.equals("")) {
                 recommendedMedicationStr = "Could not find a recommended Medication, because of medication interaction.";
             }
 
@@ -727,12 +848,12 @@ public class Diagnosis extends AppCompatActivity {
 
     // checks for medication interaction and removes recommended drugs which interact with current medication
     // returns a list which includes current and recommended medication
-    private void checkForInteraction(){
+    private void checkForInteraction() {
         List<MedicationInteractionRecord> tmpList = MedicationInteractionOps.getAllMedicationInteractionRecord(dataSource.database);
 
-        for (int i = 0; i < tmpList.size(); i++){
-            for (int j = 0; j < recommendedMedication.size(); j++){
-                for (int k = 0; k < currentMedication.size(); k++){
+        for (int i = 0; i < tmpList.size(); i++) {
+            for (int j = 0; j < recommendedMedication.size(); j++) {
+                for (int k = 0; k < currentMedication.size(); k++) {
                     if ((currentMedication.get(k).getId() == tmpList.get(i).getDrugId1() && recommendedMedication.get(j).getId() == tmpList.get(i).getDrugId2()) ||
                             (currentMedication.get(k).getId() == tmpList.get(i).getDrugId2() && recommendedMedication.get(j).getId() == tmpList.get(i).getDrugId1())) {
                         recommendedMedication.remove(j);
@@ -746,7 +867,7 @@ public class Diagnosis extends AppCompatActivity {
     }
 
     // sets medication value to medication field
-    private void setRecommendedMedication(String text){
+    private void setRecommendedMedication(String text) {
         TextView view = (TextView) findViewById(R.id.diagnosisRecommendedMedication);
         view.setText(text);
     }
@@ -769,7 +890,7 @@ public class Diagnosis extends AppCompatActivity {
                     currentMedication.add(MedicationOps.createMedicationRecord(entryField.getText().toString(), dataSource.database));
                 }
             }
-            for (int i = 0; i < currentMedication.size(); i++){
+            for (int i = 0; i < currentMedication.size(); i++) {
                 currentMedicationStr += currentMedication.get(i).getDrugName() + "\n";
             }
             setCurrentMedication(currentMedicationStr);
@@ -779,7 +900,7 @@ public class Diagnosis extends AppCompatActivity {
     }
 
     // sets medication value to medication field
-    private void setCurrentMedication(String text){
+    private void setCurrentMedication(String text) {
         TextView view = (TextView) findViewById(R.id.diagnosisCurrentMedication);
         view.setText(text);
     }
@@ -789,28 +910,28 @@ public class Diagnosis extends AppCompatActivity {
         DecimalFormat decimalFormat = new DecimalFormat("#.##");
 
         int[] idList = {R.id.diagnosisLeukocyte,
-        R.id.diagnosisErythrocyte,
-        R.id.diagnosisHemoglobin,
-        R.id.diagnosisHematocrit,
-        R.id.diagnosisMcv,
-        R.id.diagnosisMch,
-        R.id.diagnosisMchc,
-        R.id.diagnosisPlatelet,
-        R.id.diagnosisReticulocytes,
-        R.id.diagnosisMpv,
-        R.id.diagnosisRdw};
+                R.id.diagnosisErythrocyte,
+                R.id.diagnosisHemoglobin,
+                R.id.diagnosisHematocrit,
+                R.id.diagnosisMcv,
+                R.id.diagnosisMch,
+                R.id.diagnosisMchc,
+                R.id.diagnosisPlatelet,
+                R.id.diagnosisReticulocytes,
+                R.id.diagnosisMpv,
+                R.id.diagnosisRdw};
 
         double[] valueList = {patBloodRecord.getLeukocyte(),
                 patBloodRecord.getErythrocyte(),
-        patBloodRecord.getHemoglobin(),
-        patBloodRecord.getHematocrit(),
-        patBloodRecord.getMcv(),
-        patBloodRecord.getMch(),
-        patBloodRecord.getMchc(),
-        patBloodRecord.getPlatelet(),
-        patBloodRecord.getReticulocytes(),
-        patBloodRecord.getMpv(),
-        patBloodRecord.getRdw()};
+                patBloodRecord.getHemoglobin(),
+                patBloodRecord.getHematocrit(),
+                patBloodRecord.getMcv(),
+                patBloodRecord.getMch(),
+                patBloodRecord.getMchc(),
+                patBloodRecord.getPlatelet(),
+                patBloodRecord.getReticulocytes(),
+                patBloodRecord.getMpv(),
+                patBloodRecord.getRdw()};
 
         String[] unitList = {getString(R.string.leukocyteUnit),
                 getString(R.string.erythrocyteUnit),
@@ -824,14 +945,14 @@ public class Diagnosis extends AppCompatActivity {
                 getString(R.string.mpvUnit),
                 getString(R.string.rdwUnit)};
 
-        for (int i = 0; i < valueList.length; i++){
+        for (int i = 0; i < valueList.length; i++) {
             TextView view = (TextView) findViewById(idList[i]);
             view.setText(String.valueOf(decimalFormat.format(valueList[i])) + " " + unitList[i]);
         }
     }
 
     // prints patient info to screen
-    private void printPatientInfo(){
+    private void printPatientInfo() {
         TextView view = (TextView) findViewById(R.id.diagnosisPatientId);
         view.setText(String.valueOf(patRecord.getHospitalId()));
     }
@@ -839,7 +960,7 @@ public class Diagnosis extends AppCompatActivity {
     // sets on click listener for save button
     // enables:
     // saves data to database and switches visibility of screens
-    private void setOnClickListenerForSaveButton(){
+    private void setOnClickListenerForSaveButton() {
         Button button = (Button) findViewById(R.id.diagnosisSaveButton);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -857,7 +978,7 @@ public class Diagnosis extends AppCompatActivity {
     }
 
     // method which saves data to database
-    private void saveToDatabase(){
+    private void saveToDatabase() {
         insertPatient();
         createBloodCountEntry();
         createPatientBloodCountEntry();
@@ -900,9 +1021,9 @@ public class Diagnosis extends AppCompatActivity {
     }
 
     // creates blood count entry which is linked to disease
-    private void createBloodCountDiseaseEntry(){
+    private void createBloodCountDiseaseEntry() {
         if (patBloodRecord.getId() > 0) {
-            for (int i = 0; i < diseaseRecords.size(); i++){
+            for (int i = 0; i < diseaseRecords.size(); i++) {
                 if (diseaseRecords.get(i).getId() > 0) {
                     BloodCountDiseaseOps.createBloodCountDiseaseRecord(patBloodRecord.getId(), diseaseRecords.get(i).getId(), dataSource.database);
                 }
@@ -911,10 +1032,10 @@ public class Diagnosis extends AppCompatActivity {
     }
 
     // creates blood count entry which is linked to medication
-    private void createBloodCountMedicationEntry(){
-        if (patBloodRecord.getId() > 0){
-            for (int i = 0; i < recommendedMedication.size(); i++){
-                if (recommendedMedication.get(i).getId() > 0){
+    private void createBloodCountMedicationEntry() {
+        if (patBloodRecord.getId() > 0) {
+            for (int i = 0; i < recommendedMedication.size(); i++) {
+                if (recommendedMedication.get(i).getId() > 0) {
                     BloodCountMedicationOps.createBloodCountMedicationRecord(patBloodRecord.getId(), recommendedMedication.get(i).getId(), dataSource.database);
                 }
             }
@@ -949,12 +1070,12 @@ public class Diagnosis extends AppCompatActivity {
     }
 
     // converts dp to actual pixels
-    private int convertToDp(float sizeInDp){
+    private int convertToDp(float sizeInDp) {
         float scale = getResources().getDisplayMetrics().density;
-        return (int) (sizeInDp*scale + 0.5f);
+        return (int) (sizeInDp * scale + 0.5f);
     }
 
-    private double convertToDefaultDouble(String number){
+    private double convertToDefaultDouble(String number) {
         number = number.replace(",", ".");
         return Double.parseDouble(number);
     }

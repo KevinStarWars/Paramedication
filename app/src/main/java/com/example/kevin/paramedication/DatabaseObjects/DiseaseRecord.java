@@ -4,10 +4,15 @@ public class DiseaseRecord {
 
     private int id;
     private String name;
+    private int incidence;
 
-    public DiseaseRecord(int id, String name) {
+    public DiseaseRecord() {
+    }
+
+    public DiseaseRecord(int id, String name, int incidence) {
         this.id = id;
         this.name = name;
+        this.incidence = incidence;
     }
 
     public int getId() {
@@ -26,11 +31,20 @@ public class DiseaseRecord {
         this.name = name;
     }
 
+    public int getIncidence() {
+        return incidence;
+    }
+
+    public void setIncidence(int incidence) {
+        this.incidence = incidence;
+    }
+
     @Override
     public String toString() {
         return "DiseaseRecord{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", incidence=" + incidence +
                 '}';
     }
 }

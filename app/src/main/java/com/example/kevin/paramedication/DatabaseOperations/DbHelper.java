@@ -108,7 +108,8 @@ class DbHelper extends SQLiteOpenHelper {
 
         String SQL_CREATE_DISEASE_TABLE = "CREATE TABLE " + DiseaseTableContract.DiseaseTableEntry.TABLE_NAME + " (" +
                 DiseaseTableContract.DiseaseTableEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-                DiseaseTableContract.DiseaseTableEntry.COLUMN_DISEASE_NAME + " TEXT NOT NULL" +
+                DiseaseTableContract.DiseaseTableEntry.COLUMN_DISEASE_NAME + " TEXT NOT NULL," +
+                DiseaseTableContract.DiseaseTableEntry.COLUMN_DISEASE_INCIDENCE + " INTEGER NOT NULL" +
                 "); ";
         sqLiteDatabase.execSQL(SQL_CREATE_DISEASE_TABLE);
 
@@ -223,8 +224,8 @@ class DbHelper extends SQLiteOpenHelper {
         List<String> columns = new ArrayList<>();
         String[] femaleValues = {"3800", // Leukocyte Min
                 "10500", // Leukocyte Max
-                "3,9", // Erythrocyte Min
-                "5,3", // Erythrocyte Max
+                "3.9", // Erythrocyte Min
+                "5.3", // Erythrocyte Max
                 "12", // Hemoglobin Max
                 "16", //Hemoglobin Min
                 "37", // Hematocrit Min
@@ -237,18 +238,18 @@ class DbHelper extends SQLiteOpenHelper {
                 "36", // MCHC Max
                 "140000", // Platelets Min
                 "345000", // Platelets Max
-                "3", // Reticulocytes Min
-                "18", // Reticulocytes Max
-                "7,5", // MPV Min
-                "11,5", // MPV Max
-                "11,6", // RDW Min
-                "14,6", //RDW Max
+                "30000", // Reticulocytes Min
+                "80000", // Reticulocytes Max
+                "7.5", // MPV Min
+                "11.5", // MPV Max
+                "11.6", // RDW Min
+                "14.6", //RDW Max
                 "f"};  // gender
         String[] maleValues = {"3800", // Leukocyte Min
                 "10500", // Leukocyte Max
-                "4,3", // Erythrocyte Min
-                "5,7", // Erythrocytes Max
-                "13,5", // Hemoglobin Min
+                "4.3", // Erythrocyte Min
+                "5.7", // Erythrocytes Max
+                "13.5", // Hemoglobin Min
                 "17", // Hemoglobin Max
                 "40", // Hematocrit Min
                 "52", // Hematocrit Max
@@ -260,12 +261,12 @@ class DbHelper extends SQLiteOpenHelper {
                 "36", // MCHC Max
                 "140000", // Platelets Min
                 "345000", // Platelets Max
-                "3", // Reticulocytes Min
-                "18", // Reticulocytes Max
-                "7,5", // MPV Min
-                "11,5", // MPV Max
-                "11,6", // RDW Min
-                "14,6", // RDW Max
+                "30000", // Reticulocytes Min
+                "80000", // Reticulocytes Max
+                "7.5", // MPV Min
+                "11.5", // MPV Max
+                "11.6", // RDW Min
+                "14.6", // RDW Max
                 "m"}; // gender
 
         columns.addAll(Arrays.asList(columnArray));
@@ -341,6 +342,7 @@ class DbHelper extends SQLiteOpenHelper {
     private void insertDiseaseNone(SQLiteDatabase database) {
         ContentValues values = new ContentValues();
         values.put(DiseaseTableContract.DiseaseTableEntry.COLUMN_DISEASE_NAME, "None");
+        values.put(DiseaseTableContract.DiseaseTableEntry.COLUMN_DISEASE_INCIDENCE, 999);
         database.insert(DiseaseTableContract.DiseaseTableEntry.TABLE_NAME, null, values);
     }
 
@@ -376,6 +378,7 @@ class DbHelper extends SQLiteOpenHelper {
             int rdwMin = 21;
             int rdwMax = 22;
             int gender = 23;
+            int incidence = 24;
 
             try {
                 BufferedReader buffer = new BufferedReader(new InputStreamReader(context.getAssets().open(filename)));
@@ -388,6 +391,86 @@ class DbHelper extends SQLiteOpenHelper {
                                 str[i] = "0";
                             }
                         }
+
+                        if (str[leukocyteMin].equals("0")) {
+                            str[leukocyteMin] = "3800";
+                        }
+                        if (str[leukocyteMax].equals("0")) {
+                            str[leukocyteMax] = "10500";
+                        }
+                        if (str[erythrocyteMin].equals("0") && str[gender].equals("f")) {
+                            str[erythrocyteMin] = "3.9";
+                        } else if (str[erythrocyteMin].equals("0") && str[gender].equals("m")) {
+                            str[erythrocyteMin] = "4.3";
+                        }
+                        if (str[erythrocyteMax].equals("0") && str[gender].equals("f")) {
+                            str[erythrocyteMax] = "5.3";
+                        } else if (str[erythrocyteMax].equals("0") && str[gender].equals("m")) {
+                            str[erythrocyteMax] = "5.7";
+                        }
+                        if (str[hemoglobinMin].equals("0") && str[gender].equals("f")) {
+                            str[hemoglobinMin] = "12";
+                        } else if (str[hemoglobinMin].equals("0") && str[gender].equals("m")) {
+                            str[hemoglobinMin] = "13.5";
+                        }
+                        if (str[hemoglobinMax].equals("0") && str[gender].equals("f")) {
+                            str[hemoglobinMax] = "16";
+                        } else if (str[hemoglobinMax].equals("0") && str[gender].equals("m")) {
+                            str[hemoglobinMax] = "17";
+                        }
+                        if (str[hematocritMin].equals("0") && str[gender].equals("f")) {
+                            str[hematocritMin] = "37";
+                        } else if (str[hematocritMin].equals("0") && str[gender].equals("m")) {
+                            str[hematocritMin] = "40";
+                        }
+                        if (str[hematocritMax].equals("0") && str[gender].equals("f")) {
+                            str[hematocritMax] = "48";
+                        } else if (str[hematocritMax].equals("0") && str[gender].equals("m")) {
+                            str[hematocritMax] = "50";
+                        }
+                        if (str[mcvMin].equals("0")) {
+                            str[mcvMin] = "85";
+                        }
+                        if (str[mcvMax].equals("0")) {
+                            str[mcvMax] = "95";
+                        }
+                        if (str[mchMin].equals("0")) {
+                            str[mchMin] = "28";
+                        }
+                        if (str[mchMax].equals("0")) {
+                            str[mchMax] = "34";
+                        }
+                        if (str[mchcMin].equals("0")) {
+                            str[mchcMin] = "33";
+                        }
+                        if (str[mchcMax].equals("0")) {
+                            str[mchcMax] = "36";
+                        }
+                        if (str[plateletMin].equals("0")) {
+                            str[plateletMin] = "140000";
+                        }
+                        if (str[plateletMax].equals("0")) {
+                            str[plateletMax] = "345000";
+                        }
+                        if (str[reticulocytesMin].equals("0")) {
+                            str[reticulocytesMin] = "30000";
+                        }
+                        if (str[reticulocytesMax].equals("0")) {
+                            str[reticulocytesMax] = "80000";
+                        }
+                        if (str[mpvMin].equals("0")) {
+                            str[mpvMin] = "7.5";
+                        }
+                        if (str[mpvMax].equals("0")) {
+                            str[mpvMax] = "11.5";
+                        }
+                        if (str[rdwMin].equals("0")) {
+                            str[rdwMin] = "11.6";
+                        }
+                        if (str[rdwMax].equals("0")) {
+                            str[rdwMax] = "14.6";
+                        }
+
                         BloodRecord bloodRecord = bloodOperations.createBloodRecord(
                                 str[leukocyteMin],
                                 str[leukocyteMax],
@@ -413,10 +496,10 @@ class DbHelper extends SQLiteOpenHelper {
                                 str[rdwMax],
                                 str[gender],
                                 database);
-                        DiseaseRecord diseaseRecord = diseaseOperations.createDiseaseRecord(str[diseaseName], database);
+                        DiseaseRecord diseaseRecord = diseaseOperations.createDiseaseRecord(str[diseaseName], Integer.parseInt(str[incidence]), database);
                         diseaseBloodRelationOperations.createDiseaseBloodRelationRecord(bloodRecord.getId(), diseaseRecord.getId(), database);
 
-                        for (int j = 24; j < str.length; j++) {
+                        for (int j = 25; j < str.length; j++) {
                             MedicationRecord medicationRecord = medicationOperations.createMedicationRecord(str[j], database);
                             diseaseMedicationRelationOperations.createDiseaseMedicationRelationRecord(diseaseRecord.getId(), medicationRecord.getId(), database);
                         }

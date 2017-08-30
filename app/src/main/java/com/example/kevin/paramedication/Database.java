@@ -312,14 +312,18 @@ public class Database extends AppCompatActivity {
             public void onClick(View v) {
                 if (radioButtonIsChecked()) {
                     if (!getDisease().equals("")) {
-                        if (valuesAreValid()) {
-                            setDefaultInterfacesVisibility(View.GONE);
-                            loadValuesFromDefaultInterface();
-                            setSaveInterfacesVisibility(View.VISIBLE);
-                            LinearLayout linearLayout = (LinearLayout) findViewById(R.id.medicationLayout);
-                            printDrugList(linearLayout);
+                        if (getIncidence() != 0) {
+                            if (valuesAreValid()) {
+                                setDefaultInterfacesVisibility(View.GONE);
+                                loadValuesFromDefaultInterface();
+                                setSaveInterfacesVisibility(View.VISIBLE);
+                                LinearLayout linearLayout = (LinearLayout) findViewById(R.id.medicationLayout);
+                                printDrugList(linearLayout);
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Values are not valid.", Toast.LENGTH_SHORT).show();
+                            }
                         } else {
-                            Toast.makeText(getApplicationContext(), "Values are not valid.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Enter a valid incidence.", Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         Toast.makeText(getApplicationContext(), "Please enter a valid drug name.", Toast.LENGTH_SHORT).show();
@@ -404,7 +408,7 @@ public class Database extends AppCompatActivity {
                 R.id.plateletMin, R.id.plateletMax,
                 R.id.reticulocytesMin, R.id.reticulocytesMax,
                 R.id.mpvMin, R.id.mpvMax,
-                R.id.rdwMin, R.id.rdwMax};
+                R.id.rdwMin, R.id.rdwMax, R.id.incidence};
 
         int[] saveInterfaceTextViewIds = {R.id.diseaseValue,
                 R.id.leukocyteMinValue, R.id.leukocyteMaxValue,
@@ -417,7 +421,7 @@ public class Database extends AppCompatActivity {
                 R.id.plateletMinValue, R.id.plateletMaxValue,
                 R.id.reticulocytesMinValue, R.id.reticulocytesMaxValue,
                 R.id.mpvMinValue, R.id.mpvMaxValue,
-                R.id.rdwMinValue, R.id.rdwMaxValue};
+                R.id.rdwMinValue, R.id.rdwMaxValue, R.id.incidenceValue};
 
         String[] units = {"",
                 getString(R.string.leukocyteUnit), getString(R.string.leukocyteUnit),
@@ -430,7 +434,8 @@ public class Database extends AppCompatActivity {
                 getString(R.string.plateletUnit), getString(R.string.plateletUnit),
                 getString(R.string.reticulocytesUnit), getString(R.string.reticulocytesUnit),
                 getString(R.string.mpvUnit), getString(R.string.mpvUnit),
-                getString(R.string.rdwUnit), getString(R.string.rdwUnit)};
+                getString(R.string.rdwUnit), getString(R.string.rdwUnit),
+                ""};
 
         for (int i = 0; i < defaultInterfaceEditTextIds.length; i++){
             TextView textView = (TextView) findViewById(saveInterfaceTextViewIds[i]);
@@ -454,6 +459,11 @@ public class Database extends AppCompatActivity {
     private String getDisease() {
         EditText entryField = (EditText) findViewById(R.id.diseaseName);
         return entryField.getText().toString();
+    }
+
+    private Integer getIncidence() {
+        EditText editText = (EditText) findViewById(R.id.incidence);
+        return Integer.parseInt(editText.getText().toString());
     }
 
     // prints drugs which were entered
@@ -519,7 +529,7 @@ public class Database extends AppCompatActivity {
                 getMPVMin(), getMPVMax(), getRDWMin(), getRDWMax(), getGender(), dataSource.database);
 
         // inserts disease into database
-        DiseaseRecord insertedDiseaseRecord = DiseaseOps.createDiseaseRecord(getDisease(), dataSource.database);
+        DiseaseRecord insertedDiseaseRecord = DiseaseOps.createDiseaseRecord(getDisease(), getIncidence(), dataSource.database);
 
         // inserts relation between disease and blood record
         DiseaseBloodOps.createDiseaseBloodRelationRecord(insertedBloodRecord.getId(), insertedDiseaseRecord.getId(), dataSource.database);
@@ -767,7 +777,7 @@ public class Database extends AppCompatActivity {
 
         Integer[] fieldArray = new Integer[]{R.id.diseaseName, R.id.leukocyteMin, R.id.leukocyteMax, R.id.erythrocyteMin, R.id.erythrocyteMax, R.id.hemoglobinMin, R.id.hemoglobinMax,
                 R.id.hematocritMin, R.id.hematocritMax, R.id.mcvMin, R.id.mcvMax, R.id.mchMin, R.id.mchMax, R.id.mchcMin, R.id.mchcMax, R.id.plateletMin, R.id.plateletMax, R.id.reticulocytesMin,
-                R.id.reticulocytesMax, R.id.mpvMin, R.id.mpvMax, R.id.rdwMin, R.id.rdwMax};
+                R.id.reticulocytesMax, R.id.mpvMin, R.id.mpvMax, R.id.rdwMin, R.id.rdwMax, R.id.incidence};
         List<Integer> fields = new ArrayList<>();
         fields.addAll(Arrays.asList(fieldArray));
 
@@ -829,7 +839,7 @@ public class Database extends AppCompatActivity {
 
         for (Integer id : ids) {
             EditText editText = (EditText) findViewById(id);
-            if ((editText.getText().toString().matches("[0-9]+[.,]?[0-9]*")) && !editText.getText().toString().isEmpty()) {
+            if ((!editText.getText().toString().matches("[0-9]+[.,]?[0-9]*")) && !editText.getText().toString().isEmpty()) {
                 return false;
             }
         }

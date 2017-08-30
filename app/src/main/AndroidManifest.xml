@@ -4,7 +4,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ery"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
@@ -16,11 +16,21 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Database" />
-        <activity android:name=".Diagnosis" />
-        <activity android:name=".Info" />
-        <activity android:name=".Medication" />
-        <activity android:name=".Patients"></activity>
+        <activity android:name=".Database">
+            android:windowSoftInputMode="adjustResize"
+        </activity>
+        <activity android:name=".Diagnosis">
+            android:windowSoftInputMode="adjustResize"
+        </activity>
+        <activity android:name=".Info">
+            android:windowSoftInputMode="adjustResize"
+        </activity>
+        <activity android:name=".Medication">
+            android:windowSoftInputMode="adjustResize"
+        </activity>
+        <activity android:name=".Patients">
+            android:windowSoftInputMode="adjustResize"
+        </activity>
     </application>
 
 </manifest>
